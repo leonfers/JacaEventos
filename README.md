@@ -3,12 +3,12 @@ Aplicativo de eventos
 
 ** Para baixar e rodar o JacaEventos localmente:**
 
-'''bash
+```bash
 $ git clone https://github.com/leonfers/JacaEventos
 $ cd JacaEventos
 $ pip install -r requirements.txt
-'''
+```
 
-'''bash
+```bash
 $ python manage.py runserver
-'''
+```
