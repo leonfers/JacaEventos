@@ -8,6 +8,8 @@ Aplicativo de eventos
 $ git clone https://github.com/leonfers/JacaEventos
 $ cd JacaEventos
 $ pip install -r requirements.txt
+'''
 
 '''bash
 $ python manage.py runserver
+'''
