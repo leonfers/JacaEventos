@@ -21,5 +21,6 @@ class Inscricao(models.Model):
     usuario = models.ForeignKey(Usuario, verbose_name=('Usuario'), on_delete=models.CASCADE, related_name="minhas_inscricoes" ,blank=False, null=False)
     evento = models.ForeignKey(Evento, verbose_name=('Evento'))
     meus_eventos = models.ForeignKey('core.Evento', related_name='participantes', blank=True, null=True)
+    minhas_incricoes = models.ForeignKey('usuario.Usuario', related_name='minhas_incricoes')
 
 
