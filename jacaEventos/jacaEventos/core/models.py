@@ -18,3 +18,17 @@ class Evento(models.Model):
     )
     meus_eventos = models.ForeignKey('usuario.Usuario', related_name='meus_eventos', blank=True, null=True)
     administrador_evento = models.ForeignKey('usuario.Usuario',verbose_name="Administrador")
+
+class Instituicao(models.Model):
+
+    tipo_de_relacionamento = models.TextField('Nome da instituicao', blank=True)
+    instituicao_relacionada = models.ForeignKey(Evento,verbose_name="Instituicoes_")
+
+
+class Evento_Instituicao(models.Model):
+
+    tipo_relacionamento = models.TextField('Tipo Relacionamento', blank=True)
+    instituicao = models.ForeignKey(Instituicao)
+    instituicao_relacionada = models.ForeignKey(Evento,verbose_name="Instituicoes", related_name="Instituicoes_relacionadas")
+
+
