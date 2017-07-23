@@ -1,14 +1,10 @@
 from django.db import models
-
 from jacaEventos.utils import EscolhaEnum
-
-
-
 from jacaEventos.utils.models import Periodo
 
 class Evento(models.Model):
 
-
+    
     descricao = models.TextField('Descricao da atividade', blank=True)
     valor_da_atividade = models.DecimalField("Valor", max_digits=5, decimal_places=2)
     tipo_atividade = models.CharField(max_length=1, choices=EscolhaEnum.choices())
@@ -39,9 +35,7 @@ class Atividade(models.Model):
         primary_key=True,
     )
     valor_da_atividade = models.DecimalField("Valor", max_digits=5, decimal_places=2)
-
-
-
+                                          
 
 class Instituicao(models.Model):
 
