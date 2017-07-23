@@ -20,5 +20,6 @@ class Inscricao(models.Model):
     status_inscricao = models.BooleanField('Inscrito/Não Inscrito', blank=True, default=True)
     usuario = models.ForeignKey(Usuario, verbose_name=('Usuario'), on_delete=models.CASCADE, related_name="minhas_inscricoes" ,blank=False, null=False)
     evento = models.ForeignKey(Evento, verbose_name=('Evento'))
+    meus_eventos = models.ForeignKey('usuario.Usuario', related_name='par', blank=True, null=True)
 
 

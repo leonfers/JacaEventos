@@ -2,11 +2,14 @@ from django.db import models
 from jacaEventos.utils.models import Periodo
 
 
+
 # Create your models here.
 class Atividade(models.Model):
 
     descricao = models.TextField('Descricao da atividade', blank=True)
     valor_da_atividade = models.DecimalField("Valor", max_digits=5, decimal_places=2)
+    atividades_diponiveis = models.ForeignKey('usuario.Inscricao', related_name='atividades_disponiveis', blank=True, null=True)
+
 
 class Evento(models.Model):
 
