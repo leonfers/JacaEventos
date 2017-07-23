@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'jacaEventos.usuario',
     'material',
     'material.frontend',
+    'jacaEventos.core',
+    'jacaEventos.pagamento',
+    'jacaEventos.utils',
 ]
 
 MIDDLEWARE = [
@@ -76,12 +79,7 @@ WSGI_APPLICATION = 'jacaEventos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
 
 
 # Password validation
@@ -125,3 +123,21 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+# coding: utf-8
+
+DEBUG = True
+
+# Em caso de macOS: rodar o comando abaixo para o Python encontrar as bibliotecas
+# export DYLD_FALLBACK_LIBRARY_PATH=/Library/PostgreSQL/<numero_versao_postgres>/lib:$DYLD_FALLBACK_LIBRARY_PATH
+DATABASES = {
+    'default': {
+
+
+    'postgres': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'jaca',
+        'USER': 'postgres',
+        'PASSWORD': 'debora07',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+   }}}
