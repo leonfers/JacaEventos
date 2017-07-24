@@ -3,6 +3,8 @@ from enum import Enum
 
 
 class EscolhaEnum(Enum):
+
+
     @classmethod
     def choices(cls):
         # pega todos os membros da classe
