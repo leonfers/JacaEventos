@@ -131,13 +131,11 @@ DEBUG = True
 # export DYLD_FALLBACK_LIBRARY_PATH=/Library/PostgreSQL/<numero_versao_postgres>/lib:$DYLD_FALLBACK_LIBRARY_PATH
 DATABASES = {
     'default': {
-
-
-    'postgres': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'jaca',
         'USER': 'postgres',
         'PASSWORD': 'debora07',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-   }}}
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
