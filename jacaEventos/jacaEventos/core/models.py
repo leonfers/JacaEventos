@@ -1,17 +1,43 @@
 from django.db import models
+from jacaEventos.utils.EscolhaEnum import EscolhaEnum
 
+class StatusEvento(EscolhaEnum):
+    inscricoes_abertas = 0
+    incricoes_fechado = 1
+    encerrado = 2
+    andamento = 4
+
+class TipoAtividade(EscolhaEnum):
+
+    palestra = 0
+    minicurso = 1
+    workshop = 2
+    mesa_redonda = 3
+
+
+class TipoEvento(EscolhaEnum):
+
+    congresso = 0
+    semana = 1
+    seminario = 2
+
+
+class StatusEvento(EscolhaEnum):
+    inscricoes_abertas = 0
+    incricoes_fechado = 1
+    encerrado = 2
+    andamento = 4
 
 class Evento(models.Model):
 
-    meus_eventos = models.ForeignKey('usuario.Usuario', related_name='meus_eventos', blank=True, null=True)
-    administrador_evento = models.ForeignKey('usuario.Usuario',verbose_name="Administrador")
-    atividades_diponiveis = models.ForeignKey('usuario.Inscricao', related_name='atividades_disponiveis', blank=True,
-                                              null=True)
-    descricao = models.TextField('Descricao do evento', blank=True)
+    nome_do_evento = models.CharField('Nome do Evento', max_length=30, unique=True, blank=True)
+    dono = models.ForeignKey('usuario.Usuario', verbose_name="Dono", related_name='meus_eventos',blank=True,null=True)
+    descricao = models.TextField('Descricao do evento', max_length=256, blank=True)
+    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
 
 class Atividade(models.Model):
 
-
+    nome_doa_atividade = models.CharField('Nome da Atividade', max_length=30, unique=True, blank=True)
     descricao = models.TextField('Descricao da atividade', blank=True)
     periodo = models.OneToOneField(
         'utils.Periodo',
@@ -46,39 +72,4 @@ class Tag(models.Model):
 # para receber o enum na classes adicionar a seguinte linha:
 # <Varivel_tipo> = models.CharField(max_length=1, choices=EscolhaEnum.choices())
 
-# class StatusEvento(EscolhaEnum):
-#     inscricoes_abertas = 0
-#     incricoes_fechado = 1
-#     encerrado = 2
-#     andamento = 4
-#
-# class TipoAtividade(EscolhaEnum):
-#     palestra = 0
-#     minicurso = 1
-#     workshop = 2
-#     mesa_redonda = 3
-#
-#
-# class TipoEvento(EscolhaEnum):
-#     congresso = 0
-#     semana = 1
-#     seminario = 2
-#
-#
-# class StatusEvento(EscolhaEnum):
-#     inscricoes_abertas = 0
-#     incricoes_fechado = 1
-#     encerrado = 2
-#     andamento = 4
-#
-# class TipoAtividade(EscolhaEnum):
-#     palestra = 0
-#     minicurso = 1
-#     workshop = 2
-#     mesa_redonda = 3
-#
-#
-# class TipoEvento(EscolhaEnum):
-#     congresso = 0
-#     semana = 1
-#     seminario = 2
+#Query set Evento.objects.filter(dono_id=1)

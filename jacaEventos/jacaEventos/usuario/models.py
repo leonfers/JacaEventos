@@ -10,8 +10,10 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 
 class Usuario(models.Model):
 
-    username = models.CharField('Nome do Usuário', max_length=30)
-
+    username = models.CharField('Nome do Usuário', max_length=30, unique=True)
+    nome = models.CharField("Nome", max_length=30)
+    email = models.EmailField("E-Mail", unique=True)
+    date_joined = models.DateTimeField('Data de entrada', auto_now_add=True)
 
 
 class Inscricao(models.Model):

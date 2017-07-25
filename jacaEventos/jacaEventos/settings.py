@@ -31,15 +31,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django-material
+    'material',
+    'material.frontend',
+    #Dj contrib
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #local
     'jacaEventos.usuario',
-    'material',
-    'material.frontend',
     'jacaEventos.core',
     'jacaEventos.pagamento',
     'jacaEventos.utils',
