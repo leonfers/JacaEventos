@@ -14,3 +14,11 @@ class EscolhaEnum(Enum):
         # formata para django tuplas
         choices = tuple([(str(p[1].value), p[0]) for p in props])
         return choices
+    def name(self):
+        """The name of the Enum member."""
+        return self._name_
+
+
+    def value(self):
+        """The value of the Enum member."""
+        return self._value_
