@@ -78,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jacaEventos.wsgi.application'
 
-
+AUTH_USER_MODEL = 'usuario.Usuario'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
