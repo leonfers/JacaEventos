@@ -11,7 +11,7 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 # Create your models here.
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    
+
     username = models.CharField('Nome do Usuário', max_length=30, unique=True,
                                 validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
                                                                       'O nome do usuario so pode conter letras, digitos ou os'
@@ -33,6 +33,12 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         return str(self)
+
+    def get_inscricoes(self):
+        return self.inscricoes.all()
+    
+    def get_eventos(self):
+        return self.meus_eventos.all()
 
     class Meta:
         verbose_name = 'Usuário'
