@@ -11,6 +11,7 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 # Create your models here.
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    
     username = models.CharField('Nome do Usuário', max_length=30, unique=True,
                                 validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
                                                                       'O nome do usuario so pode conter letras, digitos ou os'
@@ -39,6 +40,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 
 class Inscricao(models.Model):
+
     status_inscricao = models.BooleanField('Inscrito/Não Inscrito', blank=True, default=True)
     usuario = models.ForeignKey(Usuario, verbose_name=('usuario'), on_delete=models.CASCADE, related_name="inscricoes",
                                 blank=False, null=False)
@@ -51,5 +53,6 @@ class Inscricao(models.Model):
 
 
 class ItemInscricao(models.Model):
+
     inscricao = models.ForeignKey('Inscricao', blank=True, default="")
     atividade = models.ForeignKey('core.Atividade', blank=True, default="")
