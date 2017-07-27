@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('descricao', models.TextField(blank=True, verbose_name='Descricao da atividade')),
                 ('periodo', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='utils.Periodo')),
-                ('valor_da_atividade', models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Valor')),
+                ('valor_da_atividade', models.DecimalField(decimal_places=2,default=0, max_digits=5, verbose_name='Valor')),
             ],
         ),
         migrations.CreateModel(

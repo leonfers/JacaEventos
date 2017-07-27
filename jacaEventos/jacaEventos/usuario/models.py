@@ -21,5 +21,14 @@ class Inscricao(models.Model):
     status_inscricao = models.BooleanField('Inscrito/Não Inscrito', blank=True, default=True)
     usuario = models.ForeignKey(Usuario, verbose_name=('usuario'), on_delete=models.CASCADE, related_name="inscricoes" ,blank=False, null=False)
     evento = models.ForeignKey('core.Evento', default="")
-    atividade = models.ManyToManyField('core.Atividade')
+    atividade = models.ManyToManyField('core.Atividade',through="ItemInscricao")
 
+    def get_ativiades(self):
+
+        atividades = self.evento.atividades.get_queryset()
+        return atividades
+
+class ItemInscricao(models.Model):
+
+        inscricao = models.ForeignKey('Inscricao', blank=True, default="")
+        atividade = models.ForeignKey('core.Atividade',blank=True, default="")
