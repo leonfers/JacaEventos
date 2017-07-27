@@ -1,7 +1,6 @@
 {%extends "base_usuario.html"%}
 {% block body %}
 
-<br><br>
 <form class="pure-form pure-form-aligned" method="POST">
     {% include 'material/includes/material_css.html' %}
     {% include 'material/includes/material_js.html' %}
@@ -13,11 +12,10 @@
     <p>Registrado com Sucesso</p>
     {% endif %}
     <div class="container">
+        <h2>Informe seus dados para cadastro</h2>
         <fieldset>
-
             {% for field in form %}
             <div class="pure-control-group">
-
                 {{ field.label_tag }}
                 {{ field }}
                 {% if field.errors %}
@@ -27,15 +25,11 @@
                     {%endfor%}
                 </ul>
                 {%endif%}
-
             </div>
-
             {% endfor %}
-
             <button type="submit" name="_submit" class="btn">Registrar</button>
         </fieldset>
     </div>
-
-
+    <br>
 </form>
 {%endblock%}

@@ -1,12 +1,12 @@
 {%extends "base_usuario.html"%}
 {% block body %}
 <div id="home-sec">
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+    {% load material_form %}
     <div class="overlay">
         <div class="container">
             <div  class="col-md-8 pad-top scrollclass">
-                {% include 'material/includes/material_css.html' %}
-            {% include 'material/includes/material_js.html' %}
-
                 <section id="intro" class="intro">
                     <div class="slogan">
                         <h1>
