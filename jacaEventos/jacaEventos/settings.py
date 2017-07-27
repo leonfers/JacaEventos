@@ -122,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
@@ -135,10 +136,10 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'jaca',
+        'NAME': 'eventos',
         'USER': 'postgres',
-        'PASSWORD': 'debora07',
+        'PASSWORD': 'ceti',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }

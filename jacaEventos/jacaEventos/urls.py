@@ -22,7 +22,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
-
-
+    url(r'', include('jacaEventos.core.urls'), name='core'),
+    url(r'^conta/', include('jacaEventos.usuario.urls'), name='usuario'),
 ]
