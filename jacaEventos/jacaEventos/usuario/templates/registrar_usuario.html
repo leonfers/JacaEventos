@@ -1,32 +1,40 @@
 {%extends "base_usuario.html"%}
 {% block body %}
+
 <br><br>
 <form class="pure-form pure-form-aligned" method="POST">
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+    {% load material_form %}
+
     {% csrf_token %}
 
     {% if is_valid %}
-        <p>Registrado com Sucesso</p>
+    <p>Registrado com Sucesso</p>
     {% endif %}
+    <div class="container">
+        <fieldset>
 
-    <fieldset>
+            {% for field in form %}
+            <div class="pure-control-group">
 
-        {% for campo in form %}
-        <div class="pure-control-group">
-            {{ campo.label_tag }}
-            {{ campo }}
-            {% if campo.errors %}
-            <ul class="errorList">
-                {% for campoerros in campo.errors %}
-                    {{field.errors}}
-                {%endfor%}
-            </ul>
-            {%endif%}
-        </div>
-        {% endfor %}
-        <div class="pure-controls">
-            <button type="submit" class="pure-button prure-button-primary">Registrar</button>
-        </div>
-    </fieldset>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <ul class="errorList">
+                    {% for fielderrors in field.errors %}
+                    {{fielderrors.errors}}
+                    {%endfor%}
+                </ul>
+                {%endif%}
+
+            </div>
+
+            {% endfor %}
+
+            <button type="submit" name="_submit" class="btn">Registrar</button>
+        </fieldset>
+    </div>
 
 
 </form>

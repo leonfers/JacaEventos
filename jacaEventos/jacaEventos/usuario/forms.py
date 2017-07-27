@@ -1,12 +1,15 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
 
-class RegistrarUsuario(forms.Form):
+User = get_user_model()
 
-    User = get_user_model()
+
+class RegistrarUsuario(forms.ModelForm):
+
 
     senha1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
     senha2 = forms.CharField(label='Confirmacao de Senha', widget=forms.PasswordInput)
@@ -20,7 +23,7 @@ class RegistrarUsuario(forms.Form):
 
     def save(self, commit=True):
         user = super(RegistrarUsuario, self).save(commit=False)
-        user.set_senha(self.cleaned_data['senha'])
+        user.set_password(self.cleaned_data['senha1'])
 
         user.email = self.cleaned_data['email']
         if commit:
@@ -29,6 +32,8 @@ class RegistrarUsuario(forms.Form):
 
     class Meta:
         model = User
-        campos = ['username', 'email']
+        fields = ['username', 'email']
+
+
 
 
