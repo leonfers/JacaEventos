@@ -135,10 +135,10 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'jaca',
+        'NAME': 'eventos',
         'USER': 'postgres',
-        'PASSWORD': 'debora07',
+        'PASSWORD': 'ceti',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }

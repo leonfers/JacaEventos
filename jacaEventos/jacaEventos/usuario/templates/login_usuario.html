@@ -1,0 +1,20 @@
+{%extends "base_usuario.html"%}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Login</h1>
+            <div class="account-wall">
+                <form class="form-signin">
+                    <input type="text" class="form-control" id="form-login" placeholder="Email" required autofocus>
+                    <input type="password" class="form-control" id="form-password" placeholder="Password" required>
+                    <span role="alert" class="error-msg" id="errormsg_0_Passwd"></span>
+                    <br>
+                    <input type="button" value="Entrar" class="btn btn-lg btn-primary btn-block fundo-preto" onclick="validateLogin()">
+                </form>
+            </div><br>
+            <a href="{% url 'registrar_usuario' %}" class="text-center new-account"> Criar um usuario </a>
+        </div>
+    </div>
+</div>
+{%endblock%}

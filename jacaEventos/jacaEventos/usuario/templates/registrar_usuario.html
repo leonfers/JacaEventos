@@ -1,0 +1,33 @@
+{%extends "base_usuario.html"%}
+{% block body %}
+<br><br>
+<form class="pure-form pure-form-aligned" method="POST">
+    {% csrf_token %}
+
+    {% if is_valid %}
+        <p>Registrado com Sucesso</p>
+    {% endif %}
+
+    <fieldset>
+
+        {% for campo in form %}
+        <div class="pure-control-group">
+            {{ campo.label_tag }}
+            {{ campo }}
+            {% if campo.errors %}
+            <ul class="errorList">
+                {% for campoerros in campo.errors %}
+                    {{field.errors}}
+                {%endfor%}
+            </ul>
+            {%endif%}
+        </div>
+        {% endfor %}
+        <div class="pure-controls">
+            <button type="submit" class="pure-button prure-button-primary">Registrar</button>
+        </div>
+    </fieldset>
+
+
+</form>
+{%endblock%}

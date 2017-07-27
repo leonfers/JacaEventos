@@ -22,7 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
+    url(r'', include('jacaEventos.core.urls')),
+    url(r'^login/', include('jacaEventos.usuario.urls')),
+    url(r'^registrar/', include('jacaEventos.usuario.urls'))
 
 
 ]
