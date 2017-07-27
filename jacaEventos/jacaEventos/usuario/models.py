@@ -17,7 +17,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
                                                                       'seguintes caracteres @/./+/-/_', 'invalid')])
     email = models.EmailField('E-mail', unique=True)
     nome = models.CharField('Nome', max_length=100, blank=True)
-    date_joined = models.DateTimeField('Data de entrada', auto_now_add=True)
+    data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
 
     objects = UserManager()
 
@@ -25,7 +25,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return self.name or self.username
+        return self.nome or self.username
 
     def get_short_name(self):
         return self.username

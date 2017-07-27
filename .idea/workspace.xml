@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2f950ec3-96bf-48f1-bf04-0c373fd24b3d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jacaEventos/jacaEventos/settings.py" afterPath="$PROJECT_DIR$/jacaEventos/jacaEventos/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py" afterPath="$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,8 +30,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="611">
-              <caret line="44" column="46" lean-forward="false" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+            <state relative-caret-position="322">
+              <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -100,9 +99,9 @@
         <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/core/migrations/0001_initial.py" />
         <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/core/models.py" />
         <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/core/migrations/0002_auto_20170726_2130.py" />
-        <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py" />
         <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/settings.py" />
         <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/migrations/0004_auto_20170726_2251.py" />
+        <option value="$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py" />
       </list>
     </option>
   </component>
@@ -366,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1501117860907</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="alterado model user para o user padrao">
+      <created>1501120364753</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1501120364753</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -428,7 +434,8 @@
     <MESSAGE value="Configurado postgres" />
     <MESSAGE value="Mais alteracoes" />
     <MESSAGE value="correção do model atividade e criacao do meto get_atividade" />
-    <option name="LAST_COMMIT_MESSAGE" value="correção do model atividade e criacao do meto get_atividade" />
+    <MESSAGE value="alterado model user para o user padrao" />
+    <option name="LAST_COMMIT_MESSAGE" value="alterado model user para o user padrao" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -795,8 +802,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jacaEventos/jacaEventos/usuario/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="44" column="46" lean-forward="false" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+        <state relative-caret-position="322">
+          <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
