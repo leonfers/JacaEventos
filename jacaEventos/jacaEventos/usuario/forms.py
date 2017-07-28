@@ -10,7 +10,6 @@ User = get_user_model()
 
 class RegistrarUsuario(forms.ModelForm):
 
-
     senha1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
     senha2 = forms.CharField(label='Confirmacao de Senha', widget=forms.PasswordInput)
 

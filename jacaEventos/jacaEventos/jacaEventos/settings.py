@@ -120,6 +120,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Auth
-LOGIN_URL = 'usuario:login_usuario'
-LOGIN_REDIRECT_URL = 'core:index_deslogado'
-LOGOUT_URL = 'usuario:usuario_sair'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = '/logout/'
