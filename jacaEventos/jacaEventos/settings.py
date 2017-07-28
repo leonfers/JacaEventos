@@ -33,6 +33,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # django-material
     'material',
+    'bootstrap3',
+    'materializecssform',
+    'floppyforms',
+    'widget_tweaks',
     'material.frontend',
     #Dj contrib
     'django.contrib.admin',
@@ -136,9 +140,9 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eventos',
+        'NAME': 'jaca',
         'USER': 'postgres',
-        'PASSWORD': 'ceti',
+        'PASSWORD': 'debora07',
         'HOST': 'localhost',
         'PORT': '5432',
     }

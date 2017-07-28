@@ -1,36 +1,43 @@
 {%extends "base_usuario.html"%}
 {% block body %}
+<div class="col s12 m8 offset-m2 l8 offset-l2">
+    <div class="card">
+        <form class="form" enctype="multipart/form-data">
+            <div class="card-content">
+                <input type="hidden" name="csrfmiddlewaretoken" value="ufq3sRSlYmRVHqjr3viXWJRjLRuiBWvEXwYVSrIgfCXBGJbC07YriumNcYLe691E">
+                {% include 'material/includes/material_css.html' %}
+                {% include 'material/includes/material_js.html' %}
+                {% load material_form %}
 
-<div class="container">
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
-        <h2>Informe seus dados de cadastro</h2>
-        <form class="pure-form pure-form-stacked" method="post">
-            {% include 'material/includes/material_css.html' %}
-            {% include 'material/includes/material_js.html' %}
-            {% load material_form %}
-            {% csrf_token %}
-            <fieldset>
-                {{ form.non_field_errors }}
-                {% for field in form %}
-                <div class="pure-control-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {{ field.errors }}
-                </div>
-                {% endfor %}
+                {% csrf_token %}
 
-                <div class="pure-controls">
-                    <button type="submit" name="submit" class="btn">Entrar</button>
+                {% if is_valid %}
+                <p>Registrado com Sucesso</p>
+                {% endif %}
+                <div class="input-field col s12 required" >
+                    <h2>Informe seus dados</h2>
+                    <fieldset>
+                        {% for field in form %}
+                        <div class="row">
+                        <div  class="input-field col s12 required">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                            <ul class="errorList">
+                                {% for fielderrors in field.errors %}
+                                {{fielderrors.errors}}
+                                {%endfor%}
+                            </ul>
+                            {%endif%}
+                        </div>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" name="_submit" class="btn">Registrar</button>
+                    </fieldset>
                 </div>
-            </fieldset>
-            <p>
                 <br>
-                Não é cadastrado? <a href="{% url 'registrar_usuario' %}" title="">Cadastre-se</a> <br />
-                Esqueceu a senha? <a  title="">Nova senha</a> <br />
-            </p>
+            </div>
         </form>
+</div>
     </div>
-</div>
 {%endblock%}
-</div>

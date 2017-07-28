@@ -11,6 +11,12 @@ def registrar_usuario(request):
     template_name = 'registrar_usuario.html'
     if request.method == 'POST':
         form = RegistrarUsuario(request.POST)
+        form.fields['username'].widget.attrs.update({
+            'placeholder': 'Name'
+        })
+        form.fields['password'].widget.attrs.update({
+            'placeholder': 'Password'
+        })
         if form.is_valid():
             user = form.save()
             user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
