@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%extends "base_usuario.html"%}
+{% block body %}
+<div id="home-sec">
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+    {% load material_form %}
+    <div class="overlay">
+        <div class="container">
+            <div  class="col-md-8 pad-top scrollclass">
+                <section id="intro" class="intro">
+                    <div class="slogan">
+                        <h1>
+                            <h1>VOCE ESTA LOGADO</h1>
+                            <strong>Inscreva-se nos <mark>Eventos </mark>de seus sonhos, ou <mark>Crie</mark>
+                                um você mesmo! </strong>
+                        </h1>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div><br>
 
-</body>
-</html>
+{%endblock%}
