@@ -1,15 +1,19 @@
 {% load staticfiles %}
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "styles/bootstrap.css" %}" >
-    <link rel="stylesheet" href="{% static "styles/main.css" %}" >
-    <link rel="stylesheet" href="{% static "styles/animate.css" %}"/>
-    <link rel="stylesheet" href="{% static "styles/style.css" %}"/>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}" >
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}" >
+    <link rel="stylesheet" href="{% static 'styles/animate.css' %}"/>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}"/>
     <title>Jaca Eventos</title>
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
 </head>
+
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
 
 <div class="navbar  navbar-fixed-top scrollclass">
@@ -27,6 +31,13 @@
                 <li><a href="{% url 'index_deslogado' %}">Inicio</a></li>
                 <li><a href="{% url 'login_usuario' %}">Login</a></li>
                 <li><a href="{%url 'registrar_usuario' %}">Cadastre-se</a></li>
+                {% if user.is_authenticated %}
+
+                <li>Bem vindo {{ user.nome }}</li>
+                <li></li>
+                {% else %}
+                <li><a href="{% url 'login_usuario' %}">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
