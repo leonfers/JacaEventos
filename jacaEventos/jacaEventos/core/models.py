@@ -38,6 +38,7 @@ class Evento(models.Model):
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
     tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
+    tags = models.ManyToManyField('core.Tag', through="core.Tag_Evento", related_name='tags_do_evento')
 
     def __str__(self):
         return self.nome
@@ -63,6 +64,8 @@ class Evento_Instituicao(models.Model):
     instituicao = models.ForeignKey(Instituicao)
     instituicao_relacionada = models.ForeignKey(Evento,verbose_name="Instituicoes", related_name="instituicoes_relacionadas")
 
+
+
 class Tag(models.Model):
     nome = models.CharField('Tag', max_length=30)
 
@@ -75,10 +78,12 @@ class Tag(models.Model):
 
 
 class Tag_Usuario(models.Model):
-    tag = models.ForeignKey(Tag, related_name='associacao')
-    usuario = models.ForeignKey(Usuario, related_name='associcao')
+    tag = models.ForeignKey(Tag, related_name='tag_de_usuario')
+    usuario = models.ForeignKey(Usuario, related_name='tag_de_usuario')
 
-
+class Tag_Evento(models.Model):
+    tag = models.ForeignKey(Tag, related_name='tag_de_evento')
+    evento = models.ForeignKey(Evento, related_name='tag_de_evento')
 
 
 #class Tag_Evento(models.Model):

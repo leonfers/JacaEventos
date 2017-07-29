@@ -23,7 +23,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     nome = models.CharField('Nome', max_length=100, blank=True)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
 
-    tags = models.ManyToManyField('core.Tag', through="core.Tag_Usuario", related_name='Tags')
+    tags = models.ManyToManyField('core.Tag', through="core.Tag_Usuario", related_name='tags_do_usuario')
 
     objects = UserManager()
 
