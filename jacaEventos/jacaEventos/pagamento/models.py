@@ -9,11 +9,18 @@ class Pagamento(models.Model):
         primary_key=True,
     )
     valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
+    
+    def avaliar_valor_pagamento(self):
+        return self.valor_pagamento > 0.0
 
 
 class Cupom(models.Model):
 
     codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True)
+    
+    def avaliar_codigo_cupom(self):
+        return self.codigo_do_cupom != ""
+
     periodo =  models.OneToOneField(
         'utils.Periodo',
         on_delete=models.CASCADE,
