@@ -1,3 +1,4 @@
+from django import core
 from django.db import models
 
 import re
@@ -10,6 +11,8 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 
 # Create your models here.
 
+
+
 class Usuario(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField('Nome do Usuário', max_length=30, unique=True,
@@ -19,6 +22,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('E-mail', unique=True)
     nome = models.CharField('Nome', max_length=100, blank=True)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
+
+    tags = models.ManyToManyField('core.Tag', through="core.Tag_Usuario", related_name='tags_do_usuario')
 
     objects = UserManager()
 
@@ -43,6 +48,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
+
 
 
 class Inscricao(models.Model):
