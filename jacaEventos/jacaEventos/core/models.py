@@ -1,4 +1,6 @@
 from django.db import models
+
+from jacaEventos.usuario.models import Usuario
 from jacaEventos.utils.EscolhaEnum import EscolhaEnum
 
 class StatusEvento(EscolhaEnum):
@@ -62,10 +64,29 @@ class Evento_Instituicao(models.Model):
     instituicao_relacionada = models.ForeignKey(Evento,verbose_name="Instituicoes", related_name="instituicoes_relacionadas")
 
 class Tag(models.Model):
+    nome = models.CharField('Tag', max_length=30)
 
-    nome_tag = models.CharField('Tag', max_length=30)
-    tag_evento = models.ForeignKey('core.Evento',verbose_name="tags evento", related_name="tags_evento")
-    tag_interesse = models.ForeignKey('usuario.Usuario',verbose_name="tags interesse", related_name="tags_usuario")
+    class Meta:
+        ordering = ['nome']
+
+    def __unicode__(self):
+        return self.nome
+
+
+
+class Tag_Usuario(models.Model):
+    tag = models.ForeignKey(Tag, related_name='associacao')
+    usuario = models.ForeignKey(Usuario, related_name='associcao')
+
+
+
+
+#class Tag_Evento(models.Model):
+    #tag = models.ForeignKey(Tag, blank=True, default="")
+    #evento = models.ForeignKey(Evento, blank=True, default="")
+
+
+
 # Classes de Enum referente ao core
 # info:
 # para receber o enum na classes adicionar a seguinte linha:
