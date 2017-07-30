@@ -2,7 +2,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth.views import login, logout, logout_then_login
-
+from django.contrib.auth import user_logged_in
 from jacaEventos.usuario import views
 
 urlpatterns = [
