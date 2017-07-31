@@ -1,7 +1,7 @@
 from django.db import models
 
-from jacaEventos.usuario.models import Usuario
-from jacaEventos.utils.EscolhaEnum import EscolhaEnum
+from user.models import Usuario
+from utils.EscolhaEnum import EscolhaEnum
 
 class StatusEvento(EscolhaEnum):
 
@@ -34,7 +34,7 @@ class StatusEvento(EscolhaEnum):
 class Evento(models.Model):
 
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
-    dono = models.ForeignKey('usuario.Usuario', verbose_name="dono", related_name='meus_eventos',blank=True,null=True)
+    dono = models.ForeignKey('user.Usuario', verbose_name="dono", related_name='meus_eventos',blank=True,null=True)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
     tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
