@@ -31,21 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # django-material
-    'material',
-    'material.frontend',
-    #Dj contrib
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #local
-    'jacaEventos.usuario',
-    'jacaEventos.core',
-    'jacaEventos.pagamento',
-    'jacaEventos.utils',
 ]
 
 MIDDLEWARE = [
@@ -78,11 +69,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jacaEventos.wsgi.application'
 
-AUTH_USER_MODEL = 'usuario.Usuario'
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 # Password validation
@@ -107,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -123,27 +119,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
-]
-# coding: utf-8
-
-DEBUG = True
-
-# Em caso de macOS: rodar o comando abaixo para o Python encontrar as bibliotecas
-# export DYLD_FALLBACK_LIBRARY_PATH=/Library/PostgreSQL/<numero_versao_postgres>/lib:$DYLD_FALLBACK_LIBRARY_PATH
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'jaca',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-LOGIN_URL = '/'
+# Auth
+LOGIN_URL = '/conta/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/pagina_inicial/'
