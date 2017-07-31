@@ -7,16 +7,11 @@ from jacaEventos.usuario.models import Usuario
 
 User = get_user_model()
 
-def registrar_usuario(request):
-    template_name = 'registrar_usuario.html'
+def registrar(request):
+    template_name = 'registrar.html'
     if request.method == 'POST':
         form = RegistrarUsuario(request.POST)
-        form.fields['username'].widget.attrs.update({
-            'placeholder': 'Name'
-        })
-        form.fields['password'].widget.attrs.update({
-            'placeholder': 'Password'
-        })
+        
         if form.is_valid():
             user = form.save()
             user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
@@ -28,5 +23,5 @@ def registrar_usuario(request):
     return render(request, template_name, context)
 
 @login_required
-def get_usuario_logado(request):
-    return request.user.usuario
+def pagina_inicial(request):
+    return render(request, 'pagina_inicial.html')

@@ -144,6 +144,6 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = '/login/'
-# LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/pagina_inicial/'
