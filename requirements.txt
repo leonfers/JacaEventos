@@ -1,0 +1,4 @@
+Django==1.11.3
+django-material==1.0.0
+psycopg2==2.7.2
+pytz==2017.2
