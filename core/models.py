@@ -82,11 +82,11 @@ class Evento(models.Model):
     def get_instituicoes(self):
         return Evento_Instituicao.objects.all().filter(evento = self)
 
-    def add_instituicao(self,instituicao):
+    def add_instituicao(self,instituicao,tipo_relacionamento):
         try:
             self.save()
             instituicao.save()
-            evento_instituicao = Evento_Instituicao(instituicao,self)
+            evento_instituicao = Evento_Instituicao(instituicao,self,tipo_relacionamento)
             evento_instituicao.save()
             return True
 
@@ -130,14 +130,6 @@ class Evento_Instituicao(models.Model):
         verbose_name = 'Relacionamento_Instituicao_Evento'
         verbose_name_plural = 'Relacionamentos_Instituicao_Evento'
 
-    def __init__(self,instituicao,evento_relacionado, tipo_relacionamento):
-        instituicao.save()
-        tipo_relacionamento.save()
-        evento_relacionado.save()
-        self.instituicao = instituicao
-        self.evento_relacionado = evento_relacionado
-        self.tipo_relacionamento = tipo_relacionamento()
-
     def __str__(self):
         return self.instituicao.__str__()
 
@@ -149,9 +141,6 @@ class Tag(models.Model):
         ordering = ['nome']
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
-
-    def __init__(self,nome):
-        self.nome = nome
 
     def __str__(self):
         return self.nome
@@ -165,20 +154,8 @@ class Tag_Usuario(models.Model):
         verbose_name = 'Relacionamento_Tag_Usuario'
         verbose_name_plural = 'Relacionamentos_Tag_Usuario'
 
-    def __init__(self,tag,usuario):
-        usuario.save()
-        tag.save()
-        self.tag = tag
-        self.evento = usuario()
-
     def __str__(self):
         return self.tag.__str__() + self.usuario.__str__()
-
-    def __init__(self,tag,usuario):
-        usuario.save()
-        tag.save()
-        self.tag = tag
-        self.evento = usuario()
 
 
 class Tag_Evento(models.Model):
@@ -188,12 +165,6 @@ class Tag_Evento(models.Model):
     class Meta:
         verbose_name = 'Relacionamento_Tag_Evento'
         verbose_name_plural = 'Relacionamentos_Tag_Tag'
-
-    def __init__(self,tag,evento):
-        evento.save()
-        tag.save()
-        self.tag = tag
-        self.evento = evento()
 
     def __str__(self):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
