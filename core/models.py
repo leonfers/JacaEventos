@@ -33,15 +33,20 @@ class StatusEvento(EscolhaEnum):
 #####################################
 
 class Evento(models.Model):
-
-
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
-    dono = models.ForeignKey('user.Usuario', verbose_name="dono", related_name='meus_eventos', blank=True, null=True)
+    dono = models.ForeignKey(
+        'user.Usuario',
+        verbose_name="dono",
+        related_name='meus_eventos',
+        blank=True, null=True)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
     tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
 
-    tags_do_evento = models.ManyToManyField('core.Tag', through="core.Tag_Evento", related_name='tags_do_evento')
+    tags_do_evento = models.ManyToManyField(
+        'core.Tag',
+        through="core.Tag_Evento",
+        related_name='tags_do_evento')
 
     class Meta:
         verbose_name = 'Evento'
@@ -102,7 +107,6 @@ class Evento(models.Model):
             return False
 
 
-
 class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
@@ -131,7 +135,11 @@ class Instituicao(models.Model):
 class Evento_Instituicao(models.Model):
     tipo_relacionamento = models.TextField('tipo', blank=True)
     instituicao = models.ForeignKey(Instituicao)
-    evento_relacionado = models.ForeignKey(Evento, verbose_name="Evento", related_name="evento_relacionado" , default=0)
+    evento_relacionado = models.ForeignKey(
+        Evento,
+        verbose_name="Evento",
+        related_name="evento_relacionado",
+        default=0)
 
     class Meta:
         verbose_name = 'Relacionamento_Instituicao_Evento'
