@@ -139,5 +139,3 @@ staticfiles
 ## Python Decouple
 .env
 
-## Development
-/luki/settings/development.py
