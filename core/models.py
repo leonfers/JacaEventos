@@ -124,7 +124,7 @@ class Instituicao(models.Model):
 class Evento_Instituicao(models.Model):
     tipo_relacionamento = models.TextField('tipo', blank=True)
     instituicao = models.ForeignKey(Instituicao)
-    evento_relacionado = models.ForeignKey(Evento, verbose_name="Evento", related_name="evento_relacionado")
+    evento_relacionado = models.ForeignKey(Evento, verbose_name="Evento", related_name="evento_relacionado" , default=0)
 
     class Meta:
         verbose_name = 'Relacionamento_Instituicao_Evento'
@@ -133,7 +133,9 @@ class Evento_Instituicao(models.Model):
     def __init__(self,instituicao,evento_relacionado, tipo_relacionamento):
         instituicao.save()
         tipo_relacionamento.save()
+        evento_relacionado.save()
         self.instituicao = instituicao
+        self.evento_relacionado = evento_relacionado
         self.tipo_relacionamento = tipo_relacionamento()
 
     def __str__(self):
