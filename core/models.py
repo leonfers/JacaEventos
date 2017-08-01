@@ -71,7 +71,9 @@ class Evento(models.Model):
         try:
             self.save()
             tag.save()
-            tag_evento = Tag_Evento(tag,self)
+            tag_evento = Tag_Evento()
+            tag_evento.tag = tag
+            tag_evento.evento = self
             tag_evento.save()
             return True
 
@@ -91,7 +93,7 @@ class Evento(models.Model):
             evento_instituicao.tipo_relacionamento = tipo_relacionamento
             evento_instituicao.evento_relacionado = self
             evento_instituicao.instituicao = instituicao
-            
+
             evento_instituicao.save()
             return True
 
