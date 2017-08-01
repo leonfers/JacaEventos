@@ -111,7 +111,7 @@ class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades",default="")
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades")
 
     class Meta:
         verbose_name = 'Atividade'
