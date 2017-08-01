@@ -1,1 +1,1 @@
-web: gunicorn jacaEventos.wsgi --log-file -
+web: gunicorn jacaEventos.wsgi
