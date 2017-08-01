@@ -79,6 +79,20 @@ class Evento(models.Model):
             print("Falha ao adicionar TAG ")
             return False
 
+    def get_instituicoes(self):
+        return Evento_Instituicao.objects.all().filter(evento = self)
+
+    def add_instituicao(self,instituicao):
+        try:
+            self.save()
+            instituicao.save()
+            evento_instituicao = Evento_Instituicao(instituicao,self)
+            evento_instituicao.save()
+            return True
+
+        except Exception as e:
+            print("Falha ao adicionar TAG ")
+            return False
 
 
 
@@ -98,8 +112,6 @@ class Atividade(models.Model):
 
 class Instituicao(models.Model):
     nome = models.CharField('nome', max_length=30)
-    tipo_de_relacionamento = models.TextField('tipo', blank=True)
-    instituicao_relacionada = models.ForeignKey('core.Evento')
 
     class Meta:
         verbose_name = 'Instituicao'
@@ -112,11 +124,17 @@ class Instituicao(models.Model):
 class Evento_Instituicao(models.Model):
     tipo_relacionamento = models.TextField('tipo', blank=True)
     instituicao = models.ForeignKey(Instituicao)
-    instituicao_relacionada = models.ForeignKey(Evento,verbose_name="Instituicoes", related_name="instituicoes_relacionadas")
+    evento_relacionado = models.ForeignKey(Evento, verbose_name="Evento", related_name="evento_relacionado")
 
     class Meta:
         verbose_name = 'Relacionamento_Instituicao_Evento'
         verbose_name_plural = 'Relacionamentos_Instituicao_Evento'
+
+    def __init__(self,instituicao,evento_relacionado, tipo_relacionamento):
+        instituicao.save()
+        tipo_relacionamento.save()
+        self.instituicao = instituicao
+        self.tipo_relacionamento = tipo_relacionamento()
 
     def __str__(self):
         return self.instituicao.__str__()
@@ -130,6 +148,9 @@ class Tag(models.Model):
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
 
+    def __init__(self,nome):
+        self.nome = nome
+
     def __str__(self):
         return self.nome
 
@@ -142,8 +163,20 @@ class Tag_Usuario(models.Model):
         verbose_name = 'Relacionamento_Tag_Usuario'
         verbose_name_plural = 'Relacionamentos_Tag_Usuario'
 
+    def __init__(self,tag,usuario):
+        usuario.save()
+        tag.save()
+        self.tag = tag
+        self.evento = usuario()
+
     def __str__(self):
         return self.tag.__str__() + self.usuario.__str__()
+
+    def __init__(self,tag,usuario):
+        usuario.save()
+        tag.save()
+        self.tag = tag
+        self.evento = usuario()
 
 
 class Tag_Evento(models.Model):
