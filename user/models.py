@@ -8,17 +8,24 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('Nome do Usuário', max_length=30, unique=True,
-                                validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-                                                                      'O nome do user so pode conter letras, digitos ou os'
-                                                                      'seguintes caracteres @/./+/-/_', 'invalid')])
+    username = models.CharField(
+        'Nome do Usuário',
+        max_length=30,
+        unique=True,
+        validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
+        'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_''invalid'
+                                              )])
 
     email = models.EmailField('E-mail', unique=True)
     nome = models.CharField('Nome', max_length=100, blank=True)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
     objects = UserManager()
 
-    tags = models.ManyToManyField('core.Tag', through="core.Tag_Usuario", related_name='tags_do_usuario')
+    tags = models.ManyToManyField(
+        'core.Tag',
+        through="core.Tag_Usuario",
+        related_name='tags_do_usuario'
+    )
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
