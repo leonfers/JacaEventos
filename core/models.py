@@ -87,7 +87,7 @@ class Evento(models.Model):
             return False
 
     def get_instituicoes(self):
-        return Evento_Instituicao.objects.all().filter(evento = self)
+        return Evento_Instituicao.objects.all().filter(evento_relacionado = self)
 
     def add_instituicao(self,instituicao,tipo_relacionamento):
         try:
