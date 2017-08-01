@@ -49,6 +49,7 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
+
     def get_atividades(self):
         return self.atividades.all()
 
@@ -61,6 +62,21 @@ class Evento(models.Model):
 
         except Exception as e:
             print("Falha ao adicionar atividade")
+            return False
+
+    def get_tags(self):
+        return self.tags_do_evento.all()
+
+    def add_tag(self,tag):
+        try:
+            self.save()
+            tag.save()
+            tag_evento = Tag_Evento(tag,self)
+            tag_evento.save()
+            return True
+
+        except Exception as e:
+            print("Falha ao adicionar TAG ")
             return False
 
 
@@ -138,8 +154,14 @@ class Tag_Evento(models.Model):
         verbose_name = 'Relacionamento_Tag_Evento'
         verbose_name_plural = 'Relacionamentos_Tag_Tag'
 
+    def __init__(self,tag,evento):
+        evento.save()
+        tag.save()
+        self.tag = tag
+        self.evento = evento()
+
     def __str__(self):
-        return self.tag.__str__() + self.evento.__str__();
+        return (" relacionamento : " + self.tag.nome() + self.evento.nome())
 
 
 # Classes de Enum referente ao core
