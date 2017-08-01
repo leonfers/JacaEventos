@@ -33,6 +33,8 @@ class StatusEvento(EscolhaEnum):
 #####################################
 
 class Evento(models.Model):
+
+
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     dono = models.ForeignKey('user.Usuario', verbose_name="dono", related_name='meus_eventos', blank=True, null=True)
     descricao = models.TextField('descricao', max_length=256, blank=True)
@@ -47,6 +49,21 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
+    def get_atividades(self):
+        return self.atividades.all()
+
+    def add_atividade(self,atividade):
+        try:
+            self.save()
+            atividade.evento = self
+            atividade.save()
+            return True
+
+        except Exception as e:
+            print("Falha ao adicionar atividade")
+            return False
+
+
 
 
 class Atividade(models.Model):
