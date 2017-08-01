@@ -86,12 +86,17 @@ class Evento(models.Model):
         try:
             self.save()
             instituicao.save()
-            evento_instituicao = Evento_Instituicao(instituicao,self,tipo_relacionamento)
+
+            evento_instituicao = Evento_Instituicao()
+            evento_instituicao.tipo_relacionamento = tipo_relacionamento
+            evento_instituicao.evento_relacionado = self
+            evento_instituicao.instituicao = instituicao
+            
             evento_instituicao.save()
             return True
 
         except Exception as e:
-            print("Falha ao adicionar TAG ")
+            print("Falha ao adicionar Instituicao ")
             return False
 
 
