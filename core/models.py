@@ -31,7 +31,6 @@ class StatusEvento(EscolhaEnum):
     andamento = 4
 
 #####################################
-
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     dono = models.ForeignKey(
