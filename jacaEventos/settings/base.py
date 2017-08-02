@@ -26,7 +26,7 @@ SECRET_KEY = '&4=ftkn*-zdk(4(!fqt9acsh-i+)(uso8mj@x5@i-&1dxf+&h9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://jaca.herokuapp.com/']
+ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'user.Usuario'
 
 # Application definition
