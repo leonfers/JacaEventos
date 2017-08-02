@@ -5,7 +5,7 @@ from decouple import config
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jaca.herokuapp.com/']
 
 CACHES = {
     'default': {
