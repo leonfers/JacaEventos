@@ -48,8 +48,8 @@ ul ul ul li a {
 	display: block;
 	text-decoration: none;
 	color: #333;
-	font-family: 'Montserrat' ,sans-serif;
-    margin-top:5px;
+	font-family: 'Arial' ,sans-serif;
+	font-size:12px;
 	background: #fff;
 	padding: 10px;
 	border: 2px solid #ccc;
@@ -1435,7 +1435,6 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-image: url(../img/fundo_eventos.jpg);
 }
 
 button,
@@ -1663,7 +1662,7 @@ h6 {
 }
 
 h7 {
-    font-size: 11px
+    font-size: 12px
 }
 
 p {
@@ -5437,8 +5436,10 @@ textarea.input-group-sm>.input-group-btn>.btn {
 @media (min-width:768px) {
     .navbar-left {
         float: left!important
+
     }
     .navbar-right {
+
         float: right!important;
         margin-right: -15px;
         margin-top: -12px;
@@ -5451,6 +5452,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 }
 
 .navbar-default {
+
     background-color: #f8f8f8;
     border-color: #e7e7e7
 }

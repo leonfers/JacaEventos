@@ -44,15 +44,16 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1 ">
                     <ul class="navbar-nav navbar-right ">
                         {% if user.is_authenticated %}
-                        <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>
+                        <li><a href="{% url 'pagina_inicial' %}"><h7>Pagina Inicial</h7></a></li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/img/photo.jpg" alt="" height="15px" width="15px"/><b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/img/photo.jpg" alt="" height="20px" width="20px"/><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Minhas Inscrições</a></li>
-                                <li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>
-                                <li><a href="#">Cadastrar Instituições</a></li>
-                                <li><a href="{%url 'logout_usuario' %}">Sair</a></li>
+                                <li><a href="#"><h7>Minhas Inscrições</h7></a></li>
+                                <li><a href="{% url 'meus_eventos' %}"><h7>Meus Eventos</h7></a></li>
+                                <li><a href="#"><h7>Cadastrar Instituições</h7></a></li>
+                                <li><a href="#"><h7>Meios de Pagamento</h7></a></li>
+                                <li><a href="{%url 'logout_usuario' %}"><h7>Sair</h7></a></a></li>
                             </ul>
                         </li>
                         {% endif %}
