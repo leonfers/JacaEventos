@@ -49,3 +49,8 @@ def registrar_eventos(request):
     context = { 'form': form }
 
     return render(request, template_name, context)
+
+
+@login_required
+def participar_eventos(request):
+    return render(request, 'participar_evento.html', {'evento' : Evento.objects.all()})
