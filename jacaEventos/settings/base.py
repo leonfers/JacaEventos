@@ -126,6 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Auth
-LOGIN_URL = '/conta/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/pagina_inicial/'
 LOGOUT_URL = '/logout/'
+REGISTRAR_EVENTO = '/meus_eventos/'
