@@ -60,6 +60,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='atividade',
             name='evento',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, related_name='atividades', to='core.Evento', verbose_name='atividades'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='atividades', to='core.Evento', verbose_name='atividades'),
         ),
     ]
