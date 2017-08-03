@@ -33,6 +33,9 @@ AUTH_USER_MODEL = 'user.Usuario'
 INSTALLED_APPS = [
     #material
     'material',
+    #rest
+    'rest_framework',
+    'rest_framework.authtoken',
     #dj-contrib
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #local
+    'api',
     'core',
     'utils',
     'user',
