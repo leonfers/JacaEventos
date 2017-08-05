@@ -4,6 +4,7 @@ import re
 from django.db import models
 from django.core import validators
 from django.conf import settings
+from django.utils import timezone
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 
 
@@ -17,8 +18,15 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
                                               )])
 
     email = models.EmailField('E-mail', unique=True)
+    def verificar_email(self):
+        return self.data_de_entrada <= timezone.now()
     nome = models.CharField('Nome', max_length=100, blank=True)
+    def verificar_data(self):
+        return self.nome
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
+    def verificar_data(self):
+        return self.data_de_entrada < timezone.now()
+
     objects = UserManager()
 
     tags = models.ManyToManyField(
