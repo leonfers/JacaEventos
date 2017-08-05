@@ -4,12 +4,17 @@ from django.db import models
 
 class Pagamento(models.Model):
     status_pagamento = models.BooleanField('Pago/Não Pago', blank=True, default=True)
+    def avaliar_status_pagamento(self):
+        return self.status_pagamento 
+
     periodo = models.OneToOneField(
         'utils.Periodo',
         on_delete=models.CASCADE,
         primary_key=True,
     )
     valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
+    def avaliar_pagamento(self):
+        return self.valor_pagamento > 0
 
     class Meta:
         verbose_name = 'Pagamento'
