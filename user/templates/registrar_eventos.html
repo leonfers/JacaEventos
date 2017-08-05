@@ -1,0 +1,60 @@
+{%extends "base_eventos.html"%}
+{% block container_eventos %}
+
+<div class="card" align="center">
+    <div class="card-content">
+        <input type="hidden">
+        <form method="POST" class="viewform">
+            {% csrf_token %}
+            <div class="container">
+                <div class="input-field col s12 required">
+                    <h6>Cadastre as Atividades do Evento</h6>
+                    <!--<fieldset>-->
+                    <!--{% for field in form %}-->
+                    <!--<div class="input-field required">-->
+                    <!--{{ field.label_tag }}-->
+                    <!--{{ field }}-->
+                    <!--{% if field.errors %}-->
+                    <!--<ul class="errorList">-->
+                    <!--{% for fielderrors in field.errors %} {{fielderrors.errors}} {%endfor%}-->
+                    <!--</ul>-->
+                    <!--{%endif%}-->
+                    <!--</div>-->
+                    <!--{% endfor %}-->
+                    <!--<button type="submit" name="_submit" class="btn">CRIAR</button>-->
+                    <!--</fieldset>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card" align="center">
+    <div class="card-content">
+        <input type="hidden">
+        <form method="POST" class="viewform">
+            {% csrf_token %}
+            <div class="container">
+                <div class="input-field col s12 required">
+                    <h6>Informe os dados para evento</h6>
+                    <fieldset>
+                        {% for field in form %}
+                        <div class="input-field required">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                            <ul class="errorList">
+                                {% for fielderrors in field.errors %} {{fielderrors.errors}} {%endfor%}
+                            </ul>
+                            {%endif%}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" name="_submit" class="btn">CRIAR</button>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{%endblock%}

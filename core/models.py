@@ -53,7 +53,6 @@ class TipoGerenciaEvento(EscolhaEnum):
 
 
 #####################################
-
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     dono = models.ForeignKey(
@@ -64,7 +63,7 @@ class Evento(models.Model):
     gerentes = models.ManyToManyField('core.GerenciaEvento' , related_name="gerentes_do_evento")
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
-    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
+    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices() ,blank=True)
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -82,6 +81,13 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
+
+    def get_tipo(self):
+        tipo = int(self.tipo_evento)
+        return TipoEvento(tipo).name()
+
+    def get_dono(self):
+        return self.dono.nome
 
     def get_atividades(self):
         return self.atividades.all()
@@ -139,6 +145,7 @@ class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades")
 
     trilha = models.ManyToManyField("core.Trilha" ,
                                     related_name="trilha",

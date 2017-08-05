@@ -13,6 +13,7 @@ body {
     background-color: #290caf9;
 }
 
+
 html {
     width: 100%;
     height: 100%;
@@ -67,6 +68,32 @@ html {
 
 .menu ul ul li a{
     background-color: #069;
+}
+
+li ul {
+	position: absolute;
+	left: 149px;
+	top: 0;
+	display: none;
+}
+
+ul ul ul li a {
+	display: block;
+	text-decoration: none;
+	color: #E2144A;
+	background: #fff;
+	padding: 5px;
+	border: 2px solid #ccc;
+}
+
+li:hover ul {
+    display: block;
+}
+
+ul li a:hover{
+	text-decoration:underline;
+	font-weight: bold;
+	background: #ccc;
 }
 
 label[for="bt_menu"]{
@@ -206,6 +233,7 @@ a:focus {
     color: #444;
 	text-transform: uppercase;
 	font-weight: 700;
+
 }
 
 .navbar-custom.top-nav-collapse ul.nav li a {
@@ -959,7 +987,7 @@ Parallax
 @media (max-width:480px) {
 
 	.navbar-custom .nav.navbar-nav {
-    background-color: rgba(255,255,255,.4);
+
 	}
 
 	.navbar.navbar-custom.navbar-fixed-top {

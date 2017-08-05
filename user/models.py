@@ -57,7 +57,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     def get_nome_completo(self):
-        return str(self)
+        return self.nome
 
     def get_inscricoes(self):
         return self.inscricoes.all()
@@ -84,21 +84,20 @@ class Inscricao(models.Model):
         verbose_name = 'Id de Inscricao'
         verbose_name_plural = 'Id das Inscricoes'
 
-    def __str__(self):
-        return self.usuario
-
-    def get_ativiades(self):
+    def get_atividades(self):
         atividades = self.evento.atividades.all()
         return atividades
 
-    def add_item_inscricao(self, ):
+    def add_item_inscricao(self, id ):
         self.save()
-        itemI_inscricao = ItemInscricao()
-        itemI_nscricao = self
+        item_inscricao = ItemInscricao()
+        item_inscricao.inscricao = self
+        item_inscricao.atividade = self.get_atividades()[id]
+        item_inscricao.save()
 
 
 class ItemInscricao(models.Model):
-    inscricao = models.ForeignKey('Inscricao', blank=True, default="")
+    inscricao = models.ForeignKey('Inscricao', blank=True, default="",related_name="itens")
     atividade = models.ForeignKey('core.Atividade', blank=True, default="")
 
 class ResponsavelTrilha:
@@ -108,3 +107,5 @@ class ResponsavelTrilha:
                                 related_name="usuario")
     trilha = models.ForeignKey('Trilha', verbose_name="trilha" , related_name="trilha")
 
+    class Meta:
+        unique_together = ('atividade','inscricao',)
