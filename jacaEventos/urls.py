@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from rest_framework.authtoken.views import obtain_auth_token
-from api.urls import router
+from api.routers import router
 from django.contrib.auth import views as auth_views
 
 
