@@ -145,7 +145,7 @@ class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades")
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
 
     trilha = models.ManyToManyField("core.Trilha" ,
                                     related_name="trilha",
@@ -218,7 +218,7 @@ class GerenciaEvento(models.Model):
     gerente = models.ForeignKey("user.Usuario" ,
                                 related_name="usuario_gerente" ,
                                 default="")
-    evento = models.ForeignKey("user.Evento",
+    evento = models.ForeignKey("core.Evento",
                                 related_name="evento_gerente",
                                 default="")
     tipo_gerente = models.CharField(max_length=1, choices=EscolhaEnum.choices())
