@@ -6,6 +6,22 @@ from django.core import validators
 from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 
+from utils.EscolhaEnum import EscolhaEnum
+
+
+class StatusCheckIn(EscolhaEnum):
+    naochecado = 0
+    presente = 1
+    ausente = 2
+
+
+class StatusInscricao(EscolhaEnum):
+    ativa = 0
+    inativa = 1
+
+
+#####################################
+
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
@@ -84,3 +100,11 @@ class Inscricao(models.Model):
 class ItemInscricao(models.Model):
     inscricao = models.ForeignKey('Inscricao', blank=True, default="")
     atividade = models.ForeignKey('core.Atividade', blank=True, default="")
+
+class ResponsavelTrilha:
+    titulo = models.CharField('Titulo', blank=True, default="")
+    usuario = models.ForeignKey('user.Usuario',
+                                verbose_name="usuario",
+                                related_name="usuario")
+    trilha = models.ForeignKey('Trilha', verbose_name="trilha" , related_name="trilha")
+
