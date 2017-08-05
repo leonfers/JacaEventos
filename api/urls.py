@@ -1,7 +1,9 @@
-from rest_framework.routers import DefaultRouter
-from . import views
+from django.conf.urls import url, include
 
-router = DefaultRouter()
+from api.core import views as core_views
+from api.routers import router
 
-router.register(r'users', views.UserViewSet)
-router.register(r'eventos', views.EventoViewSet)
+urlpatterns = [
+    url(r'^', include(router.urls)),
+
+]
