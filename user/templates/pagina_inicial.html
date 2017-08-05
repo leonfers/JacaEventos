@@ -1,5 +1,11 @@
-{%extends "base_usuario.html"%} {% block body %}
+{%extends "base_logado.html"%} {% block container_pagina_inicial %}
 
-<h5>Bem Vindo, {{ user.nome.title }}</h5>
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <div class="container" align="center"> <h6>Bem Vindo, {{ user.nome.title }}</h6> </div>
+        </div>
+    </div>
+</div>
 
 {%endblock%}

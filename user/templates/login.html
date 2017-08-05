@@ -1,48 +1,54 @@
-{%extends "base_usuario.html"%} {% block body %}
-<br><br><br>
+{%extends "base_usuario.html"%}
+{% block body %}
+<br><br><br><br><br><br>
+
 <div class="col-sm-3 col-md-6">
     <div class="wow fadeInRight" data-wow-delay="0.2s">
         <div class="service-box">
             <div class="service-icon">
                 <!--<img src="static/img/logo.png" alt="" height="450px" width="250px" />-->
             </div>
-            <div class="service-desc">
-                <!--<h5>Jaca Eventos</h5>-->
-                <p></p>
-            </div>
+            <!--<div class="service-desc">-->
+            <!--&lt;!&ndash;<h5>Jaca Eventos</h5>&ndash;&gt;-->
+            <!--<p></p>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
 
 <div class="col-sm-3 col-md-6">
     <div class="service-box">
-        <div class="service-icon">
-            <!--<img src="#" alt="" />-->
-        </div>
+        <!--<div class="service-icon">-->
+        <!--&lt;!&ndash;<img src="#" alt="" />&ndash;&gt;-->
+        <!--</div>-->
         <div class="service-desc">
-            <div class="col s12 m8 offset-m5 l8 offset-l2">
-                <form class="form" enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
-                    <div class="input-field col s12 required">
-                        <h5>Informe seus dados</h5><br>
-                        <fieldset>
-                            {% for field in form %}
-                            <div class="row">
-                                <div class="input-field col s12 required">
-                                    {{ field.label_tag }} {{ field }} {% if field.errors %}
-                                    <ul class="errorList">
-                                        {% for fielderrors in field.errors %} {{fielderrors.errors}} {%endfor%}
-                                    </ul>
-                                    {%endif%}
-                                </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="col s12 m8 offset-m5 l8 offset-l2">
+                        <form class="form" enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            <div class="container input-field col s12 required" align="center">
+                                <h5>Informe seus dados</h5><br>
+                                <fieldset>
+                                    {% for field in form %}
+                                    <div class="row">
+                                        <div class="input-field col s12 required">
+                                            {{ field.label_tag }} {{ field }} {% if field.errors %}
+                                            <ul class="errorList">
+                                                {% for fielderrors in field.errors %} {{fielderrors.errors}} {%endfor%}
+                                            </ul>
+                                            {%endif%}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <button type="submit" name="_submit" class="btn">Entrar</button><br><br>
+                                    <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
+                                </fieldset>
                             </div>
-                            {% endfor %}
-                            <button type="submit" name="_submit" class="btn">Entrar</button><br><br>
-                            <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
-                        </fieldset>
+                            <br>
+                        </form>
                     </div>
-                    <br>
-                </form>
+                </div>
             </div>
         </div>
     </div>
