@@ -40,7 +40,7 @@ class Evento(models.Model):
         blank=True, null=True)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
-    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices(),blank=True)
+    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices() ,blank=True)
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -53,6 +53,13 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
+
+    def get_tipo(self):
+        tipo = int(self.tipo_evento)
+        return TipoEvento(tipo).name()
+
+    def get_dono(self):
+        return self.dono.nome
 
     def get_atividades(self):
         return self.atividades.all()
