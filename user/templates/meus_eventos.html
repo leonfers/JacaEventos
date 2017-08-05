@@ -1,0 +1,13 @@
+{%extends "base_eventos.html"%} {% block container_eventos %}
+<div class="card">
+    <div class="card-content">
+        <h6>Meus Eventos</h6>
+    </div>
+    {% for evento in eventos%}
+    <div class="card-content">
+        {{evento}}
+    </div>
+    {%endfor%}
+
+</div>
+{%endblock%}

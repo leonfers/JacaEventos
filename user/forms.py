@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
 
+from core.models import Evento, Atividade
+
 User = get_user_model()
 
 
@@ -31,8 +33,29 @@ class RegistrarUsuario(forms.ModelForm):
 
     class Meta:
         model = User
+        # abstract = True
+        fields = ['username','email','nome']
 
-        fields = ['username', 'email','nome']
+
+
+class RegistrarEvento(forms.ModelForm):
+
+#   def verificar_evento:
+
+    class Meta:
+        model = Evento
+        fields = '__all__'
+
+
+class RegistrarAtividades(forms.ModelForm):
+
+    class Meta:
+        model = Atividade
+        fields = '__all__'
+
+
+
+
 
 
 

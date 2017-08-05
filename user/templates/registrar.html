@@ -1,6 +1,6 @@
 {%extends "base_usuario.html"%} {% block body %}
-
-<div class="col s12 m8 offset-m2 l8 offset-l2">
+<br><br><br><br>
+<div class="container" align="center">
     <div class="card">
         <div class="card-content">
             <input type="hidden">
@@ -9,7 +9,7 @@
                 {% endif %}
                 <div class="container">
                     <div class="input-field col s12 required">
-                        <h5>Informe seus dados</h5>
+                        <h6>Informe seus dados</h6>
                         <fieldset>
                             {% for field in form %}
                             <div class="input-field col s12 required">
@@ -25,7 +25,6 @@
                     </div>
                 </div>
                 <br>
-
             </form>
         </div>
     </div>

@@ -41,7 +41,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     def get_nome_completo(self):
-        return str(self)
+        return self.nome
 
     def get_inscricoes(self):
         return self.inscricoes.all()
