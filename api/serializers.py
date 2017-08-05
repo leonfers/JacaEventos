@@ -6,14 +6,7 @@ from core.models import Evento
 
 User = get_user_model()
 
-# class EventosSerializer(serializers.ModelSerializer):
 #
-#     dono = serializers.CharField(source='get_dono',read_only=True)
-#     tipo = serializers.CharField(source='get_tipo',read_only=True)
-#     class Meta:
-#         model = Evento
-#         fields = ('id','nome','dono','valor','tipo')
-
 class UserSerializer(serializers.ModelSerializer):
 
     links = serializers.SerializerMethodField()

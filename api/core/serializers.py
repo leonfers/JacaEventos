@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from core.models import Evento
+from core.models import Evento,Atividade
 
 class EventosSerializer(serializers.ModelSerializer):
 
@@ -9,3 +9,9 @@ class EventosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = ('id','nome','dono','valor','tipo')
+
+class AtividadeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Atividade
+        fields = ('id','nome')
