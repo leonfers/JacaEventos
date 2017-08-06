@@ -1,0 +1,19 @@
+{% extends "geral/base.html" %}
+{%load bootstrap%}
+
+{%block corpo_base%}
+<br><br><br>
+<div class="container" align="center">
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="container" align="center">
+            <h5>Registrar Instituições</h5>
+            <fieldset>
+                {{ form_instituicoes|bootstrap}}
+                <button type="submit" name="_submit" class="btn">Registrar</button><br><br>
+            </fieldset>
+        </div>
+        <br>
+    </form>
+</div>
+{% endblock %}

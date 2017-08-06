@@ -1,0 +1,36 @@
+{% extends "evento/registrar.html" %}
+{%load bootstrap%}
+
+{%block corpo%}
+<div class="container" align="center">
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="container" align="center">
+            <h5>Registre seus Eventos</h5>
+            <!--<label>Dono: {{user.nome}}</label>-->
+            <fieldset>
+                {{ form_evento|bootstrap }}
+
+                <button type="submit" name="_submit" class="btn">Registrar</button><br><br>
+            </fieldset>
+
+        </div>
+        <br>
+    </form>
+</div>
+
+<div class="container" align="center">
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="container" align="center">
+            <h5>Registre seus Eventos</h5><br>
+            <fieldset>
+                {{ form_adicionar_tag|bootstrap }}
+                <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+            </fieldset>
+        </div>
+        <br>
+    </form>
+</div>
+{% endblock %}
+
