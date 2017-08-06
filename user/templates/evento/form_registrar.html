@@ -1,7 +1,15 @@
 {% extends "evento/registrar.html" %}
 {%load bootstrap%}
-
 {%block corpo%}
+
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div id="object"></div>
+        </div>
+    </div>
+</div>
+
 <div class="container" align="center">
     <form class="form-horizontal" method="POST">
         {% csrf_token %}

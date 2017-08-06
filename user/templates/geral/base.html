@@ -15,6 +15,19 @@
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 
+    <script>
+
+    $(window).load(function() {
+	    $("#loading-center").click(function() {
+    	    $("#loading").fadeOut(500);
+	    })
+    });
+
+    $(window).load(function() {
+        $("#loading").fadeOut(500);
+    })
+
+    </script>
 
     {%load bootstrap%}
 
@@ -30,7 +43,9 @@
 <div class="bg"></div>
 
 <nav class="menu" id="principal">
-    <!--<h3>JACA EVENTOS</h3>-->
+    <h3>JACA EVENTOS</h3>
+    <img class="imagemlogo" src="../static/img/photo.jpg">
+    <h6>Seja Bem Vindo, {{user.nome.title}}</h6>
     <ul>
         <li><a href="" class="voltar">Voltar</a></li>
         <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>

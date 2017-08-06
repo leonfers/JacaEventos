@@ -51,8 +51,8 @@ header{
 }
 
 .menu-icon:hover{
-    background-color: #ff3d00;
-    color#5b859a;
+    background-color: #fff;
+    color: #ff6e40;
 }
 
 #chk{
@@ -61,12 +61,24 @@ header{
 }
 
 .menu{
+    margin-top: 45px;
     height: 100%;
     position: fixed;
-    background-color: #dd2c00;
+    background-color: #fff;
     top: 0;
     overflow: hidden;
-    transition: all .2s;
+    transition: all .5s;
+
+}
+
+.imagemlogo{
+    width: 150px;
+    height: 150px;
+    margin-left: 75px;
+   /* Agora a mágica */
+    border-radius: 50%;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
 #principal{
@@ -81,11 +93,11 @@ ul {
 
 ul li a{
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'Arial';
     padding: 10px;
-    border-bottom: solid 1px #fff;
-    color: #ccc;
+    border-bottom: solid 1px #ff6e40;
+    color: #ff6e40;
     text-decoration: none;
     transition: all .2s;
 }
@@ -96,13 +108,15 @@ ul li span {
 }
 
 ul li a:hover{
-    background-color: #5b859a;
+    background-color: #ff6e40;
+    color: #fff;
 }
 
 .voltar{
-    margin-top: 60px;
-    background-color: #1976d2;
-    border-left: solid 5px #444;
+    margin-top: 20px;
+    background-color: #ff9e80;
+    border-left: solid 5px #dd2c00;
+    color: #fff;
 }
 
 .bg{
@@ -111,7 +125,7 @@ ul li a:hover{
     left: 0;
     top: 0;
     position: fixed;
-    background-color: rgba(0,0,0,.6);
+    /*    background-color: rgba(0,0,0,.6);   */
     display: none;
 }
 
@@ -121,6 +135,7 @@ ul li a:hover{
 
 #chk:checked ~ #principal{
     transform: translateX(300px);
+    box-shadow: 2px 2px 5px 2px rgba(0,0,0,.5);
 }
 
 
@@ -137,6 +152,66 @@ ul li a:hover{
     transform: translateX(250px);
     box-shadow: 2px 2px 5px 2px rgba(0,0,0,.5);
 }
+
+
+#loading{
+    background-color: #bd4932;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    margin-top: 0px;
+    top: 0px;
+}
+
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#loading-center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 200px;
+	width: 200px;
+	margin-top: -100px;
+	margin-left: -100px;
+}
+
+#object{
+	width: 80px;
+	height: 80px;
+	background-color: #FFF;
+	-webkit-animation: animate 1s infinite ease-in-out;
+	animation: animate 1s infinite ease-in-out;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 60px;
+}
+@-webkit-keyframes animate {
+    0% { -webkit-transform: perspective(160px); }
+    50% { -webkit-transform: perspective(160px) rotateY(-180deg); }
+    100% { -webkit-transform: perspective(160px) rotateY(-180deg) rotateX(-180deg); }
+}
+
+@keyframes animate {
+    0% {
+        transform: perspective(160px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(160px) rotateX(0deg) rotateY(0deg);
+    } 50% {
+        transform: perspective(160px) rotateX(-180deg) rotateY(0deg);
+        -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(0deg) ;
+    } 100% {
+        transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+        -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+    }
+}
+
+
+
+
 
 .panel {
     position: fixed;
