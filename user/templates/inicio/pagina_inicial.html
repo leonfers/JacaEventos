@@ -1,0 +1,54 @@
+{% extends "geral/base.html" %}
+{%load bootstrap%}
+
+{% block corpo_base %}
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div id="object"></div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+
+<!--<div class="container">-->
+<!--<div class="card">-->
+<!--<div class="card-content">-->
+<!--<div class="container" align="center"> <h6>Bem Vindo, {{ user.nome.title }}</h6> </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="container">
+    <!--<div class="row">-->
+    <div class="col-sm-6">
+        <!--<div class="section no-pad-bot" id="index-banner">-->
+            <br><br>
+            <div class="card">
+                <img src="../static/img/participar_eventos.png" width="100px" height="100px">
+                <div class="card-content">
+                    <h4><b>Participe de Eventos</b></h4>
+                    <p>Aqui você encontra eventos de todos os tipos</p>
+                </div>
+            </div>
+        <!--</div>-->
+    </div>
+    <div class="col-sm-6">
+        <div class="row center">
+            <!--<div class="section no-pad-bot">-->
+                <br><br>
+                <a href="{%url 'registrar_eventos'%}"><div class="card">
+                    <img src="../static/img/meus_eventos.png" width="100px" height="100px">
+                    <div class="card-content">
+                        <h4><b>Registre seus proprios Eventos</b></h4>
+                        <p>Registre seus eventos e crie atividades fantasticas</p>
+                    </div>
+                </div></a>
+            <!--</div>-->
+        </div>
+    </div>
+
+</div>
+<!--</div>-->
+
+{% endblock %}

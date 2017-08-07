@@ -1,0 +1,26 @@
+{%extends "login/base.html"%}
+{%load bootstrap%}
+
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div id="object"></div>
+        </div>
+    </div>
+</div>
+{%block form_login%}
+
+<div class="container" align="center">
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="container" align="center">
+            <h5>Registre-se antes de usar</h5><br>
+            <fieldset>
+                {{ form|bootstrap }}
+                <button type="submit" name="_submit" class="btn">Registrar</button><br><br>
+            </fieldset>
+        </div>
+        <br>
+    </form>
+</div>
+{%endblock%}

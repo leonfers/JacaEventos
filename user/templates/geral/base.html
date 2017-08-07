@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br" class="no-js">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}" />
+    <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}">
+
+    <title>Jaca Eventos</title>
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script>
+    $(window).load(function() {
+	    $("#loading-center").click(function() {
+    	    $("#loading").fadeOut(500);
+	    })
+    });
+
+    $(window).load(function() {
+        $("#loading").fadeOut(500);
+    })
+    </script>
+
+    {%load bootstrap%}
+
+    <title>Pagina Inicial</title>
+</head>
+<body>
+
+<header></header>
+
+<input type="checkbox" id="chk">
+<label for="chk" class="menu-icon">&#9776</label>
+
+<div class="bg"></div>
+
+<nav class="menu" id="principal">
+    <h5 class="slogan_jaca" >JACA EVENTOS</h5>
+    <div class="row">
+        <div class="col-sm-3">
+            <img class="imagemlogo" src="../static/img/photo.jpg">
+        </div>
+        <div class="col-sm-8">
+            <h6 class="bemvindo">Bem Vindo, {{user.nome.title}}</h6>
+        </div>
+    </div>
+
+    <ul>
+        <!--<li><a href="" class="voltar">Voltar</a></li>-->
+        <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>
+        <li><a href="#cursos">Meus Eventos<span>+</span></a></li>
+        <li><a href="#instituicoes">Area das Instituições<span>+</span></a></li>
+        <li><a href="#contato">Meus Contatos<span>+</span></a></li>
+        <li><a href="{%url 'logout_usuario' %}">Sair</a></li>
+    </ul>
+</nav>
+
+<nav class="menu" id="cursos">
+    <ul>
+        <li><a href="#" class="voltar">Voltar</a></li>
+        <li><a href="{% url 'registrar_eventos' %}">Registrar Eventos</a></li>
+        <li><a href="#">Buscar Eventos</a></li> <!-- MUDAR NOME NA VIEW PARA BUSCAR EVENTOS -->
+        <li><a href="#">Eventos Ativos</a></li>
+        <li><a href="#">Minhas Inscrições</a></li>
+    </ul>
+</nav>
+
+<nav class="menu" id="contato">
+    <ul>
+        <li><a href="#" class="voltar">Voltar</a></li>
+        <li><a href="#">Email</a></li>
+        <li><a href="#">Facebook</a></li>
+    </ul>
+</nav>
+
+<nav class="menu" id="instituicoes">
+    <ul>
+        <li><a href="#" class="voltar">Voltar</a></li>
+        <li><a href="{% url 'registrar_instituicoes' %}">Registrar Instituição</a></li>
+        <li><a href="#">Listar Instituições</a></li>
+    </ul>
+</nav>
+
+
+{% block corpo_base %}
+{% endblock %}
+
+</body>
+</html>
