@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{%load bootstrap%}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -10,7 +10,7 @@
     <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}">
 
-    <!--<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>-->
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <!--<script type="text/javascript" src="{% static 'js/?custom.js' %}"></script>-->
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -18,16 +18,19 @@
 
     <title>Jaca Eventos</title>
 
+    {%load bootstrap%}
 <body>
 
+<header><a href="{% url 'login' %}" class="slogan_jaca"><h3>JACA EVENTOS</h3></a></header>
+<br><br>
 <div class="row">
     <div class="col-sm-8">
         <div class="section no-pad-bot" id="index-banner">
             <br><br>
-            <h1 class="header center teal-text" align="center">Jaca Eventos</h1>
+            <h1 align="center">Jaca Eventos</h1>
             <div class="container">
                 <div class="row center" align="center">
-                    <h5 class="header col s12 light">Slogan eventos</h5>
+                    <h5>Slogan eventos</h5>
                 </div>
                 <br><br>
             </div>
@@ -47,11 +50,6 @@
         </div>
     </div>
 </div>
-
-{%block body%}
-
-
-{%endblock%}
 
 </body>
 </html>

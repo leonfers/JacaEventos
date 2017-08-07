@@ -2,11 +2,12 @@
 {%load bootstrap%}
 
 {%block form_login%}
+<br><br><br><br>
 <div class="container" align="center">
     <form class="form-horizontal" method="POST">
         {% csrf_token %}
         <div class="container" align="center">
-            <h5>Informe seus dados</h5><br>
+            <h2>Informe seus dados</h2><br>
             <fieldset>
                 {{ form|bootstrap }}
                 <button type="submit" name="_submit" class="btn">Entrar</button><br><br>

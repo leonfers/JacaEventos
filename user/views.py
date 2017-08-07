@@ -9,6 +9,7 @@ from user.models import Usuario
 
 User = get_user_model()
 
+
 def registrar(request):
     template_name = 'login/registrar.html'
     if request.method == 'POST':
@@ -23,6 +24,7 @@ def registrar(request):
     context = {'form' : form}
 
     return render(request, template_name, context)
+
 
 @login_required
 def pagina_inicial(request):
@@ -42,14 +44,14 @@ def registrar_eventos(request):
         form_add_evento = RegistrarEvento(request.POST)
         form_tag_evento = AdicionarTagEmEventos(request.POST)
 
-        if form_add_evento.is_valid() and form_tag_evento.is_valid():
-            tag_evento = form_tag_evento.save(commit=False)
-            tag_evento.evento.add_tag(request.user)
+        if form_add_evento.is_valid():
+            # tag_evento = form_tag_evento.save(commit=False)
+            # tag_evento.evento.add_tag(request.user)
 
             evento = form_add_evento.save(commit=False)
             evento.dono = request.user
 
-            tag_evento.save()
+            # tag_evento.save()
             evento.save()
             return redirect(settings.REGISTRAR_EVENTO)
 
@@ -59,6 +61,24 @@ def registrar_eventos(request):
     context = { 'form_evento': form_add_evento, 'form_adicionar_tag' : form_tag_evento}
 
     return render(request, template_name, context)
+
+#
+# @login_required
+# def registrar_eventos(request):
+#     template_name = 'evento/form_registrar.html'
+#
+#     if request.method == 'POST':
+#         form_add_evento = RegistrarEvento(request.POST)
+#         if form_add_evento.is_valid():
+#             evento = form_add_evento.save(commit=False)
+#             evento.dono = request.user
+#             evento.save()
+#             return redirect(settings.REGISTRAR_EVENTO)
+#     else:
+#         form_add_evento = RegistrarEvento()
+#     context = { 'form_evento': form_add_evento }
+#     return render(request, template_name, context)
+
 
 @login_required
 def registrar_instituicoes(request):
@@ -71,9 +91,7 @@ def registrar_instituicoes(request):
             instituicoes = form.save(commit=False)
             instituicoes.save()
             form = RegistrarInstituicoes()
-
     else:
         form = RegistrarInstituicoes()
     context = {'form_instituicoes': form}
-
     return render(request, template_name, context)

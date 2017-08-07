@@ -16,7 +16,6 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 
     <script>
-
     $(window).load(function() {
 	    $("#loading-center").click(function() {
     	    $("#loading").fadeOut(500);
@@ -26,7 +25,6 @@
     $(window).load(function() {
         $("#loading").fadeOut(500);
     })
-
     </script>
 
     {%load bootstrap%}
@@ -36,17 +34,25 @@
 <body>
 
 <header></header>
+
 <input type="checkbox" id="chk">
 <label for="chk" class="menu-icon">&#9776</label>
 
 <div class="bg"></div>
 
 <nav class="menu" id="principal">
-    <h3>JACA EVENTOS</h3>
-    <img class="imagemlogo" src="../static/img/photo.jpg">
-    <h6>Seja Bem Vindo, {{user.nome.title}}</h6>
+    <h5 class="slogan_jaca" >JACA EVENTOS</h5>
+    <div class="row">
+        <div class="col-sm-3">
+            <img class="imagemlogo" src="../static/img/photo.jpg">
+        </div>
+        <div class="col-sm-8">
+            <h6 class="bemvindo">Bem Vindo, {{user.nome.title}}</h6>
+        </div>
+    </div>
+
     <ul>
-        <li><a href="" class="voltar">Voltar</a></li>
+        <!--<li><a href="" class="voltar">Voltar</a></li>-->
         <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>
         <li><a href="#cursos">Meus Eventos<span>+</span></a></li>
         <li><a href="#instituicoes">Area das Instituições<span>+</span></a></li>
@@ -81,7 +87,9 @@
     </ul>
 </nav>
 
+
 {% block corpo_base %}
 {% endblock %}
+
 </body>
 </html>

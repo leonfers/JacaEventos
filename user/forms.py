@@ -42,9 +42,9 @@ class RegistrarEvento(forms.ModelForm):
 
     class Meta:
         model = Evento
-        exclude = {'dono'}
-
+        exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
         fields = '__all__'
+
 
 class AdicionarTagEmEventos(forms.ModelForm):
 
@@ -65,7 +65,3 @@ class RegistrarInstituicoes(forms.ModelForm):
     class Meta:
         model = Instituicao
         fields = '__all__'
-
-
-
-
