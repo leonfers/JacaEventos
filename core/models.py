@@ -86,10 +86,6 @@ class Evento(models.Model):
     def __str__(self):
         return self.nome
 
-    def get_tipo(self):
-        tipo = int(self.tipo_evento)
-        return TipoEvento(tipo).name()
-
     def get_dono(self):
         return self.dono.nome
 
