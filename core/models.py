@@ -128,7 +128,7 @@ class Evento(models.Model):
         atividades = self.get_atividades()
         for i in range(len(atividades)):
             valor += atividades[i].valor
-        return float(valor)
+        return valor
 
     def add_instituicao(self,instituicao,tipo_relacionamento):
         try:
