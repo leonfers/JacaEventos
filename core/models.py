@@ -123,6 +123,13 @@ class Evento(models.Model):
     def get_instituicoes(self):
         return Evento_Instituicao.objects.all().filter(evento_relacionado = self)
 
+    def get_valor(self):
+        valor = 0
+        atividades = self.get_atividades()
+        for i in range(len(atividades)):
+            valor += atividades[i].valor
+        return float(valor)
+
     def add_instituicao(self,instituicao,tipo_relacionamento):
         try:
             self.save()
