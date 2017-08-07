@@ -1,0 +1,17 @@
+{% extends "geral/base.html" %}
+{%load bootstrap%}
+
+
+{% block corpo_base %}
+<br><br><br>
+<div class="container">
+    {% for eventos in meus_eventos %}
+    <div class="card">
+        <div class="card-content">
+            <h1>Nome evento: {{ eventos.nome }}</h1>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{% endblock %}

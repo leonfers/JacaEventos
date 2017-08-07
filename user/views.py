@@ -95,3 +95,12 @@ def registrar_instituicoes(request):
         form = RegistrarInstituicoes()
     context = {'form_instituicoes': form}
     return render(request, template_name, context)
+
+
+@login_required
+def meus_eventos(request):
+    template_name = 'evento/meus_eventos.html'
+
+    context = {'meus_eventos' : request.user.get_eventos()}
+
+    return render(request, template_name, context)

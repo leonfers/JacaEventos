@@ -65,3 +65,4 @@ class RegistrarInstituicoes(forms.ModelForm):
     class Meta:
         model = Instituicao
         fields = '__all__'
+
