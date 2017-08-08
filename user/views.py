@@ -53,7 +53,7 @@ def registrar_eventos(request):
 
             # tag_evento.save()
             evento.save()
-            return redirect('evento/exibir_evento.html') #resolver problema do redirecionamento
+            return redirect(settings.REGISTRAR_EVENTO) #resolver problema do redirecionamento
 
     else:
         form_tag_evento = AdicionarTagEmEventos()

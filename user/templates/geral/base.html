@@ -6,8 +6,10 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/icon.css' %}">
     <!--<link rel="stylesheet" href="{% static 'styles/style.css' %}" />-->
     <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}">
 
     <title>Jaca Eventos</title>
@@ -47,10 +49,10 @@
 <nav class="menu" id="principal">
     <h5 class="slogan_jaca" >JACA EVENTOS</h5>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <img class="imagemlogo" src="../static/img/photo.jpg">
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-10">
             <h6 class="bemvindo">Bem Vindo, {{user.nome.title}}</h6>
         </div>
     </div>
@@ -58,7 +60,7 @@
     <ul>
         <!--<li><a href="" class="voltar">Voltar</a></li>-->
         <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>
-        <li><a href="#cursos">Meus Eventos<span>+</span></a></li>
+        <li><a href="#cursos"><i class="material-icons">people_outline</i>&nbsp&nbsp Meus Eventos<span>+</span></a></li>
         <li><a href="#instituicoes">Area das Instituições<span>+</span></a></li>
         <li><a href="#contato">Meus Contatos<span>+</span></a></li>
         <li><a href="{%url 'logout_usuario' %}">Sair</a></li>
