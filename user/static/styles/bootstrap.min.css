@@ -13,6 +13,36 @@ html {
     -ms-text-size-adjust: 100%
 }
 
+.imagem-logo {
+    margin-left: -200px;
+    width: 300px;
+    height: 500px;
+}
+
+/*
+table, th, td {
+    border: 1px solid black;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+}
+
+th {
+    padding: 10px;
+    text-align: left;
+}
+
+table {
+    border-spacing: 5px;
+}
+*/
+
 body {
     margin: 0
     font-family: Arial, Helvetica, sans-serif;
@@ -42,9 +72,7 @@ header{
 
 .slogan_jaca {
     font-size: 18px;
-    text-color: #fff;
-    color: #fff;
-    background-color: #757575;
+    text-color: #757575;
     padding: 19px;
     text-align: center;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -56,6 +84,7 @@ header{
     color: #fff;
     margin-bottom: 25px;
     text-align: center;
+    text-decoration: none;
 }
 
 .menu-icon{
@@ -90,7 +119,6 @@ header{
     top: 0;
     overflow: hidden;
     transition: all .5s;
-
 }
 
 .imagemlogo{
@@ -104,7 +132,7 @@ header{
 
 #principal{
     width: 250px;
-    left: -250px;
+     /* left: -250px; */
 }
 
 ul {
@@ -156,7 +184,7 @@ ul li a:hover{
 */
 
 #chk:checked ~ #principal{
-    transform: translateX(250px);
+    /* transform: translateX(250px); */
 /*    box-shadow: 2px 2px 5px 2px rgba(0,0,0,.5); */
 }
 
@@ -171,7 +199,7 @@ ul li a:hover{
 #instituicoes:target,
 #cursos:target,
 #contato:target{
-    transform: translateX(250px);
+    transform: translateX(250px); */
     /* box-shadow: 2px 2px 5px 2px rgba(0,0,0,.5); */
 }
 
@@ -10789,6 +10817,8 @@ pre code {
     }
     .col-md-4 {
         width: 33.33333333%
+
+
     }
     .col-md-3 {
         width: 25%
@@ -18325,7 +18355,11 @@ pre code {
 
 @media (min-width:1200px) {
     .container {
-        width: 500px
+        width: 1000px
+    }
+
+    .container-novo {
+        width: 900px
     }
 }
 
@@ -18654,7 +18688,8 @@ pre code {
         width: 41.66666667%
     }
     .col-sm-4 {
-        width: 33.33333333%
+        width: 33.33333333%;
+        margin-left: 50px;
     }
     .col-sm-3 {
         width: 25%
@@ -18825,6 +18860,7 @@ pre code {
     }
     .col-md-4 {
         width: 33.33333333%
+
     }
     .col-md-3 {
         width: 25%
@@ -19944,7 +19980,7 @@ textarea.input-lg {
 .form-horizontal .radio-inline {
     padding-top: 7px;
     margin-top: 0;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 .form-horizontal .checkbox,

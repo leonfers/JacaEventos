@@ -1,0 +1,18 @@
+{% extends "geral/base.html" %}
+{%load bootstrap%}
+
+{% block corpo_base %}
+<br><br><br>
+<div class="container">
+    {% for eventos in meus_eventos %}
+    <div class="card"><a href="{% url 'exibir_evento' eventos.id %}">
+        <div class="card-content">
+            <h4>Nome evento: {{ eventos.nome }}</h4>
+            <h4>Dono evento: {{ eventos.dono }}</h4>
+            <h4>Tipo evento: {{ eventos.tipo_evento }}</h4>
+        </div></a>
+
+    </div>
+    {%endfor%}
+</div>
+{% endblock %}
