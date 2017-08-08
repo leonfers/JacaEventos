@@ -55,15 +55,20 @@ class TipoGerenciaEvento(EscolhaEnum):
 #####################################
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
+    descricao = models.TextField('descricao', max_length=256, blank=True)
+    valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
+    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices() ,blank=True)
+
     dono = models.ForeignKey(
         'user.Usuario',
         verbose_name="dono",
         related_name='meus_eventos',
         blank=True, null=True)
-    gerentes = models.ManyToManyField('core.GerenciaEvento' , related_name="gerentes_do_evento")
-    descricao = models.TextField('descricao', max_length=256, blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2)
-    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices() ,blank=True)
+
+    gerentes = models.ManyToManyField(
+        'user.Usuario',
+        through="GerenciaEvento",
+        related_name="gerentes_do_evento")
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -72,7 +77,8 @@ class Evento(models.Model):
 
     eventos_satelite = models.ManyToManyField(
         'core.Evento',
-        related_name='evento_satelite')
+        through="core.EventoSatelite",
+        related_name='eventos_satelites')
 
 
     class Meta:
@@ -147,24 +153,22 @@ class Atividade(models.Model):
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
 
-    trilha = models.ManyToManyField("core.Trilha" ,
-                                    related_name="trilha",
-                                    verbose_name="trilha")
-
+    responsaveis = models.ManyToManyField(
+        'user.Usuario',
+        through="core.ResponsavelAtividade",
+        related_name="responsaveis_atividade")
 
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",
                                 default="")
     class Meta:
-        #abstract = True
         verbose_name = 'Atividade'
         verbose_name_plural = 'Atividades'
 
     def __str__(self):
         return self.nome
 
-'''
 class AtividadeSimples(Atividade):
 
     class Meta:
@@ -199,7 +203,6 @@ class AtividadeNeutra(Atividade):
             raise Exception("Esta atividade e obrigatoriamente gratuita")
 
         self.__dict__[valor] = 0
-'''
 
 
 class Trilha(models.Model):
@@ -209,10 +212,21 @@ class Trilha(models.Model):
     evento = models.ForeignKey('core.Evento' ,
                                related_name="evento_trilha",
                                verbose_name="evento")
+    responsaveis = models.ManyToManyField(
+        'user.Usuario',
+        through="core.ResponsavelTrilha",
+        related_name="responsavel_trilha")
     class meta:
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
 
+class EventoSatelite(models.Model):
+    evento = models.ForeignKey("core.Evento",
+                               related_name="evento_origem",
+                               default="")
+    satelite = models.ForeignKey("core.Evento",
+                               related_name="evento_satelite",
+                               default="")
 
 class GerenciaEvento(models.Model):
     gerente = models.ForeignKey("user.Usuario" ,
@@ -223,6 +237,23 @@ class GerenciaEvento(models.Model):
                                 default="")
     tipo_gerente = models.CharField(max_length=1, choices=EscolhaEnum.choices())
 
+class ResponsavelAtividade(models.Model):
+    responsavel = models.ForeignKey("user.Usuario" ,
+                                related_name="usuario_responsavel" ,
+                                default="")
+    atividade = models.ForeignKey("core.Atividade",
+                                related_name="atividade_dirigida",
+                                default="")
+    tipo_responsavel = models.CharField(max_length=1, choices=EscolhaEnum.choices())
+
+class ResponsavelTrilha(models.Model):
+    responsavel = models.ForeignKey("user.Usuario",
+                                    related_name="usuario_responsavel_trilha",
+                                    default="")
+    trilha = models.ForeignKey("core.Trilha",
+                                  related_name="trilha_dirigida",
+                                  default="")
+    tipo_responsavel_trilha = models.CharField(max_length=30)
 
 class Instituicao(models.Model):
     nome = models.CharField('nome', max_length=30 , default="")
