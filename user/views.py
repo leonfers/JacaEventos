@@ -53,7 +53,7 @@ def registrar_eventos(request):
 
             # tag_evento.save()
             evento.save()
-            return redirect(settings.REGISTRAR_EVENTO)
+            return redirect('evento/exibir_evento.html') #resolver problema do redirecionamento
 
     else:
         form_tag_evento = AdicionarTagEmEventos()
@@ -104,3 +104,10 @@ def meus_eventos(request):
     context = {'meus_eventos' : request.user.get_eventos()}
 
     return render(request, template_name, context)
+
+@login_required
+def exibir_evento(request, eventos_id):
+    template_name = 'evento/exibir_evento.html'
+
+    evento = Evento.objects.get(id=eventos_id)
+    return render(request, template_name, {'exibir_evento' : evento})

@@ -3,18 +3,18 @@
 
 {%block form_login%}
 <br><br><br><br>
-<div class="container" align="center">
+
     <form class="form-horizontal" method="POST">
         {% csrf_token %}
-        <div class="container" align="center">
+        <!--<div class="container" align="center">-->
             <h2>Informe seus dados</h2><br>
             <fieldset>
                 {{ form|bootstrap }}
                 <button type="submit" name="_submit" class="btn">Entrar</button><br><br>
                 <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
             </fieldset>
-        </div>
+        <!--</div>-->
         <br>
     </form>
-</div>
+
 {%endblock%}
