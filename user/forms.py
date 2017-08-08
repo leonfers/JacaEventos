@@ -55,8 +55,11 @@ class AdicionarTagEmEventos(forms.ModelForm):
 
 class RegistrarAtividades(forms.ModelForm):
 
+    # lista_instituicoes = forms.Select(label='Lista Instituições', widget=forms.Select)
+
     class Meta:
         model = Atividade
+        exclude = {'trilha', 'evento'}
         fields = '__all__'
 
 

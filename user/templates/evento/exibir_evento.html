@@ -5,6 +5,20 @@
 <br><br><br><br><br><br>
 <div class="container">
     {{exibir_evento.nome}}
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="container" align="center">
+            <fieldset>
+                <div class="container">
+                    <div class="col-sm-4" align="center">
+                        <h5>Adicione atividades ao seu evento</h5>
+                        {{ form_atividades|bootstrap }}
+                        <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br>
+    </form>
 </div>
-
 {% endblock %}
