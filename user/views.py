@@ -97,12 +97,27 @@ def registrar_instituicoes(request):
     return render(request, template_name, context)
 
 
+# @login_required
+# def registrar_atividades_evento(request):
+#     template_name = 'evento/exibir_evento.html'
+#
+#     if request.method == 'POST':
+#         form = RegistrarAtividades(request.POST)
+#
+#         if form.is_valid():
+#             atividades = form.save(commit=False)
+#             # request.user.add_atividade(atividades)
+#             atividades.save()
+#     else:
+#         form = RegistrarAtividades()
+#     context = {'form_atividades' : form}
+#     return render(request, template_name, context)
+
+
 @login_required
 def meus_eventos(request):
     template_name = 'evento/meus_eventos.html'
-
     context = {'meus_eventos' : request.user.get_eventos()}
-
     return render(request, template_name, context)
 
 @login_required
@@ -110,4 +125,18 @@ def exibir_evento(request, eventos_id):
     template_name = 'evento/exibir_evento.html'
 
     evento = Evento.objects.get(id=eventos_id)
-    return render(request, template_name, {'exibir_evento' : evento})
+
+    if request.method == 'POST':
+        form = RegistrarAtividades(request.POST)
+
+        if form.is_valid():
+            atividades = form.save(commit=False)
+            evento.add_atividade(atividades)
+            atividades.save()
+    else:
+        form = RegistrarAtividades()
+    context = {'form_atividades' : form, 'exibir_evento' : evento}
+
+    return render(request, template_name, context)
+
+
