@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="no-js">
 
-<head>
+<>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
@@ -14,17 +14,20 @@
 
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-
+    <img src="img/212.png" all="logo" id="logo"/>
     <script>
     $(window).load(function() {
 	    $("#loading-center").click(function() {
-    	    $("#loading").fadeOut(500);
+                $("#loading").fadeOut(500);
 	    })
     });
 
     $(window).load(function() {
         $("#loading").fadeOut(500);
     })
+    function img() {
+
+    }
     </script>
 
     {%load bootstrap%}
