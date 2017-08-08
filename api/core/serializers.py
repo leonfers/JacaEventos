@@ -16,4 +16,4 @@ class AtividadeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Atividade
-        fields = ('id','nome','valor')
+        fields = ('id','nome','valor','evento')
