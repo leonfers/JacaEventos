@@ -80,15 +80,28 @@ header{
 }
 
 .slogan_jaca {
-    font-size: 18px;
-    text-color: #757575;
-    padding: 19px;
+    font-size: 20px;
+    color: #fff;
+    padding: 20px;
+    margin-top: -5px;
+    margin-bottom: 35px;
+    background-color: #616161;
+    text-align: center;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.slogan_jaca_login {
+    font-size: 20px;
+    color: #616161;
+    padding: 20px;
+    margin-top: -5px;
+    margin-bottom: 35px;
     text-align: center;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .bemvindo {
-    font-size: 10px;
+    font-size: 12px;
     text-color: #fff;
     color: #fff;
     margin-bottom: 25px;
@@ -134,7 +147,7 @@ header{
     height: 50px;
     margin-left: 10px;
     border-radius: 50%;
-    margin-top: -25px;
+    margin-top: -15px;
     margin-bottom: 10px;
 }
 
