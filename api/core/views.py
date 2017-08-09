@@ -3,7 +3,7 @@ from core.models import Evento, Atividade
 from rest_framework import viewsets, authentication, permissions
 from api.views import DefaultMixin
 
-class EventoViewSet(DefaultMixin, viewsets.ReadOnlyModelViewSet):
+class EventoViewSet(DefaultMixin, viewsets.ModelViewSet):
     """API endpoint for listing eventos."""
 
     queryset = Evento.objects.all()
@@ -13,7 +13,7 @@ class EventoViewSet(DefaultMixin, viewsets.ReadOnlyModelViewSet):
     ordering_fields = ('id')
 
 
-class AtividadeViewSet(DefaultMixin, viewsets.ReadOnlyModelViewSet):
+class AtividadeViewSet(DefaultMixin, viewsets.ModelViewSet):
     """API endpoint for listing atividades."""
 
     queryset = Atividade.objects.all()

@@ -1,0 +1,49 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}" />
+    <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}"/>
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'js/?custom.js' %}"></script>-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <title>Jaca Eventos</title>
+
+    {%load bootstrap%}
+<body>
+
+<header><a href="{% url 'login' %}" class="slogan_jaca_login"><h3>LOGO</h3></a></header>
+<br><br><br><br><br>
+<div class="container">
+    <div class="col-sm-4" align="center">
+        {%block form_login%}
+
+        {%endblock%}
+    </div>
+    <div class="col-sm-8" align="center">
+        <!--<div class="section no-pad-bot" id="index-banner">-->
+            <br><br>
+            <!--<h1 align="center">Jaca Eventos</h1>-->
+            <!--<div class="container">-->
+                <!--<div class="row center" align="center">-->
+                    <!--<h5>Slogan eventos</h5>-->
+                    <img class="imagem-logo" src="../static/img/logo.png">
+                <!--</div>-->
+                <br><br>
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,55 +1,59 @@
 from django.db import models
 from user.models import Usuario
 from utils.EscolhaEnum import EscolhaEnum
+from enumfields import EnumField
+from enumfields import Enum
 from abc import ABCMeta
 
 ############ Enums###############
 from utils.models import Horario
 
 
-class StatusEvento(EscolhaEnum):
-    inscricoes_abertas = 0
-    incricoes_fechado = 1
-    encerrado = 2
-    andamento = 4
+class StatusEvento(Enum):
+    INSCRICOES_ABERTAS = 'inscricoes_abertas'
+    INSCRICOES_FECHADAS = 'incricoes_fechado'
+    ENCERRADO = 'encerrado'
+    ANDAMENTO = 'andamento'
 
 
 class TipoAtividade(EscolhaEnum):
-    palestra = 0
-    minicurso = 1
-    workshop = 2
-    mesa_redonda = 3
+    PALESTRA = 'palestra'
+    MINICURSO = 'minicurso'
+    WORKSHOP = 'workshop'
+    MESA_REDONDA = 'mesa_redonda'
 
 
-class TipoEvento(EscolhaEnum):
-    congresso = 0
-    semana = 1
-    seminario = 2
+class TipoEvento(Enum):
+    CONGRESSO = 'congresso'
+    SEMANA = 'semana'
+    SEMINARIO = 'seminario'
+    PADRAO = 'padrao'
 
 
-class CategoriaAtividade(EscolhaEnum):
-    LOCAL = 0
-    SATELITE = 1
+class CategoriaAtividade(Enum):
+    LOCAL = 'local'
+    SATELITE = 'satelite'
 
-class TipoResponsavelAtividade(EscolhaEnum):
-    palestrantes = 0
-    professor = 1
-    staff = 3
+class TipoResponsavelAtividade(Enum):
+    PALESTRANTE = 'palestrantes'
+    PROFESSOR = 'professor'
+    STAFF = 'staff'
 
-class StatusAtividade(EscolhaEnum):
-    ativa = 0
-    inativa = 1
+class StatusAtividade(Enum):
+    ATIVA = 'ativa'
+    INATIVA = 'inativa'
 
-class TipoEspacoFisico(EscolhaEnum):
-    sala = 0
-    laboratorio = 1
-    auditorio = 2
-    predio = 3
-    ar_livre = 4
+class TipoEspacoFisico(Enum):
+    SALA = 'sala'
+    LABORATORIO = 'laboratorio'
+    AUDITORIO = 'auditorio'
+    PREDIO = 'predio'
+    AR_LIVRE = 'ar_livre'
 
-class TipoGerenciaEvento(EscolhaEnum):
-    dono = 0
-    staff = 1
+class TipoGerenciaEvento(Enum):
+    DONO = 'dono'
+    STAFF = 'staff'
+    PADRAO = 'padrao'
 
 
 #####################################
@@ -65,10 +69,17 @@ class Evento(models.Model):
         related_name='meus_eventos',
         blank=True, null=True)
 
+
     gerentes = models.ManyToManyField(
         'user.Usuario',
         through="GerenciaEvento",
         related_name="gerentes_do_evento")
+
+   
+    descricao = models.TextField('descricao', max_length=256, blank=True)
+    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
+    tipo_evento = EnumField(TipoEvento, max_length=25,default=TipoEvento.PADRAO)
+
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -87,10 +98,6 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
-
-    def get_tipo(self):
-        tipo = int(self.tipo_evento)
-        return TipoEvento(tipo).name()
 
     def get_dono(self):
         return self.dono.nome
@@ -128,6 +135,13 @@ class Evento(models.Model):
 
     def get_instituicoes(self):
         return Evento_Instituicao.objects.all().filter(evento_relacionado = self)
+
+    def get_valor(self):
+        valor = 0
+        atividades = self.get_atividades()
+        for i in range(len(atividades)):
+            valor += atividades[i].valor
+        return valor
 
     def add_instituicao(self,instituicao,tipo_relacionamento):
         try:
@@ -235,7 +249,7 @@ class GerenciaEvento(models.Model):
     evento = models.ForeignKey("core.Evento",
                                 related_name="evento_gerente",
                                 default="")
-    tipo_gerente = models.CharField(max_length=1, choices=EscolhaEnum.choices())
+    tipo_gerente = EnumField(TipoGerenciaEvento, max_length=25, default=TipoGerenciaEvento.PADRAO)
 
 class ResponsavelAtividade(models.Model):
     responsavel = models.ForeignKey("user.Usuario" ,
