@@ -9,9 +9,10 @@ urlpatterns = [
     url('^registrar/$', views.registrar, name='registrar'),
     url('^pagina_inicial/$', views.pagina_inicial, name='pagina_inicial'),
     url('^meus_eventos/$', views.meus_eventos, name='meus_eventos'),
+    url('^meus_eventos/(?P<eventos_id>\d+)$', views.exibir_evento, name='exibir_evento'),
     url('^registrar_evento/$', views.registrar_eventos, name='registrar_eventos'),
-    url('^participar_eventos/$', views.participar_eventos, name='participar_eventos'),
-    url('^$', login, {'template_name': 'login.html'}, name='login'),
+    url('^registrar_instituicoes/$', views.registrar_instituicoes, name='registrar_instituicoes'),
+    url('^$', login, {'template_name': 'login/form_login.html'}, name='login'),
     # url('^', login, {'template_name': 'login_usuario.html'}, name='login_usuario'),
     url('^logout/', logout_then_login, {'login_url' : 'login'}, name='logout_usuario')
 

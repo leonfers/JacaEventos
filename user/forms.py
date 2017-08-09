@@ -1,11 +1,12 @@
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
 
-from core.models import Evento, Atividade
+from core.models import Evento, Atividade, TipoEvento, Tag, Instituicao
 
 User = get_user_model()
 
@@ -37,26 +38,34 @@ class RegistrarUsuario(forms.ModelForm):
         fields = ['username','email','nome']
 
 
-
 class RegistrarEvento(forms.ModelForm):
-
-#   def verificar_evento:
 
     class Meta:
         model = Evento
+        exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
+        fields = '__all__'
+
+
+class AdicionarTagEmEventos(forms.ModelForm):
+
+    class Meta:
+        model = Tag
         fields = '__all__'
 
 
 class RegistrarAtividades(forms.ModelForm):
 
+    # lista_instituicoes = forms.Select(label='Lista Instituições', widget=forms.Select)
+
     class Meta:
         model = Atividade
+        exclude = {'trilha', 'evento'}
         fields = '__all__'
 
 
+class RegistrarInstituicoes(forms.ModelForm):
 
-
-
-
-
+    class Meta:
+        model = Instituicao
+        fields = '__all__'
 
