@@ -15,12 +15,14 @@ class Pagamento(models.Model):
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamentos'
 
+
     def __str__(self):
         return self.valor_pagamento;
 
 
 class Cupom(models.Model):
     codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True)
+    porcentage = models.DecimalField("porcentagem_desconto", max_digits=2, decimal_places=2)
     periodo =  models.OneToOneField(
         'utils.Periodo',
         on_delete=models.CASCADE,
@@ -34,3 +36,7 @@ class Cupom(models.Model):
 
     def __str__(self):
         return self.Cupons
+
+    def receberDesconto(self, valor):
+        return valor*self.porcentagem
+

@@ -6,7 +6,7 @@ from enumfields import Enum
 from abc import ABCMeta
 
 ############ Enums###############
-from utils.models import Horario
+from utils.models import Horario, Endereco
 
 
 class StatusEvento(Enum):
@@ -21,6 +21,7 @@ class TipoAtividade(EscolhaEnum):
     MINICURSO = 'minicurso'
     WORKSHOP = 'workshop'
     MESA_REDONDA = 'mesa_redonda'
+    PADRAO = 'padrao'
 
 
 class TipoEvento(Enum):
@@ -29,15 +30,21 @@ class TipoEvento(Enum):
     SEMINARIO = 'seminario'
     PADRAO = 'padrao'
 
+class TipoInstituicao(Enum):
+    APOIO = 'apoio'
+    PATROCINIO = 'patrocinio'
+    REALIZACAO = 'realizacao'
+    PADRAO = 'padrao'
 
 class CategoriaAtividade(Enum):
     LOCAL = 'local'
     SATELITE = 'satelite'
 
-class TipoResponsavelAtividade(Enum):
+class TipoResponsavel(Enum):
     PALESTRANTE = 'palestrantes'
     PROFESSOR = 'professor'
     STAFF = 'staff'
+    PADRAO = 'padrao'
 
 class StatusAtividade(Enum):
     ATIVA = 'ativa'
@@ -49,6 +56,7 @@ class TipoEspacoFisico(Enum):
     AUDITORIO = 'auditorio'
     PREDIO = 'predio'
     AR_LIVRE = 'ar_livre'
+    PADRAO = 'padrao'
 
 class TipoGerenciaEvento(Enum):
     DONO = 'dono'
@@ -64,10 +72,11 @@ class Evento(models.Model):
         verbose_name="dono",
         related_name='meus_eventos',
         blank=True, null=True)
-    gerentes = models.ManyToManyField('core.GerenciaEvento' , related_name="gerentes_do_evento")
+    gerentes = models.ManyToManyField('user.Usuario', related_name="gerentes_do_evento" ,through="GerenciaEvento")
+    espaco = models.ManyToManyField('core.EspacoFisico', related_name="gerentes_do_evento" ,through="EventoEspacoFisico")
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
-    tipo_evento = EnumField(TipoEvento, max_length=25,default=TipoEvento.PADRAO)
+    tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -121,7 +130,7 @@ class Evento(models.Model):
             return False
 
     def get_instituicoes(self):
-        return Evento_Instituicao.objects.all().filter(evento_relacionado = self)
+        return EventoInstituicao.objects.all().filter(evento_relacionado = self)
 
     def get_valor(self):
         valor = 0
@@ -135,7 +144,7 @@ class Evento(models.Model):
             self.save()
             instituicao.save()
 
-            evento_instituicao = Evento_Instituicao()
+            evento_instituicao = EventoInstituicao()
             evento_instituicao.tipo_relacionamento = tipo_relacionamento
             evento_instituicao.evento_relacionado = self
             evento_instituicao.instituicao = instituicao
@@ -151,6 +160,8 @@ class Evento(models.Model):
 class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
+    espaco = models.ManyToManyField('core.EspacoFisico', related_name="espacos_da_atividade",
+                                    through="AtividadeEspacoFisico")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
 
@@ -170,13 +181,6 @@ class Atividade(models.Model):
 
     def __str__(self):
         return self.nome
-
-'''
-class AtividadeSimples(Atividade):
-
-    class Meta:
-        verbose_name = 'AtividadeSimples'
-        verbose_name_plural = 'Atividades Simples'
 
 class AtividadeContinua(Atividade):
 
@@ -206,7 +210,6 @@ class AtividadeNeutra(Atividade):
             raise Exception("Esta atividade e obrigatoriamente gratuita")
 
         self.__dict__[valor] = 0
-'''
 
 
 class Trilha(models.Model):
@@ -219,6 +222,25 @@ class Trilha(models.Model):
     class meta:
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
+
+class ResponsavelTrilha(models.Model):
+    responsavel = models.ForeignKey("user.Usuario" ,
+                                related_name="usuario_responsavel_trilha" ,
+                                default="")
+    trilha = models.ForeignKey("core.Trilha",
+                                related_name="trilha_responsavel",
+                                default="")
+    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
+
+
+class ResponsavelAtividade(models.Model):
+    responsavel = models.ForeignKey("user.Usuario" ,
+                                related_name="usuario_responsavel_atividade" ,
+                                default="")
+    atividade = models.ForeignKey("core.Atividade",
+                                related_name="atividade_responsavel",
+                                default="")
+    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
 
 
 class GerenciaEvento(models.Model):
@@ -241,12 +263,13 @@ class Instituicao(models.Model):
         return self.nome
 
 
-class Evento_Instituicao(models.Model):
-    tipo_relacionamento = models.CharField('tipo', max_length=40 , default="")
+class EventoInstituicao(models.Model):
+    tipo_relacionamento = EnumField(TipoInstituicao, default=TipoInstituicao.PADRAO)
 
     instituicao = models.ForeignKey('core.Instituicao',verbose_name="Evento",
                                     related_name="evento_instituicao",
                                     default="")
+
     evento_relacionado = models.ForeignKey(Evento,
         verbose_name="Evento",
         related_name="evento_relacionado",
@@ -295,11 +318,15 @@ class Tag_Evento(models.Model):
     def __str__(self):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
 
+class EventoEspacoFisico(models.Model):
+    evento = models.ForeignKey("core.Evento",related_name="espaco_do_evento", default="")
+    espaco_fisico = models.ForeignKey("core.EspacoFisico",related_name="evento_do_espaco" ,default="")
 
-# Classes de Enum referente ao core
-# info:
-# para receber o enum na classes adicionar a seguinte linha:
-# <Varivel_tipo> = models.CharField(max_length=1, choices=EscolhaEnum.choices())
+class AtividadeEspacoFisico(models.Model):
+    atividade = models.ForeignKey("core.Atividade",related_name="espaco_da_atividade", default="")
+    espaco_fisico = models.ForeignKey("core.EspacoFisico",related_name="atividade_do_espaco" ,default="")
 
-#Query set Evento.objects.filter(dono_id=1)
-#Query set Evento.atividades_do_evento.get_queryset()
+class EspacoFisico(models.Model):
+    nome = models.TextField('nome', max_length=30 , default="")
+    endereco = models.ForeignKey(Endereco, related_name="endereco_espaco" ,default="")
+    tipoEspacoFisico = EnumField(TipoEspacoFisico , default=TipoEspacoFisico.PADRAO)

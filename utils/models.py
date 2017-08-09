@@ -34,3 +34,7 @@ class HorarioAtividade(Horario):
     class Meta:
         verbose_name = 'Horario_da_atividdade'
         verbose_name_plural = 'Horarios_da_ativiade '
+
+class Endereco(models.Model):
+    class Meta:
+        verbose_name ="endereco"
