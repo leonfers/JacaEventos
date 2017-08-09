@@ -233,6 +233,15 @@ class Trilha(models.Model):
     class meta:
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
+class TrilhaInscricao(models.Model):
+    trilha = models.ForeignKey('core.Evento' ,
+                               related_name="evento_trilha",
+                               verbose_name="evento")
+
+
+    inscricao = models.ForeignKey('user.Inscricao',
+                           related_name="trilha_inscricao",
+                           verbose_name="trilha_de_inscricao")
 
 class EventoSatelite(models.Model):
     evento = models.ForeignKey("core.Evento",
