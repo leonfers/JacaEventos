@@ -50,6 +50,8 @@ class StatusAtividade(Enum):
     ATIVA = 'ativa'
     INATIVA = 'inativa'
 
+
+
 class TipoEspacoFisico(Enum):
     SALA = 'sala'
     LABORATORIO = 'laboratorio'
@@ -92,11 +94,6 @@ class Evento(models.Model):
         'core.Tag',
         through="core.Tag_Evento",
         related_name='tags_do_evento')
-
-    eventos_satelite = models.ManyToManyField(
-        'core.Evento',
-        through="core.EventoSatelite",
-        related_name='eventos_satelites')
 
 
     class Meta:
@@ -166,6 +163,9 @@ class Evento(models.Model):
         except Exception as e:
             print("Falha ao adicionar Instituicao ")
             return False
+
+class EventoSatelite():
+    eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")
 
 
 class Atividade(models.Model):
@@ -237,25 +237,30 @@ class Trilha(models.Model):
                                verbose_name="evento")
     responsaveis = models.ManyToManyField(
         'user.Usuario',
-        through="core.ResponsavelTrilha",
+        through="ResponsavelTrilha",
         related_name="responsavel_trilha")
     class meta:
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
+
 class TrilhaInscricao(models.Model):
-    trilha = models.ForeignKey('core.Evento' ,
-                               related_name="evento_trilha",
-                               verbose_name="evento")
+
+    trilha = models.ForeignKey('core.Trilha' ,
+                               related_name="trilha_Inscricao",
+                               verbose_name="trilha_inscricao")
+    inscricao = models.ForeignKey('user.Inscricao',
+                               related_name="inscricao_trilha_Inscricao",
+                               verbose_name="trilha_incricao")
 
 
 class ResponsavelTrilha(models.Model):
-    responsavel = models.ForeignKey("user.Usuario" ,
-                                related_name="usuario_responsavel_trilha" ,
-                                default="")
+    responsavel = models.ForeignKey("user.Usuario",
+                                    related_name="usuario_responsavel_trilha",
+                                    default="")
     trilha = models.ForeignKey("core.Trilha",
-                                related_name="trilha_responsavel",
-                                default="")
-    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
+                                  related_name="trilha_dirigida",
+                                  default="")
+    tipo_responsavel_trilha = models.CharField(max_length=30)
 
 
 
@@ -277,15 +282,6 @@ class ResponsavelAtividade(models.Model):
                                 related_name="atividade_dirigida",
                                 default="")
     tipo_responsavel = models.CharField(max_length=1, choices=EscolhaEnum.choices())
-
-class ResponsavelTrilha(models.Model):
-    responsavel = models.ForeignKey("user.Usuario",
-                                    related_name="usuario_responsavel_trilha",
-                                    default="")
-    trilha = models.ForeignKey("core.Trilha",
-                                  related_name="trilha_dirigida",
-                                  default="")
-    tipo_responsavel_trilha = models.CharField(max_length=30)
 
 class Instituicao(models.Model):
     nome = models.CharField('nome', max_length=30 , default="")
