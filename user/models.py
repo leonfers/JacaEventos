@@ -5,20 +5,19 @@ from django.db import models
 from django.core import validators
 from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
+from enumfields import Enum, EnumField
 
 from utils.EscolhaEnum import EscolhaEnum
 
 
-class StatusCheckIn(EscolhaEnum):
-    naochecado = 0
-    presente = 1
-    ausente = 2
+class TipoResponsavelAtividade(Enum):
+    NAO_VERIFICADO = 'nao_verificado'
+    PRESENTE = 'presente'
+    AUSENTE = 'ausente'
 
-
-class StatusInscricao(EscolhaEnum):
-    ativa = 0
-    inativa = 1
-
+class StatusInscricao(Enum):
+    ATIVA = 'ativa'
+    INATIVA = 'INATIVA'
 
 #####################################
 
@@ -67,7 +66,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 
 class Inscricao(models.Model):
-    status_inscricao = models.BooleanField('Inscrito/Não Inscrito', blank=True, default=True)
+    status_inscricao = EnumField("user.StatusInscricao", related_name="status_inscricao" , default="")
     usuario = models.ForeignKey(
         'Usuario',
         verbose_name=('user'),
@@ -78,7 +77,8 @@ class Inscricao(models.Model):
     )
     evento = models.ForeignKey('core.Evento', default="")
 
-    atividade = models.ManyToManyField('core.Atividade', through="ItemInscricao")
+    atividades = models.ManyToManyField('core.Atividade', through="ItemInscricao")
+    trilhas = models.ManyToManyField('core.Trilha', through="TrilhaInscricao")
 
     class Meta:
         verbose_name = 'Id de Inscricao'
@@ -94,6 +94,12 @@ class Inscricao(models.Model):
         item_inscricao.inscricao = self
         item_inscricao.atividade = self.get_atividades()[id]
         item_inscricao.save()
+
+class CheckinAtividadeInscricao():
+    horario = models.OneToOneField("utils.Horario", related_name="horario_checkin" , default="", on_delete="CASCADE")
+    gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
+    status = EnumField("user.StatusCheckIn", related_name="status_checkin" , default="")
+    atividade = models.ForeignKey("core.Atividade" , related_name="checkin_atividade" ,default="")
 
 
 class ItemInscricao(models.Model):
