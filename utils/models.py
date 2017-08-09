@@ -12,6 +12,13 @@ class Periodo(models.Model):
     def __str__(self):
         return self.data_inicio.__str__() + "para " + self.data_fim.__str__()
 
+class Endereco(models.Model):
+    Pais = models.TextField(blank=True, null=False)
+    Estado = models.TextField(blank=True, null=False)
+    Cidade = models.TextField(blank=True, null=False)
+    Logradouro = models.TextField(blank=True, null=False)
+    Numero = models.TextField(blank=True, null=False)
+    CEP = models.TextField(blank=True, null=False)
 
 class Horario(models.Model):
     data = models.DateField("Data inicio", blank=True, null=False)
