@@ -60,7 +60,7 @@ class TipoEspacoFisico(Enum):
     AR_LIVRE = 'ar_livre'
     PADRAO = 'padrao'
 
-class TipoGerenciaEvento(Enum):
+class TipoGerencia(Enum):
     DONO = 'dono'
     STAFF = 'staff'
     PADRAO = 'padrao'
@@ -71,23 +71,19 @@ class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
-    tipo_evento = models.CharField(max_length=1, choices=TipoEvento.choices() ,blank=True)
+    tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
     endereco = models.ForeignKey('utils.Endereco' , related_name="endereco_do_evento")
-
+    periodo = models.ForeignKey('utils.periodo' , related_name="periodo_do_evento")
     dono = models.ForeignKey(
         'user.Usuario',
         verbose_name="dono",
         related_name='meus_eventos',
         blank=True, null=True)
+
     gerentes = models.ManyToManyField(
       'user.Usuario',
       related_name="gerentes_do_evento",
       through="GerenciaEvento")
-
-    descricao = models.TextField('descricao', max_length=256, blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
-    tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
-
 
     tags_do_evento = models.ManyToManyField(
         'core.Tag',
@@ -264,7 +260,7 @@ class GerenciaEvento(models.Model):
     evento = models.ForeignKey("core.Evento",
                                 related_name="evento_gerente",
                                 default="")
-    tipo_gerente = EnumField(TipoGerenciaEvento, max_length=25, default=TipoGerenciaEvento.PADRAO)
+    tipo_gerente = EnumField(TipoGerencia, max_length=25, default=TipoGerencia.PADRAO)
 
 class ResponsavelAtividade(models.Model):
     responsavel = models.CharField('nome', max_length=30, unique=True, blank=True)
@@ -342,7 +338,6 @@ class Tag_Evento(models.Model):
 
 class EspacoFisico(models.Model):
     nome = models.TextField('nome', max_length=30 , default="")
-    endereco = models.ForeignKey(Endereco, related_name="endereco_espaco" ,default="")
     tipoEspacoFisico = EnumField(TipoEspacoFisico , default=TipoEspacoFisico.PADRAO)
     capacidade = models.DecimalField("capacidade", max_digits=5, decimal_places=0 ,default=0)
     evento = models.ForeignKey("core.Evento",related_name="espaco_do_evento", default="")
