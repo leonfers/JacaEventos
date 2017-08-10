@@ -139,8 +139,8 @@ def exibir_evento(request, eventos_id):
 
         if form_tag_evento.is_valid():
             tag = form_tag_evento.save(commit=False)
+            tag.save()
             evento.add_tag(tag)
-            # tag.save()
 
             form_tag_evento = RegistrarTagEventos()
 
