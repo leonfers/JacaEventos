@@ -13,12 +13,12 @@ class Periodo(models.Model):
         return self.data_inicio.__str__() + "para " + self.data_fim.__str__()
 
 class Endereco(models.Model):
-    Pais = models.TextField(blank=True, null=False)
-    Estado = models.TextField(blank=True, null=False)
-    Cidade = models.TextField(blank=True, null=False)
-    Logradouro = models.TextField(blank=True, null=False)
-    Numero = models.TextField(blank=True, null=False)
-    CEP = models.TextField(blank=True, null=False)
+    pais = models.TextField(blank=True, null=False)
+    estado = models.TextField(blank=True, null=False)
+    cidade = models.TextField(blank=True, null=False)
+    logradouro = models.TextField(blank=True, null=False)
+    numero = models.TextField(blank=True, null=False)
+    cep = models.TextField(blank=True, null=False)
 
 class Horario(models.Model):
     data = models.DateField("Data inicio", blank=True, null=False)
@@ -26,15 +26,14 @@ class Horario(models.Model):
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
 
     class Meta:
-        abstract = True
         verbose_name = 'Horario'
         verbose_name_plural = 'Horario'
 
     def __str__(self):
         return self.data.__str__() + " de  " + self.hora_inicio.__str__() + " para  " + self.hora_fim.__str__()
 
-class HorarioAtividade(Horario):
-    atividade = models.ForeignKey("core.Atividade" ,
+class HorarioAtividadeContinua(Horario):
+    atividade = models.ForeignKey("core.AtividadeContinua" ,
                                   verbose_name="Atividade" ,
                                   related_name="Atividade" ,
                                   default="")
@@ -42,6 +41,3 @@ class HorarioAtividade(Horario):
         verbose_name = 'Horario_da_atividdade'
         verbose_name_plural = 'Horarios_da_ativiade '
 
-class Endereco(models.Model):
-    class Meta:
-        verbose_name ="endereco"
