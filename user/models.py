@@ -1,13 +1,11 @@
-from django import core
-from django.db import models
+
 import re
 from django.db import models
 from django.core import validators
-from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 from enumfields import Enum, EnumField
 
-from utils.EscolhaEnum import EscolhaEnum
+
 
 
 class TipoResponsavelAtividade(Enum):
@@ -18,6 +16,15 @@ class TipoResponsavelAtividade(Enum):
 class StatusInscricao(Enum):
     ATIVA = 'ativa'
     INATIVA = 'INATIVA'
+
+class TipoInscricao(Enum):
+    COMPLETA = 'COMPLETA'
+    PARCIAL = 'PARCIAL'
+
+class StatusCheckIn(Enum):
+    VERIFICADO = 'VERIFICADO'
+    NAO_VERIFICADO = 'NAO_VERIFICADO'
+    AUSENTE = 'AUSENTE'
 
 #####################################
 
@@ -66,7 +73,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 
 class Inscricao(models.Model):
-    status_inscricao = EnumField("user.StatusInscricao", related_name="status_inscricao" , default="")
+    status_inscricao = EnumField(StatusInscricao, default=StatusInscricao.ATIVA)
+    tipo_inscricao = EnumField(TipoInscricao, default=TipoInscricao.PARCIAL)
     usuario = models.ForeignKey(
         'Usuario',
         verbose_name=('user'),
@@ -78,7 +86,7 @@ class Inscricao(models.Model):
     evento = models.ForeignKey('core.Evento', default="")
 
     atividades = models.ManyToManyField('core.Atividade', through="ItemInscricao")
-    trilhas = models.ManyToManyField('core.Trilha', through="TrilhaInscricao")
+    trilhas = models.ManyToManyField('core.Trilha', through="core.TrilhaInscricao")
 
     class Meta:
         verbose_name = 'Id de Inscricao'
@@ -98,20 +106,10 @@ class Inscricao(models.Model):
 class CheckinAtividadeInscricao():
     horario = models.OneToOneField("utils.Horario", related_name="horario_checkin" , default="", on_delete="CASCADE")
     gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
-    status = EnumField("user.StatusCheckIn", related_name="status_checkin" , default="")
+    status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
     atividade = models.ForeignKey("core.Atividade" , related_name="checkin_atividade" ,default="")
 
 
 class ItemInscricao(models.Model):
     inscricao = models.ForeignKey('Inscricao', blank=True, default="",related_name="itens")
     atividade = models.ForeignKey('core.Atividade', blank=True, default="")
-
-class ResponsavelTrilha:
-    titulo = models.CharField('Titulo', blank=True, default="")
-    usuario = models.ForeignKey('user.Usuario',
-                                verbose_name="usuario",
-                                related_name="usuario")
-    trilha = models.ForeignKey('Trilha', verbose_name="trilha" , related_name="trilha")
-
-    class Meta:
-        unique_together = ('atividade','inscricao',)
