@@ -166,6 +166,10 @@ class EventoSatelite():
 class Atividade(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.TextField('descricao da atividade', blank=True)
+    trilhas = models.ManyToManyField(
+        'core.Trilha',
+        through="TrilhaAtividade",
+        related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
     periodo = models.ForeignKey('utils.Periodo',
@@ -227,6 +231,10 @@ class Trilha(models.Model):
         'user.Usuario',
         through="ResponsavelTrilha",
         related_name="responsavel_trilha")
+    atividades = models.ManyToManyField(
+        'core.Atividade',
+        through="TrilhaAtividade",
+        related_name="atividade_trilha")
     class meta:
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
@@ -268,7 +276,7 @@ class ResponsavelAtividade(models.Model):
     atividade = models.ForeignKey("core.Atividade",
                                 related_name="atividade_dirigida",
                                 default="")
-    tipo_responsavel = models.CharField(max_length=1, choices=EscolhaEnum.choices())
+    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
 
 class Instituicao(models.Model):
     nome = models.CharField('nome', max_length=30 , default="")
@@ -335,6 +343,9 @@ class Tag_Evento(models.Model):
     def __str__(self):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
 
+class AtividadeTrilha:
+    atividade = models.ForeignKey("core.Atividade", related_name="atividaddes_de_trilha" , default="")
+    trilha = models.ForeignKey("core.Trilha", related_name="trilhas_de_atividade", default="" )
 
 class EspacoFisico(models.Model):
     nome = models.TextField('nome', max_length=30 , default="")
