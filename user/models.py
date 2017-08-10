@@ -1,13 +1,11 @@
-from django import core
-from django.db import models
+
 import re
 from django.db import models
 from django.core import validators
-from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 from enumfields import Enum, EnumField
 
-from utils.EscolhaEnum import EscolhaEnum
+
 
 
 class TipoResponsavelAtividade(Enum):
@@ -18,6 +16,10 @@ class TipoResponsavelAtividade(Enum):
 class StatusInscricao(Enum):
     ATIVA = 'ativa'
     INATIVA = 'INATIVA'
+
+class TipoInscricao(Enum):
+    COMPLETA = 'COMPLETA'
+    PARCIAL = 'PARCIAL'
 
 class StatusCheckIn(Enum):
     VERIFICADO = 'VERIFICADO'
@@ -72,6 +74,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 class Inscricao(models.Model):
     status_inscricao = EnumField(StatusInscricao, default=StatusInscricao.ATIVA)
+    tipo_inscricao = EnumField(TipoInscricao, default=TipoInscricao.PARCIAL)
     usuario = models.ForeignKey(
         'Usuario',
         verbose_name=('user'),
