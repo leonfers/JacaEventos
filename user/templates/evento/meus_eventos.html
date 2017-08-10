@@ -1,50 +1,62 @@
 {% extends "geral/base.html" %}
-{%load bootstrap%}
 
-{% block corpo_base %}
-<br><br><br>
-<div class="container">
-    <!--{% for eventos in meus_eventos %}-->
-    <!--<div class="card"><a href="{% url 'exibir_evento' eventos.id %}">-->
-        <!--<div class="card-content">-->
-            <!--<h4>Nome evento: {{ eventos.nome }}</h4>-->
-            <!--<h4>Dono evento: {{ eventos.dono }}</h4>-->
-            <!--<h4>Tipo evento: {{ eventos.tipo_evento }}</h4>-->
-        <!--</div></a>-->
-    <!--</div>-->
-    <!--{%endfor%}-->
+{% block base %}
 
-    <div class="container">
-        <h1 class="page-header">Meus Eventos</h1>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th> Nome evento </th>
-                    <th> Dono evento </th>
-                    <th> Tipo evento </th>
-                    <th> Descrição evento </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for eventos in meus_eventos %}
-                <tr>
-                    <th>{{ eventos.id }}</th>
-                    <td>{{ eventos.nome }}</td>
-                    <td>{{ eventos.dono }}</td>
-                    <td>{{ eventos.tipo_evento }} </td>
-                    <td>{{ eventos.descricao }}</td>
-                    <td><a href="{% url 'exibir_evento' eventos.id %}">Entrar no Evento</a></td>
-                </tr>
 
-                 {%endfor%}
-                </tbody>
-            </table>
+<div class="row">
+    {% for evento in meus_eventos %}
+     <div class="col s4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
+                    <span class="card-title">{{evento.nome}}</span>
+                    <a href="{% url 'exibir_evento' evento.id %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">input</i></a>
+                </div>
+                <div class="card-content">
+                    <p>{{evento.descricao}}.</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        &copy; 2017 - Jaca Eventos LTDA
-    </div>
+    {%endfor%}
 </div>
+
+<!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+    <!--<div class="row">-->
+        <!--{% for evento in meus_eventos %}-->
+        <!--<div class="col s4">-->
+            <!--<div class="card">-->
+                <!--<div class="card-image waves-effect waves-block waves-light">-->
+                    <!--<img class="activator" src="../static/img/fundo_perfil.jpg" width="150px" height="200px">-->
+                <!--</div>-->
+                <!--<div class="card-content">-->
+                    <!--<span class="card-title activator grey-text text-darken-4">{{evento.nome}}<i class="material-icons right">more_vert</i></span>-->
+                    <!--<a href="{% url 'exibir_evento' evento.id %}">Entrar</a>-->
+                <!--</div>-->
+                <!--<div class="card-reveal">-->
+                    <!--<span class="card-title grey-text text-darken-4">Descricao<i class="material-icons right">close</i></span>-->
+                    <!--<h6><p>{{evento.descricao}}</p></h6>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--{%endfor%}-->
+    <!--</div>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
 {% endblock %}
+
+
+
+<!--<div class="card horizontal">-->
+    <!--<div class="card-image">-->
+        <!--<img src="../static/img/participar_eventos.png" width="80px" height="80px">-->
+    <!--</div>-->
+    <!--<div class="card-stacked">-->
+        <!--<div class="card-content">-->
+            <!--<h6><b>{{evento.nome}}</b></h6>-->
+            <!--<p>{{evento.descricao}}</p>-->
+        <!--</div>-->
+        <!--<div class="card-action">-->
+            <!--<a href="{% url 'exibir_evento' evento.id %}">Entrar</a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
