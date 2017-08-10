@@ -168,7 +168,7 @@ class Atividade(models.Model):
     descricao = models.TextField('descricao da atividade', blank=True)
     trilhas = models.ManyToManyField(
         'core.Trilha',
-        through="TrilhaAtividade",
+        through="AtividadeTrilha",
         related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
@@ -233,7 +233,7 @@ class Trilha(models.Model):
         related_name="responsavel_trilha")
     atividades = models.ManyToManyField(
         'core.Atividade',
-        through="TrilhaAtividade",
+        through="AtividadeTrilha",
         related_name="atividade_trilha")
     class meta:
         verbose_name = 'Trilha'
@@ -343,7 +343,7 @@ class Tag_Evento(models.Model):
     def __str__(self):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
 
-class AtividadeTrilha:
+class AtividadeTrilha(models.Model):
     atividade = models.ForeignKey("core.Atividade", related_name="atividaddes_de_trilha" , default="")
     trilha = models.ForeignKey("core.Trilha", related_name="trilhas_de_atividade", default="" )
 
