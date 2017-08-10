@@ -16,7 +16,7 @@ class StatusEvento(Enum):
     ANDAMENTO = 'andamento'
 
 
-class TipoAtividade(EscolhaEnum):
+class TipoAtividade(Enum):
     PALESTRA = 'palestra'
     MINICURSO = 'minicurso'
     WORKSHOP = 'workshop'
@@ -118,10 +118,12 @@ class Evento(models.Model):
     def get_tags(self):
         return self.tags_do_evento.all()
 
+    def get_gerentes(self):
+        return self.gerentes.all()
+
     def add_tag(self,tag):
         try:
-            self.save()
-            tag.save()
+
             tag_evento = Tag_Evento()
             tag_evento.tag = tag
             tag_evento.evento = self
@@ -158,6 +160,7 @@ class Evento(models.Model):
         except Exception as e:
             print("Falha ao adicionar Instituicao ")
             return False
+
 
 class EventoSatelite():
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")

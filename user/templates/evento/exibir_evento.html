@@ -1,24 +1,217 @@
 {% extends "geral/base.html" %}
-{%load bootstrap%}
 
-{% block corpo_base %}
-<br><br><br><br><br><br>
-<div class="container">
-    {{exibir_evento.nome}}
-    <form class="form-horizontal" method="POST">
-        {% csrf_token %}
-        <div class="container" align="center">
-            <fieldset>
-                <div class="container">
-                    <div class="col-sm-4" align="center">
-                        <h5>Adicione atividades ao seu evento</h5>
-                        {{ form_atividades|bootstrap }}
-                        <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+{% block base %}
+
+<ul class="collapsible popout" data-collapsible="accordion">
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">library_books</i>Descrição</div>
+        <div class="collapsible-body"><span>{{exibir_evento.descricao}}<br>Valor total: {{exibir_evento.valor}}<br>Status do evento: {{exibir_evento.status_evento}}</span></div>
+    </li>
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">people</i>Gerentes</div>
+        <div class="collapsible-body"><span>
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">perm_identity</i>{{ exibir_evento.dono }}</div>
+                    <div class="collapsible-body"><span>Dono do evento</span></div>
+                </li>
+                {% for gerente in exibir_evento.get_gerentes %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">person</i>{{ gerente }}</div>
+                    <div class="collapsible-body"><span>{{ gerente.tipo_gerente.title }}</span></div>
+                </li>
+                {%endfor%}
+            </ul>
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{exibir_evento.nome}}</b></div>
+                <div class="collapsible-body"><span>
+                    <div class="card-content">
+                        <form class="form-horizontal" method="POST">
+                            {% csrf_token %}
+                            <fieldset>
+                                <div class="container">
+                                    <div class="col s6" align="center">
+                                        <!--<h5>Adicione gerentes a <b>{{exibir_evento.nome}}</b></h5>-->
+                                        {{ form_gerente}}
+                                        <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
+                    </span>
                 </div>
-            </fieldset>
-        </div>
-        <br>
-    </form>
-</div>
+            </li>
+        </ul>
+        </span></div>
+    </li>
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">event_note</i>Atividades</div>
+        <div class="collapsible-body"><span>
+            <ul class="collapsible popout" data-collapsible="accordion">
+                {% for evento in exibir_evento.get_atividades %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">storage</i>{{evento.nome}}</div>
+                    <div class="collapsible-body"><span>Descrição: {{evento.descricao}}<br>Valor: {{evento.valor}}</span></div>
+                </li>
+                {%endfor%}
+            </ul>
+            <ul class="collapsible popout" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
+                        <div class="card-content">
+                            <form class="form-horizontal" method="POST">
+                                {% csrf_token %}
+                                <!--<fieldset>-->
+                                    <div class="container">
+                                        <div class="col s6" align="center">
+                                            <!--<h5>Adicione atividades a <b>{{exibir_evento.nome}}</b></h5>-->
+                                            {{ form_atividades}}
+                                            {{ form_periodo }}
+                                            <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                                        </div>
+                                    </div>
+                                <!--</fieldset>-->
+                            </form>
+
+                        </div>
+
+                    </span>
+                </div>
+            </li>
+        </ul>
+        </span></div>
+    </li>
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">layers</i>Tipo</div>
+        <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
+    </li>
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">sync</i>Eventos Satelite</div>
+        <div class="collapsible-body"><span>
+
+            <!--<ul class="collapsible popout" data-collapsible="accordion">-->
+            <!--{% for gerente in exibir_evento.get_gerentes %}-->
+            <!--<li>-->
+            <!--<div class="collapsible-header"><i class="material-icons">filter_drama</i>{{gerente}}</div>-->
+            <!--</li>-->
+            <!--{%endfor%}-->
+            <!--</ul>-->
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Adicionar Eventos satelites a <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
+
+                        <div class="card-content">
+                            <form class="form-horizontal" method="POST">
+                                {% csrf_token %}
+                                <!--<fieldset>-->
+                                    <div class="container">
+                                        <div class="col s6" align="center">
+                                            <!--{{ form_evento_satelite}}-->
+                                            <button type="submit" name="_submit" class="btn">Adicionar</button>
+                                        </div>
+                                    </div>
+                                <!--</fieldset>-->
+                            </form>
+
+                        </div>
+
+                    </span></div>
+                </li>
+            </ul>
+
+        </span></div>
+    </li>
+
+    <li>
+        <div class="collapsible-header"><i class="material-icons">local_offer</i>Tags</div>
+        <div class="collapsible-body"><span>
+
+             <ul class="collapsible popout" data-collapsible="accordion">
+                {% for tag in exibir_evento.get_tags %}
+                    <div class="chip">
+                        {{ tag }}
+                        <i class="close material-icons">close</i>
+                    </div>
+                {%endfor%}
+            </ul>
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Adicionar Tags ao <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
+
+                        <div class="card-content">
+                            <form class="form-horizontal" method="POST">
+                                {% csrf_token %}
+                                <!--<fieldset>-->
+                                    <div class="container">
+                                        <div class="col s6" align="center">
+                                            {{ form_tag_evento }}
+                                            <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                                        </div>
+                                    </div>
+                                <!--</fieldset>-->
+                            </form>
+                        </div>
+                    </span></div>
+                </li>
+            </ul>
+
+        </span></div>
+    </li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">place</i>Localização</div>
+        <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
+    </li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">location_city</i>Instituições Associadas</div>
+        <div class="collapsible-body"><span>
+
+             <ul class="collapsible popout" data-collapsible="accordion">
+                {% for instituicoes in exibir_evento.get_instituicoes %}
+                    <div class="chip">
+                        {{ instituicoes }}
+                        <i class="close material-icons">close</i>
+                    </div>
+                {%endfor%}
+            </ul>
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Associar Instituições ao <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
+
+                        <div class="card-content">
+                            <form class="form-horizontal" method="POST">
+                                {% csrf_token %}
+                                <!--<fieldset>-->
+                                    <div class="container">
+                                        <div class="col s6" align="center">
+                                            {{ form_instituicao_evento }}
+                                            <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                                        </div>
+                                    </div>
+                                <!--</fieldset>-->
+                            </form>
+                        </div>
+                    </span></div>
+                </li>
+            </ul>
+
+        </span></div>
+    </li>
+
+</ul>
 {% endblock %}

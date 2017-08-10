@@ -1,0 +1,61 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+ul.horizontal > li {
+    display: inline;
+    /* You can also add some margins here to make it look prettier */
+    zoom:1;
+    *display:inline;
+    /* this fix is needed for IE7- */
+}
+
+.hidden {
+  display: none;
+}
+
+.link {
+    color:blue;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+.material-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.vertical-align-middle {
+    vertical-align: middle;
+}
+
+.padding-bottom-3 {
+    padding-bottom: 3px;
+}
+
+

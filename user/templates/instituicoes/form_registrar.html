@@ -1,9 +1,5 @@
 {% extends "geral/base.html" %}
-{%load bootstrap%}
-<br><br><br><br>
-{%block corpo_base%}
-<br><br><br>
-
+{%block base%}
 
 <div id="loading">
     <div id="loading-center">
@@ -18,7 +14,7 @@
         <div class="container" align="center">
             <h5>Registrar Instituições</h5>
             <fieldset>
-                {{ form_instituicoes|bootstrap }}
+                {{ form_instituicoes }}
                 <button type="submit" name="_submit" class="btn">Registrar</button><br><br>
             </fieldset>
         </div>

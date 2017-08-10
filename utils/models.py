@@ -2,8 +2,11 @@ from django.db import models
 
 
 class Periodo(models.Model):
-    data_inicio = models.DateField("Data inicio", blank=True, null=False , default="2017-1-1")
-    data_fim = models.DateField("Data fim", blank=True, null=False , default="2017-1-1")
+    # data_inicio = models.DateField("Data inicio", blank=True, null=False , default="2017-1-1")
+    # data_fim = models.DateField("Data fim", blank=True, null=False , default="2017-1-1")
+
+    data_inicio = models.DateField("Data inicio", blank=True, null=False)
+    data_fim = models.DateField("Data fim", blank=True, null=False)
 
     class Meta:
         verbose_name = 'Periodo'

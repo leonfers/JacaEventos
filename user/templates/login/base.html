@@ -4,46 +4,71 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}" />
-    <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}"/>
-
-    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-    <!--<script type="text/javascript" src="{% static 'js/?custom.js' %}"></script>-->
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
     <title>Jaca Eventos</title>
 
-    {%load bootstrap%}
-<body>
+    <script>
+    $(window).load(function() {
+	    $("#loading-center").click(function() {
+                $("#loading").fadeOut(500);
+	    })
+    });
 
-<header><a href="{% url 'login' %}" class="slogan_jaca_login"><h3>LOGO</h3></a></header>
-<br><br><br><br><br>
-<div class="container">
-    <div class="col-sm-4" align="center">
-        {%block form_login%}
+    $(window).load(function() {
+        $("#loading").fadeOut(500);
+    })
+    function img() {
 
-        {%endblock%}
+    }
+    </script>
+</head>
+
+  <nav>
+    <div class="nav-wrapper">
+      <a a href="{% url 'login' %}" class="brand-logo center">Logo</a>
     </div>
-    <div class="col-sm-8" align="center">
-        <!--<div class="section no-pad-bot" id="index-banner">-->
-            <br><br>
-            <!--<h1 align="center">Jaca Eventos</h1>-->
-            <!--<div class="container">-->
-                <!--<div class="row center" align="center">-->
-                    <!--<h5>Slogan eventos</h5>-->
-                    <img class="imagem-logo" src="../static/img/logo.png">
-                <!--</div>-->
-                <br><br>
-            <!--</div>-->
-        <!--</div>-->
+  </nav>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col s6" align="center">
+            {%block form_login%}
+
+            {%endblock%}
+        </div>
+        <div class="col s6" align="center">
+            <img class="imagem-logo" src="../static/img/logo.png"/>
+        </div>
     </div>
 </div>
-
-
 </body>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Jaca Eventos</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            Made with <a class="teal-text text-lighten-3" href="http://materializecss.com"> Materialize</a>
+        </div>
+    </div>
+</footer>
 </html>
