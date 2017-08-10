@@ -40,7 +40,7 @@ class PagamentoCupom(models.Model):
 
 class Cupom(models.Model):
     codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True)
-    porcentagem = models.DecimalField("porcentagem_desconto", max_digits=2, decimal_places=2)
+    porcentagem = models.DecimalField("porcentagem", max_digits=2, decimal_places=0 , default=0)
     status = EnumField(StatusCupom, max_length=25, default=StatusCupom.ATIVO)
     tipo = EnumField(TipoCupom, max_length=25, default=TipoCupom.SIMPLES)
     evento = models.ForeignKey('core.Evento', related_name="cupom_do_evento" , default="")
