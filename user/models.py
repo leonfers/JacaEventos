@@ -103,8 +103,9 @@ class Inscricao(models.Model):
         item_inscricao.atividade = self.get_atividades()[id]
         item_inscricao.save()
 
-class CheckinItemInscricao():
-    horario = models.OneToOneField("utils.Horario", related_name="horario_checkin" , default="", on_delete="CASCADE")
+class CheckinItemInscricao(models.Model):
+    data = models.DateField('Data de entrada', auto_now_add=True)
+    hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
     gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
@@ -112,5 +113,5 @@ class CheckinItemInscricao():
 class ItemInscricao(models.Model):
     inscricao = models.ForeignKey('Inscricao', blank=True, default="",related_name="itens")
     atividade = models.ForeignKey('core.Atividade', blank=True, default="")
-    checkin = models.ForeignKey('user.CheckinItemInscricao', default="")
+    checkin = models.ForeignKey('CheckinItemInscricao', default="" , null=True)
 
