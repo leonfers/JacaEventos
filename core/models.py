@@ -68,7 +68,7 @@ class TipoGerencia(Enum):
 
 #####################################
 class Evento(models.Model):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=True)
+    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
@@ -78,7 +78,7 @@ class Evento(models.Model):
         'user.Usuario',
         verbose_name="dono",
         related_name='meus_eventos',
-        blank=True, null=True)
+        blank=False, null=False)
 
     gerentes = models.ManyToManyField(
       'user.Usuario',
