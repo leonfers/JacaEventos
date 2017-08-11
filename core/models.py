@@ -167,14 +167,14 @@ class EventoSatelite():
 
 
 class Atividade(models.Model):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=True)
+    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
     trilhas = models.ManyToManyField(
         'core.Trilha',
         through="AtividadeTrilha",
         related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades",null=False)
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",
