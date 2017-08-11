@@ -2,21 +2,13 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="no-js">
 
-<>
+<head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/icon.css' %}">
-    <!--<link rel="stylesheet" href="{% static 'styles/style.css' %}" />-->
-    <!--<link rel="stylesheet" href="{% static 'styles/color/blue.css' %}" type="text/css">-->
-    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css'%}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!--<link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 
     <title>Jaca Eventos</title>
-
-    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!--<img src="img/212.png" all="logo" id="logo"/>-->
 
     <script>
     $(window).load(function() {
@@ -33,69 +25,106 @@
     }
     </script>
 
-    {%load bootstrap%}
 
-    <title>Pagina Inicial</title>
 </head>
+<nav>
+    <div class="nav-wrapper #fb8c00 orange darken-1">
+        <a href="" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="">Alterar senha</a></li>
+            <li><a  href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
+            <li><a href="">sass <span class="new badge">4</span></a></li>
+        </ul>
+    </div>
+</nav>
+
+<ul id="slide-out" class="side-nav">
+
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="../static/img/fundo_perfil.jpg" width="300px" height="220px">
+            </div>
+            <a href="#!user"><img class="circle" src="../static/img/photo.jpg" width="64px" height="64px"></a>
+            <a href="#!name"><span class="black-text name">Bem Vindo, {{user.nome.title}}</span></a>
+            <a href="#!email"><span class="black-text email">{{user.email}}</span></a>
+        </div>
+    </li>
+
+    <li><a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a></li>
+    <!--<i class="material-icons">cloud-->
+    <!--<li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>-->
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}">Instituições</a></li>
+    <li><div class="divider"></div></li>
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>
+            <div class="collapsible-body">
+                <ul>
+                    <li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>
+                    <li><a href="#!">Buscar Eventos</a></li>
+                    <li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</ul>
+<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+
 <body>
 
-<header></header>
+<div class="container">
+    {% block base %}
 
-<input type="checkbox" id="chk">
-<!--<label for="chk" class="menu-icon">&#9776</label>-->
+    {% endblock %}
+</div>
 
-<div class="bg"></div>
+</body>
 
-<nav class="menu" id="principal">
-    <h5 class="slogan_jaca" >JACA EVENTOS</h5>
-    <div class="row">
-        <div class="col-sm-2">
-            <img class="imagemlogo" src="../static/img/photo.jpg">
-        </div>
-        <div class="col-sm-10">
-            <h6 class="bemvindo">Bem Vindo, {{user.nome.title}}</h6>
-        </div>
-    </div>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static 'teste/js/materialize.js' %}"></script>
+<script src="{% static 'teste/js/init.js' %}"></script>
+<script>
+    $().ready(function() {
+        $('select').material_select();
+      });
+    $('.datepicker').pickadate({
+        selectMonths: false, // Creates a dropdown to control month
+        selectYears: 70,
+        min: [1917,01,01],
+        max: false,
+        format: 'yyyy-mm-dd'
+    });
+</script>
 
-    <ul>
-        <!--<li><a href="" class="voltar">Voltar</a></li>-->
-        <li><a href="{% url 'pagina_inicial' %}">Pagina Inicial</a></li>
-        <li><a href="#cursos"><i class="material-icons">people_outline</i>&nbsp&nbsp Meus Eventos<span>+</span></a></li>
-        <li><a href="#instituicoes">Area das Instituições<span>+</span></a></li>
-        <li><a href="#contato">Meus Contatos<span>+</span></a></li>
-        <li><a href="{%url 'logout_usuario' %}">Sair</a></li>
-    </ul>
-</nav>
-
-<nav class="menu" id="cursos">
-    <ul>
-        <li><a href="#" class="voltar">Voltar</a></li>
-        <li><a href="{% url 'registrar_eventos' %}">Registrar Eventos</a></li>
-        <li><a href="#">Buscar Eventos</a></li> <!-- MUDAR NOME NA VIEW PARA BUSCAR EVENTOS -->
-        <li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>
-        <li><a href="#">Minhas Inscrições</a></li>
-    </ul>
-</nav>
-
-<nav class="menu" id="contato">
-    <ul>
-        <li><a href="#" class="voltar">Voltar</a></li>
-        <li><a href="#">Email</a></li>
-        <li><a href="#">Facebook</a></li>
-    </ul>
-</nav>
-
-<nav class="menu" id="instituicoes">
-    <ul>
-        <li><a href="#" class="voltar">Voltar</a></li>
-        <li><a href="{% url 'registrar_instituicoes' %}">Registrar Instituição</a></li>
-        <li><a href="#">Listar Instituições</a></li>
-    </ul>
-</nav>
-
-{% block corpo_base %}
+{% block scripts%}
 
 {% endblock %}
 
-</body>
+<br>
+<footer class="page-footer #fb8c00 orange darken-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Jaca Eventos</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            Made with <a class="teal-text text-lighten-3" href="http://materializecss.com"> Materialize</a>
+        </div>
+    </div>
+</footer>
 </html>

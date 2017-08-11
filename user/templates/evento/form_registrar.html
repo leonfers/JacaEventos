@@ -1,29 +1,35 @@
-{% extends "evento/registrar.html" %}
-{%load bootstrap%}
-{%block corpo%}
-
-<div id="loading">
-    <div id="loading-center">
-        <div id="loading-center-absolute">
-            <div id="object"></div>
-        </div>
+{% extends "geral/base.html" %}
+{% block base%}
+<div class="container" align="center">
+    <h3>Registre seus Eventos</h3>
+</div>
+<div class="row s12 center-align ">
+    <p></p>
+    <div class="card-panel container col l6 push-l3 pull-l3 s12">
+        <form method="POST" name="register" class="register-form">
+            {% csrf_token %}
+            {{ form_evento }}
+            {{ form_periodo }}
+            {{ form_endereco }}
+            <!--<form method="POST" name="register" class="register-form">-->
+                <!--{% csrf_token %}-->
+                <!---->
+            <!--</form>-->
+            <!--<form method="POST" name="register" class="register-form">-->
+                <!--{% csrf_token %}-->
+                <!---->
+            <!--</form>-->
+            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Cadastrar Evento</button><br><br>
+        </form>
+        <div class="center-align red-text text-lighten-2" id="erro"><br></div>
+        <p></p>
     </div>
 </div>
-
-<div class="container" align="center">
-    <form class="form-horizontal" method="POST">
-        {% csrf_token %}
-        <div class="container" align="center">
-            <h5>Registre seus Eventos</h5>
-            <!--<label>Dono: {{user.nome}}</label>-->
-            <fieldset>
-                {{ form_evento|bootstrap }}
-                <button type="submit" name="_submit" class="btn">Registrar</button><br><br>
-            </fieldset>
-        </div>
-        <br>
-    </form>
-</div>
-
 {% endblock %}
-
+{% block script %}
+<script>
+$().ready(function() {
+    $('select').material_select();
+  });
+</script>
+{% endblock %}

@@ -39,7 +39,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
                                               )])
 
     email = models.EmailField('E-mail', unique=True)
-    nome = models.CharField('Nome', max_length=100, blank=True)
+    nome = models.CharField('Nome', max_length=100, blank=False)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
     objects = UserManager()
 
