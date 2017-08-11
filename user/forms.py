@@ -1,12 +1,13 @@
-from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.admin import widgets
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
+from django import forms
+from core.models import TipoEvento
 
-from core.models import Evento, Atividade, TipoEvento, Tag, Instituicao
+from core.models import Evento, Atividade, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite
 
 User = get_user_model()
 
@@ -39,11 +40,16 @@ class RegistrarUsuario(forms.ModelForm):
 
 
 class RegistrarEvento(forms.ModelForm):
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
+    tipo_evento = forms.TypedChoiceField(choices=TipoEvento.choices(), coerce=str,required=False)
 
     class Meta:
         model = Evento
         exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
-        fields = '__all__'
+        fields = ['descricao','valor','tipo_evento']
+        #foram inseridos novos campos dentro do modelo de eventos
+        #tu vai ter que colocar no forms de registrar evento um registro de periodo e de endereço como fizemos em atividade antes.
+
 
 
 class AdicionarTagEmEventos(forms.ModelForm):
@@ -54,12 +60,11 @@ class AdicionarTagEmEventos(forms.ModelForm):
 
 
 class RegistrarAtividades(forms.ModelForm):
-
-    # lista_instituicoes = forms.Select(label='Lista Instituições', widget=forms.Select)
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}))
 
     class Meta:
         model = Atividade
-        exclude = {'trilha', 'evento'}
+        exclude = {'trilha', 'evento', 'periodo'}
         fields = '__all__'
 
 
@@ -68,4 +73,34 @@ class RegistrarInstituicoes(forms.ModelForm):
     class Meta:
         model = Instituicao
         fields = '__all__'
+
+
+class RegistrarGerentes(forms.ModelForm):
+
+    class Meta:
+        model = GerenciaEvento
+        exclude = {'evento'}
+        fields = '__all__'
+
+#
+# class RegistrarEventosSatelite(forms.ModelForm):
+#
+#     class Meta:
+#         model = EventoSatelite
+
+
+
+class RegistrarTagEventos(forms.ModelForm):
+
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+class AssociarInstituicoesEvento(forms.ModelForm):
+
+    class Meta:
+        model = EventoInstituicao
+        exclude = ['evento_relacionado']
+        fields = '__all__'
+
 

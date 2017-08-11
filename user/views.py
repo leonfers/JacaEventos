@@ -6,7 +6,7 @@ from .forms import *
 from user.models import Usuario
 from core.models import Evento
 from user.models import Usuario
-
+from utils.forms import PeriodoForm, EnderecoForm
 User = get_user_model()
 
 
@@ -42,43 +42,38 @@ def registrar_eventos(request):
 
     if request.method == 'POST':
         form_add_evento = RegistrarEvento(request.POST)
-        form_tag_evento = AdicionarTagEmEventos(request.POST)
+        form_periodo = PeriodoForm(request.POST)
+        form_endereco = EnderecoForm(request.POST)
 
-        if form_add_evento.is_valid():
+        if form_add_evento.is_valid() and form_periodo.is_valid and form_endereco:
             # tag_evento = form_tag_evento.save(commit=False)
             # tag_evento.evento.add_tag(request.user)
+            endereco = form_endereco.save(commit=False)
+            endereco.save()
+
+            periodo = form_periodo.save(commit=False)
+            periodo.save()
+
+            tipo_evento = request.POST['tipo_evento']
 
             evento = form_add_evento.save(commit=False)
             evento.dono = request.user
+            evento.tipo_evento = tipo_evento
+            evento.periodo = periodo
+            evento.endereco = endereco
 
             # tag_evento.save()
             evento.save()
             return redirect(settings.REGISTRAR_EVENTO) #resolver problema do redirecionamento
 
     else:
-        form_tag_evento = AdicionarTagEmEventos()
         form_add_evento = RegistrarEvento()
-    context = { 'form_evento': form_add_evento, 'form_adicionar_tag' : form_tag_evento}
+        form_periodo = PeriodoForm()
+        form_endereco = EnderecoForm()
+
+    context = { 'form_evento': form_add_evento, 'form_periodo' : form_periodo, 'form_endereco' : form_endereco}
 
     return render(request, template_name, context)
-
-#
-# @login_required
-# def registrar_eventos(request):
-#     template_name = 'evento/form_registrar.html'
-#
-#     if request.method == 'POST':
-#         form_add_evento = RegistrarEvento(request.POST)
-#         if form_add_evento.is_valid():
-#             evento = form_add_evento.save(commit=False)
-#             evento.dono = request.user
-#             evento.save()
-#             return redirect(settings.REGISTRAR_EVENTO)
-#     else:
-#         form_add_evento = RegistrarEvento()
-#     context = { 'form_evento': form_add_evento }
-#     return render(request, template_name, context)
-
 
 @login_required
 def registrar_instituicoes(request):
@@ -96,24 +91,6 @@ def registrar_instituicoes(request):
     context = {'form_instituicoes': form}
     return render(request, template_name, context)
 
-
-# @login_required
-# def registrar_atividades_evento(request):
-#     template_name = 'evento/exibir_evento.html'
-#
-#     if request.method == 'POST':
-#         form = RegistrarAtividades(request.POST)
-#
-#         if form.is_valid():
-#             atividades = form.save(commit=False)
-#             # request.user.add_atividade(atividades)
-#             atividades.save()
-#     else:
-#         form = RegistrarAtividades()
-#     context = {'form_atividades' : form}
-#     return render(request, template_name, context)
-
-
 @login_required
 def meus_eventos(request):
     template_name = 'evento/meus_eventos.html'
@@ -123,19 +100,58 @@ def meus_eventos(request):
 @login_required
 def exibir_evento(request, eventos_id):
     template_name = 'evento/exibir_evento.html'
-
     evento = Evento.objects.get(id=eventos_id)
 
-    if request.method == 'POST':
-        form = RegistrarAtividades(request.POST)
+    form_gerentes = RegistrarGerentes(request.POST)
+    form_tag_evento = RegistrarTagEventos(request.POST)
+    form = RegistrarAtividades(request.POST)
+    form_periodo = PeriodoForm(request.POST)
+    form_instituicao_evento = AssociarInstituicoesEvento(request.POST)
 
-        if form.is_valid():
+    if request.method == 'POST':
+        # TODO AINDA POR FAZER
+        if form_instituicao_evento.is_valid():
+            instituicao_evento = form_instituicao_evento.save(commit=False)
+            # instituicao_evento.evento_relacionado = evento
+            # evento.add_instituicao(instituicao_evento)
+            instituicao_evento.save()
+
+            form_instituicao_evento = AssociarInstituicoesEvento()
+
+        if form_periodo.is_valid() and form.is_valid():
+            periodo = form_periodo.save(commit=False)
+            periodo.save()
             atividades = form.save(commit=False)
+            atividades.periodo = periodo
             evento.add_atividade(atividades)
             atividades.save()
+
+            form = RegistrarAtividades()
+            form_periodo = PeriodoForm()
+
+        if form_gerentes.is_valid():
+            gerente = form_gerentes.save(commit=False)
+            gerente.evento = evento
+            gerente.save()
+
+            form_gerentes = RegistrarGerentes()
+
+
+        if form_tag_evento.is_valid():
+            tag = form_tag_evento.save(commit=False)
+            evento.add_tag(tag)
+            # tag.save()
+
+            form_tag_evento = RegistrarTagEventos()
+
     else:
+        form_gerentes = RegistrarGerentes()
         form = RegistrarAtividades()
-    context = {'form_atividades' : form, 'exibir_evento' : evento}
+        form_periodo = PeriodoForm()
+        form_tag_evento = RegistrarTagEventos()
+        form_instituicao_evento = AssociarInstituicoesEvento()
+
+    context = {'form_atividades' : form, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
 
     return render(request, template_name, context)
 

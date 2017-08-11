@@ -16,7 +16,7 @@ class StatusEvento(Enum):
     ANDAMENTO = 'andamento'
 
 
-class TipoAtividade(EscolhaEnum):
+class TipoAtividade(Enum):
     PALESTRA = 'palestra'
     MINICURSO = 'minicurso'
     WORKSHOP = 'workshop'
@@ -68,7 +68,7 @@ class TipoGerencia(Enum):
 
 #####################################
 class Evento(models.Model):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=True)
+    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
@@ -78,7 +78,7 @@ class Evento(models.Model):
         'user.Usuario',
         verbose_name="dono",
         related_name='meus_eventos',
-        blank=True, null=True)
+        blank=False, null=False)
 
     gerentes = models.ManyToManyField(
       'user.Usuario',
@@ -118,10 +118,12 @@ class Evento(models.Model):
     def get_tags(self):
         return self.tags_do_evento.all()
 
+    def get_gerentes(self):
+        return self.gerentes.all()
+
     def add_tag(self,tag):
         try:
-            self.save()
-            tag.save()
+
             tag_evento = Tag_Evento()
             tag_evento.tag = tag
             tag_evento.evento = self
@@ -159,19 +161,20 @@ class Evento(models.Model):
             print("Falha ao adicionar Instituicao ")
             return False
 
+
 class EventoSatelite():
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")
 
 
 class Atividade(models.Model):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=True)
+    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
     trilhas = models.ManyToManyField(
         'core.Trilha',
         through="AtividadeTrilha",
         related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades" ,default="")
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name="atividades",null=False)
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",

@@ -1,20 +1,16 @@
 {%extends "login/base.html"%}
-{%load bootstrap%}
 
 {%block form_login%}
-<br><br><br><br>
-
-    <form class="form-horizontal" method="POST">
-        {% csrf_token %}
-        <!--<div class="container" align="center">-->
-            <h2>Informe seus dados</h2><br>
-            <fieldset>
-                {{ form|bootstrap }}
-                <button type="submit" name="_submit" class="btn">Entrar</button><br><br>
-                <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
-            </fieldset>
-        <!--</div>-->
-        <br>
-    </form>
-
+<br><br><br>
+<div class="card ">
+    <div class="card-content">
+        <form method="POST" name="register" class="register-form">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Login</button><br><br>
+            <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
+        </form>
+        <div class="center-align red-text text-lighten-2" id="erro"><br></div>
+    </div>
+</div>
 {%endblock%}

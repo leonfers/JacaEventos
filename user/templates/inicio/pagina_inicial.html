@@ -1,54 +1,51 @@
 {% extends "geral/base.html" %}
-{%load bootstrap%}
 
-{% block corpo_base %}
-<div id="loading">
-    <div id="loading-center">
-        <div id="loading-center-absolute">
-            <div id="object"></div>
-        </div>
-    </div>
-</div>
+{% block base %}
+
 <br><br><br>
 
-<!--<div class="container">-->
-<!--<div class="card">-->
-<!--<div class="card-content">-->
-<!--<div class="container" align="center"> <h6>Bem Vindo, {{ user.nome.title }}</h6> </div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<div class="container">
-    <!--<div class="row">-->
-    <div class="col-sm-6">
-        <!--<div class="section no-pad-bot" id="index-banner">-->
-            <br><br>
+<!--<div class="container" align="center">-->
+    <div class="row">
+        <!--<div class="container" align="center">-->
+        <div class="col s4">
             <div class="card">
-                <img src="../static/img/participar_eventos.png" width="100px" height="100px">
+                <div class="card-image">
+                    <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
+                    <span class="card-title">Meus Eventos</span>
+                    <a href="{% url 'meus_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                </div>
                 <div class="card-content">
-                    <h4><b>Participe de Eventos</b></h4>
-                    <p>Aqui você encontra eventos de todos os tipos</p>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
                 </div>
             </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="/static/teste/images/registrar-evento.jpg" width="300px" height="300px">
+                    <span class="card-title">Registrar Evento</span>
+                    <a href="{% url 'registrar_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+                <div class="card-image">
+                    <img class="activator" src="../static/img/fundo_perfil.jpg" width="300px" height="300px">
+                    <!--<img src="/static/teste/images/participar-evento.jpg" width="300px" height="300px">-->
+                    <span class="card-title">Participe de Eventos</span>
+                    <a href="{% url 'registrar_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+            </div>
+        </div>
         <!--</div>-->
     </div>
-    <div class="col-sm-6">
-        <div class="row center">
-            <!--<div class="section no-pad-bot">-->
-                <br><br>
-                <a href="{%url 'registrar_eventos'%}"><div class="card">
-                    <img src="../static/img/meus_eventos.png" width="100px" height="100px">
-                    <div class="card-content">
-                        <h4><b>Registre seus proprios Eventos</b></h4>
-                        <p>Registre seus eventos e crie atividades fantasticas</p>
-                    </div>
-                </div></a>
-            <!--</div>-->
-        </div>
-    </div>
-
-</div>
 <!--</div>-->
 
 {% endblock %}
