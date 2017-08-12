@@ -2,9 +2,6 @@ from django.db import models
 
 
 class Periodo(models.Model):
-    # data_inicio = models.DateField("Data inicio", blank=True, null=False , default="2017-1-1")
-    # data_fim = models.DateField("Data fim", blank=True, null=False , default="2017-1-1")
-
     data_inicio = models.DateField("Data inicio", blank=True, null=False)
     data_fim = models.DateField("Data fim", blank=True, null=False)
 
@@ -24,7 +21,7 @@ class Endereco(models.Model):
     cep = models.TextField(blank=True, null=False)
 
 class Horario(models.Model):
-    data = models.DateField("Data inicio", blank=True, null=False ,default="2017-1-1")
+    data = models.DateField("Data inicio", blank=True, null=False)
     hora_inicio = models.TimeField("Hora inicio" , blank=True, null = False)
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
 
