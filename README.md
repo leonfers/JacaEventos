@@ -1,4 +1,4 @@
- # JacaEventos
+# JacaEventos
 Aplicativo de eventos criado para avaliacao da materia de programacao corporativa.
 
 #### Diagrama de classes
@@ -9,11 +9,11 @@ Aplicativo de eventos criado para avaliacao da materia de programacao corporativ
 ![Alt text](http://gdurl.com/eiR6 "Diagrama de caso de uso")
 
 #### Tecnologias usadas
-Python/Django - linguagem e framework
-PostgreSQL - Bonco de Dados
-Heroku - Deploy e Hospedagem
-Django Rest - Api
-padrao PEP 8 para python/django
+* Python/Django - linguagem e framework
+* PostgreSQL - Bonco de Dados
+* Heroku - Deploy e Hospedagem
+* Django Rest - Api
+* Padrao PEP 8 para python/django
 
 #### Observacoes
 
