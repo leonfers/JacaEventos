@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'utils',
     'user',
     'pagamento',
+    #polimorfismo
+    'polymorphic',
+
 ]
 
 MIDDLEWARE = [
