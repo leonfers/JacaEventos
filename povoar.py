@@ -12,7 +12,7 @@ usuario = Usuario()
 usuario.username = "will"
 usuario.email = "will@gmail.com"
 usuario.nome = "Wildrimak"
-usuario.password = "123456"
+usuario.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
 usuario.save()
 print("Usuario Criado")
 
@@ -53,7 +53,7 @@ usuario_gerente = Usuario()
 usuario_gerente.username = "jaum"
 usuario_gerente.email = "jaum@gmail.com"
 usuario_gerente.nome = "JaumNeto"
-usuario_gerente.password = "123456"
+usuario_gerente.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
 usuario_gerente.save()
 print("Usuario Criado")
 
@@ -163,7 +163,7 @@ usuario_inscrito = Usuario()
 usuario_inscrito.username = "Kassio"
 usuario_inscrito.email = "kassio@gmail.com"
 usuario_inscrito.nome = "Kassio"
-usuario_inscrito.password = "123456"
+usuario_inscrito.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
 usuario_inscrito.save()
 print("Usuario Cliente Criado")
 
