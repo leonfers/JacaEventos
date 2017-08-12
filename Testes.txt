@@ -1,0 +1,3 @@
+Comando para rodar os testes:
+
+python manage.py test nome-do-pacote.tests
