@@ -85,7 +85,7 @@ class Inscricao(models.Model):
     )
     evento = models.ForeignKey('core.Evento', default="")
 
-    atividades = models.ManyToManyField('core.Atividade', through="ItemInscricao")
+    atividades = models.ManyToManyField('core.AtividadeAbstrata', through="ItemInscricao")
     trilhas = models.ManyToManyField('core.Trilha', through="core.TrilhaInscricao")
 
     class Meta:
@@ -112,6 +112,6 @@ class CheckinItemInscricao(models.Model):
 
 class ItemInscricao(models.Model):
     inscricao = models.ForeignKey('Inscricao', blank=True, default="",related_name="itens")
-    atividade = models.ForeignKey('core.Atividade', blank=True, default="")
+    atividade = models.ForeignKey('core.AtividadeAbstrata', blank=True, default="")
     checkin = models.ForeignKey('CheckinItemInscricao', default="" , null=True)
 

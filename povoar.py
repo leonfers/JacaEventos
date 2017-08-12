@@ -85,6 +85,33 @@ tag_usuario.usuario = usuario
 tag_usuario.save()
 print("tag adicionada a um usuario")
 
+#criando atividade Neutra
+atividade_neutra = AtividadeAdministrativa()
+atividade_neutra.nome = "Credenciamento"
+atividade_neutra.descricao = "Credenciamento dos participantes"
+atividade_neutra.evento = evento
+print("Atividade Neutra Criada")
+
+#criando um periodo para atividade Neutra
+periodo_neutra = Periodo()
+periodo_neutra.data_inicio  = "2017-10-10"
+periodo_neutra.data_fim = "2017-10-10"
+periodo_neutra.save()
+print("periodo criado")
+
+#craindo um horario para atividade Neutra
+horario_neutra = Horario()
+horario_neutra.data = "2017-1-1"
+horario_neutra.hora_inicio = "20:00"
+horario_neutra.hora_fim = "22:00"
+horario_neutra.save()
+
+#voltando aos atributos de atividade Neutra
+atividade_neutra.periodo = periodo_neutra
+atividade_neutra.horario = horario_neutra
+atividade_neutra.save()
+print("periodo para atividade Criado")
+
 #criando atividade
 atividade = Atividade()
 atividade.nome = "Gilberto Gil"
@@ -100,8 +127,16 @@ periodo.data_fim = "2017-10-10"
 periodo.save()
 print("periodo criado")
 
+#craindo um horario para atividade
+horario = Horario()
+horario.data = "2017-1-1"
+horario.hora_inicio = "20:00"
+horario.hora_fim = "22:00"
+horario.save()
+
 #voltando aos atributos de atividade
 atividade.periodo = periodo
+atividade.horario = horario
 atividade.save()
 print("periodo para atividade Criado")
 
