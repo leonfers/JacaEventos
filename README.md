@@ -8,7 +8,7 @@ Aplicativo de eventos criado para avaliação da matéria de programação corpo
 #### Diagrama de caso de uso
 ![](http://gdurl.com/eiR6 "Diagrama de caso de uso")
 #### Arquitetura da solução
-![](http://gdurl.com/eiR6 "Diagrama de caso de uso")
+![](http://gdurl.com/UUGM "Arquitetura de solução")
 
 #### Tecnologias usadas
 * Python/Django - linguagem e framework
