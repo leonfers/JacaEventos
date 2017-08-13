@@ -12,7 +12,7 @@ Aplicativo de eventos criado para avaliação da matéria de programação corpo
 
 #### Tecnologias usadas
 * Python/Django - linguagem e framework
-* PostgreSQL - Bonco de Dados
+* PostgreSQL - Banco de Dados
 * Heroku - Deploy e Hospedagem
 * Django Rest - Api
 * Padrao PEP 8 para python/django
