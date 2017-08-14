@@ -45,10 +45,8 @@ class RegistrarEvento(forms.ModelForm):
 
     class Meta:
         model = Evento
-        exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
-        fields = ['descricao','valor','tipo_evento']
-        #foram inseridos novos campos dentro do modelo de eventos
-        #tu vai ter que colocar no forms de registrar evento um registro de periodo e de endereço como fizemos em atividade antes.
+        exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite','tipo_evento'}
+        fields = ['nome','descricao',]
 
 
 

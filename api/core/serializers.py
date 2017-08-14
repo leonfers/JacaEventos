@@ -6,7 +6,7 @@ class EventosSerializer(serializers.ModelSerializer):
 
     dono = serializers.CharField(source='get_dono',read_only=True)
     tipo = serializers.CharField(source='get_tipo',read_only=True)
-    valor = serializers.DecimalField(source='get_valor',read_only=True, max_digits=5, decimal_places=2,)
+    # valor = serializers.DecimalField(source='get_valor',read_only=True, max_digits=5, decimal_places=2,)
 
     class Meta:
         model = Evento
