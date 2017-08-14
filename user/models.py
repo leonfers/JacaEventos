@@ -1,8 +1,10 @@
 
 import re
+
 from django.db import models
 from django.core import validators
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
+
 from enumfields import Enum, EnumField
 
 
@@ -37,7 +39,7 @@ class StatusCheckIn(Enum):
 
 
 
-#####################################
+
 class Usuario(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         'Nome do Usuário',
@@ -59,9 +61,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
 
+
+
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
+
+
 
 
     def __str__(self):
@@ -98,9 +104,13 @@ class Inscricao(models.Model):
     trilhas = models.ManyToManyField('core.Trilha', through="core.TrilhaInscricao")
 
 
+
+
     class Meta:
         verbose_name = 'Id de Inscricao'
         verbose_name_plural = 'Id das Inscricoes'
+
+
 
 
     def get_atividades(self):

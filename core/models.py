@@ -5,8 +5,9 @@ from enumfields import EnumField
 from enumfields import Enum
 from polymorphic.models import PolymorphicModel
 
-############ Enums###############
 from utils.models import Horario, Endereco
+
+
 
 
 class StatusEvento(Enum):
@@ -87,7 +88,7 @@ class TipoGerencia(Enum):
 
 
 
-#####################################
+
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
@@ -110,9 +111,13 @@ class Evento(models.Model):
         related_name='tags_do_evento')
 
 
+
+
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
+
+
 
 
     def __str__(self):
@@ -203,9 +208,13 @@ class AtividadeAbstrata(PolymorphicModel):
                                 default="")
     
     
+
+
     class Meta:
         verbose_name = 'Atividade'
         verbose_name_plural = 'Atividades'
+
+
 
 
     def __str__(self):
@@ -217,6 +226,9 @@ class AtividadeAbstrata(PolymorphicModel):
 class Atividade(AtividadeAbstrata):
     horario = models.ForeignKey('utils.Horario' ,related_name="horario_atividade_simples")
 
+
+
+
     class Meta:
         verbose_name = 'AtividadeSimples'
         verbose_name_plural = 'Atividades Simples'
@@ -227,9 +239,13 @@ class Atividade(AtividadeAbstrata):
 class AtividadeContinua(AtividadeAbstrata):
 
 
+
+
     class Meta:
         verbose_name = 'AtividadeContinua'
         verbose_name_plural = 'AtividadesContinuas'
+
+
 
 
     def add_horario(self , horario):
@@ -243,9 +259,13 @@ class AtividadeAdministrativa(AtividadeAbstrata):
     valor = 0
 
 
+
+
     class Meta:
         verbose_name = 'AtividadeNeutra'
         verbose_name_plural = 'AtividadesNeutra'
+
+
 
 
     def add_horario(self , horario):
@@ -270,6 +290,8 @@ class Trilha(models.Model):
         through="AtividadeTrilha",
         related_name="atividade_trilha")
     
+
+
     
     class meta:
         verbose_name = 'Trilha'
@@ -328,9 +350,13 @@ class Instituicao(models.Model):
     nome = models.CharField('nome', max_length=30 , default="")
     
     
+
+
     class Meta:
         verbose_name = 'Instituicao'
         verbose_name_plural = 'Instituicoes'
+
+
 
 
     def __str__(self):
@@ -351,9 +377,13 @@ class EventoInstituicao(models.Model):
         default="")
 
 
+
+
     class Meta:
         verbose_name = 'Relacionamento_Instituicao_Evento'
         verbose_name_plural = 'Relacionamentos_Instituicao_Evento'
+
+
 
 
     def __str__(self):
@@ -366,10 +396,14 @@ class Tag(models.Model):
     nome = models.CharField('Tag', max_length=30)
 
 
+
+
     class Meta:
         ordering = ['nome']
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
+
+
 
 
     def __str__(self):
@@ -383,9 +417,13 @@ class Tag_Usuario(models.Model):
     usuario = models.ForeignKey(Usuario, related_name='tag_de_usuario' , default="")
 
 
+
+
     class Meta:
         verbose_name = 'Relacionamento_Tag_Usuario'
         verbose_name_plural = 'Relacionamentos_Tag_Usuario'
+
+
 
 
     def __str__(self):
@@ -399,9 +437,13 @@ class Tag_Evento(models.Model):
     evento = models.ForeignKey(Evento, related_name='tag_de_evento', default="")
 
 
+
+
     class Meta:
         verbose_name = 'Relacionamento_Tag_Evento'
         verbose_name_plural = 'Relacionamentos_Tag_Tag'
+
+
 
 
     def __str__(self):

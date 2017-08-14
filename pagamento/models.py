@@ -1,6 +1,8 @@
-from django.db import models
-# Create your models here.
 from enumfields import Enum, EnumField
+
+from django.db import models
+
+
 
 
 class StatusPagamento(Enum):
@@ -23,7 +25,7 @@ class TipoCupom(Enum):
 
 
 
-############################################################
+
 class Pagamento(models.Model):
     status = EnumField(StatusPagamento, default=StatusPagamento.NAO_PAGO)
     usuario_recebimento = models.ForeignKey("user.Usuario" , related_name="recebido_usuario" , default="")
@@ -34,9 +36,13 @@ class Pagamento(models.Model):
     valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
 
 
+
+
     class Meta:
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamentos'
+
+
 
 
     def __str__(self):
@@ -65,9 +71,13 @@ class Cupom(models.Model):
         )
 
 
+
+
     class Meta:
         verbose_name = 'Cupom'
         verbose_name_plural = 'Pagamentos'
+
+
 
 
     def __str__(self):
