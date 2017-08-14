@@ -1,21 +1,23 @@
 # JacaEventos
-Aplicativo de eventos criado para avaliacao da materia de programacao corporativa.
+Aplicativo de eventos criado para avaliação da matéria de programação corporativa.
 
 #### Diagrama de classes
-![Alt text](http://gdurl.com/K7mq "Diagrama de Classes")
+![](http://gdurl.com/K7mq "Diagrama de Classes")
 #### Diagrama entidade relacionamento
-![Alt text]("DER")
+![](http://gdurl.com/NmY2 "DER")
 #### Diagrama de caso de uso
-![Alt text](http://gdurl.com/eiR6 "Diagrama de caso de uso")
+![](http://gdurl.com/eiR6 "Diagrama de caso de uso")
+#### Arquitetura da solução
+![](http://gdurl.com/UUGM "Arquitetura de solução")
 
 #### Tecnologias usadas
 * Python/Django - linguagem e framework
-* PostgreSQL - Bonco de Dados
+* PostgreSQL - Banco de Dados
 * Heroku - Deploy e Hospedagem
 * Django Rest - Api
 * Padrao PEP 8 para python/django
 
-#### Observacoes
+#### Observações
 
 ** Para baixar e rodar o JacaEventos localmente:**
 
