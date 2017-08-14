@@ -7,16 +7,23 @@ class StatusPagamento(Enum):
     PAGO = 'PAGO'
     NAO_PAGO = 'NAO_PAGO'
 
+
+
+
 class StatusCupom(Enum):
     ATIVO = 'ATIVO'
     INATIVO = 'INATIVO'
+
+
+
 
 class TipoCupom(Enum):
     SIMPLES = 'SIMPLES'
     AUTOMATICO = 'AUTOMATICO'
 
-############################################################
 
+
+############################################################
 class Pagamento(models.Model):
     status = EnumField(StatusPagamento, default=StatusPagamento.NAO_PAGO)
     usuario_recebimento = models.ForeignKey("user.Usuario" , related_name="recebido_usuario" , default="")
@@ -26,6 +33,7 @@ class Pagamento(models.Model):
     cupons = models.ManyToManyField('pagamento.Cupom', through="PagamentoCupom" , default="")
     valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
 
+
     class Meta:
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamentos'
@@ -34,9 +42,15 @@ class Pagamento(models.Model):
     def __str__(self):
         return self.valor_pagamento;
 
+
+
+
 class PagamentoCupom(models.Model):
     pagamento = models.ForeignKey("pagamento.Pagamento" , related_name="pagamento_cupom" , default="")
     cupom = models.ForeignKey("pagamento.Cupom" , related_name="cupom_de_pagamento" , default="")
+
+
+
 
 class Cupom(models.Model):
     codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True)
@@ -50,13 +64,14 @@ class Cupom(models.Model):
         primary_key=True,
         )
 
+
     class Meta:
         verbose_name = 'Cupom'
         verbose_name_plural = 'Pagamentos'
+
 
     def __str__(self):
         return self.Cupons
 
     def receberDesconto(self, valor):
         return valor*self.porcentagem
-
