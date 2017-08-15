@@ -7,6 +7,8 @@ from django.shortcuts import render
 from .models import Periodo, Endereco
 from django.contrib.admin import widgets
 from datetime import date
+from localflavor.br.br_states import STATE_CHOICES
+
 
 class PeriodoForm(forms.ModelForm):
     data_inicio = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}),required=False)
@@ -23,8 +25,10 @@ class EnderecoForm(forms.ModelForm):
     logradouro = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
     numero = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
     cep = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
+    # estado = forms.TypedChoiceField(choices=STATE_CHOICES, coerce=str,required=False)
 
 
     class Meta:
         model = Endereco
-        fields = '__all__'
+        exclude =  ['pais','estado','cidade','logradouro',]
+        fields = ['cep']
