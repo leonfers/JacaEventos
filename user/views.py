@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import *
+import pycep_correios
 from user.models import Usuario
 from core.models import Evento
 from user.models import Usuario
@@ -49,6 +50,13 @@ def registrar_eventos(request):
             # tag_evento = form_tag_evento.save(commit=False)
             # tag_evento.evento.add_tag(request.user)
             endereco = form_endereco.save(commit=False)
+            # print(endereco.cep)
+            adress = pycep_correios.consultar_cep(endereco.cep)
+            print (adress)
+            endereco.cidade = adress['cidade']
+            endereco.estado = adress['uf']
+            endereco.logradouro = adress['end']
+            endereco.bairro = adress['bairro']
             endereco.save()
 
             periodo = form_periodo.save(commit=False)

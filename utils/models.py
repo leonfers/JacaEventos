@@ -1,5 +1,5 @@
 from django.db import models
-
+from localflavor.br.br_states import STATE_CHOICES
 
 class Periodo(models.Model):
     data_inicio = models.DateField("Data inicio", blank=True, null=False)
@@ -14,12 +14,14 @@ class Periodo(models.Model):
 
 class Endereco(models.Model):
     pais = models.TextField(blank=True, null=False)
-    estado = models.TextField(blank=True, null=False)
     cidade = models.TextField(blank=True, null=False)
+    bairro = models.TextField(blank=True, null=False)
     logradouro = models.TextField(blank=True, null=False)
     numero = models.TextField(blank=True, null=False)
     cep = models.TextField(blank=True, null=False)
+    estado = models.CharField(choices=STATE_CHOICES, max_length=2, default='??', blank=False,
 
+                             null=False)
 class Horario(models.Model):
     data = models.DateField("Data inicio", blank=True, null=False)
     hora_inicio = models.TimeField("Hora inicio" , blank=True, null = False)
