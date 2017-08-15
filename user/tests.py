@@ -1,10 +1,8 @@
 import datetime
 import pytest
-
 from django.utils import timezone
 from django.test import TestCase
 from django.urls import reverse
-
 from .models import *
 from core.models import *
 
@@ -23,8 +21,7 @@ class TestesPerfilUsuario(TestCase):
         usuario = Usuario()
         self.assertEqual(usuario.get_inscricoes(), [])
     
-    def test_nao_permitir_criacao_de_Evento_sem_nome(self):
-        
+    def test_nao_permitir_criacao_de_Evento_sem_nome(self): 
         Evento_sem_nome = Evento()
         self.assertEqual(Evento_sem_nome.nome,"")
 
