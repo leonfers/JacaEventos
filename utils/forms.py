@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
-from .models import Periodo, Endereco
+from .models import Periodo, Endereco, Horario
 from django.contrib.admin import widgets
 from datetime import date
 from localflavor.br.br_states import STATE_CHOICES
@@ -31,3 +31,10 @@ class EnderecoForm(forms.ModelForm):
         model = Endereco
         # exclude =  ['pais','estado','cidade','logradouro']
         fields = ['cep']
+
+class HorarioForm(forms.ModelForm):
+
+    class Meta:
+        model = Horario
+        exclude = ['data']
+        fields = '__all__'

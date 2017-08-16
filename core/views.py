@@ -6,7 +6,7 @@ import pycep_correios
 from user.models import Usuario
 from core.models import Evento
 from user.models import Usuario
-from utils.forms import PeriodoForm, EnderecoForm
+from utils.forms import *
 from django.conf import settings
 
 # @login_required
@@ -86,8 +86,6 @@ def meus_eventos(request):
     context = {'meus_eventos' : request.user.get_eventos()}
     return render(request, template_name, context)
 
-
-
 @login_required
 def exibir_evento(request, eventos_id):
     template_name = 'evento/exibir_evento.html'
@@ -104,11 +102,13 @@ def exibir_evento(request, eventos_id):
     form_atividade_administrativa = RegistrarAtividadeAdministrativa(request.POST)
     form_atividade_continua = RegistrarAtividadeContinua(request.POST)
 
+    form_horario = HorarioForm(request.POST)
+
     if request.method == 'POST':
 
-        formularioAtividadePadrao(form_atividade_padrao, evento)
-        formularioAtividadeAdministrativa(form_atividade_administrativa, evento)
-        formularioAtividadeContinua(form_atividade_continua, evento)
+        formularioAtividadePadrao(form_atividade_padrao,form_horario, evento)
+        formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, evento)
+        formularioAtividadeContinua(form_atividade_continua, form_horario, evento)
         formularioTag(form_tag_evento, evento)
         formularioGerente(form_gerentes, evento)
 
@@ -138,19 +138,17 @@ def exibir_evento(request, eventos_id):
         form_instituicao_evento = AssociarInstituicoesEvento()
 
         form_atividade_padrao = RegistrarAtividade()
+        form_atividade_administrativa = RegistrarAtividadeAdministrativa()
+        form_atividade_continua = RegistrarAtividadeContinua()
 
-    context = {'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
+        form_horario = HorarioForm()
+
+    context = {'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
 
     return render(request, template_name, context)
 
 
 # METODOS DO FORMULARIO
-def formularioAtividadePadrao(form_atividade_padrao, evento):
-    if form_atividade_padrao.is_valid():
-        atividade_padrao = form_atividade_padrao.save(commit=False)
-        atividade_padrao.save()
-        evento.add_atividade(atividade_padrao)
-
 def formularioTag(form_tag_evento, evento):
     if form_tag_evento.is_valid():
         tag = form_tag_evento.save(commit=False)
@@ -165,14 +163,33 @@ def formularioGerente(form_gerentes, evento):
         gerente.save()
         # form_gerentes = RegistrarGerentes()
 
-def formularioAtividadeAdministrativa(form_atividade_administrativa, evento):
-    if form_atividade_administrativa.is_valid():
+def formularioAtividadePadrao(form_atividade_padrao, form_horario, evento):
+    if form_atividade_padrao.is_valid() and form_horario.is_valid():
+        atividade_padrao = form_atividade_padrao.save(commit=False)
+        horario = form_horario.save(commit=False)
+        horario.save()
+        atividade_padrao.horario = horario
+        atividade_padrao.evento = evento
+        atividade_padrao.save()
+        evento.add_atividade(atividade_padrao)
+
+def formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, evento):
+    if form_atividade_administrativa.is_valid() and form_horario.is_valid():
         atividade_administrativa = form_atividade_administrativa.save(commit=False)
+        horario = form_horario.save(commit=False)
+        horario.save()
+        atividade_administrativa.horario = horario
+        atividade_administrativa.evento = evento
         atividade_administrativa.save()
+        evento.add_atividade(atividade_administrativa)
 
-def formularioAtividadeContinua(form_atividade_continua, evento):
-    if form_atividade_continua.is_valid():
+def formularioAtividadeContinua(form_atividade_continua, form_horario, evento):
+    if form_atividade_continua.is_valid() and form_horario.is_valid():
         atividade_continuna = form_atividade_continua.save(commit=False)
+        horario = form_horario.save(commit=False)
+        horario.save()
+        atividade_continuna.horario = horario
+        atividade_continuna.evento = evento
         atividade_continuna.save()
-
+        evento.add_atividade(atividade_continuna)
 
