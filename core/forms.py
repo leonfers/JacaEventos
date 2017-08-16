@@ -16,6 +16,7 @@ class RegistrarEvento(forms.ModelForm):
 
 
 class AdicionarTagEmEventos(forms.ModelForm):
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
         model = Tag
