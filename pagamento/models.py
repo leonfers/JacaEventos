@@ -1,8 +1,5 @@
 from enumfields import Enum, EnumField
-
 from django.db import models
-
-
 
 
 class StatusPagamento(Enum):
@@ -10,20 +7,14 @@ class StatusPagamento(Enum):
     NAO_PAGO = 'NAO_PAGO'
 
 
-
-
 class StatusCupom(Enum):
     ATIVO = 'ATIVO'
     INATIVO = 'INATIVO'
 
 
-
-
 class TipoCupom(Enum):
     SIMPLES = 'SIMPLES'
     AUTOMATICO = 'AUTOMATICO'
-
-
 
 
 class Pagamento(models.Model):
@@ -35,27 +26,17 @@ class Pagamento(models.Model):
     cupons = models.ManyToManyField('pagamento.Cupom', through="PagamentoCupom" , default="")
     valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
 
-
-
-
     class Meta:
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamentos'
-
-
-
 
     def __str__(self):
         return self.valor_pagamento;
 
 
-
-
 class PagamentoCupom(models.Model):
     pagamento = models.ForeignKey("pagamento.Pagamento" , related_name="pagamento_cupom" , default="")
     cupom = models.ForeignKey("pagamento.Cupom" , related_name="cupom_de_pagamento" , default="")
-
-
 
 
 class Cupom(models.Model):
@@ -71,14 +52,9 @@ class Cupom(models.Model):
         )
 
 
-
-
     class Meta:
         verbose_name = 'Cupom'
         verbose_name_plural = 'Pagamentos'
-
-
-
 
     def __str__(self):
         return self.Cupons

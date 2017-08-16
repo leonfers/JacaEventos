@@ -4,7 +4,6 @@ import re
 from django.db import models
 from django.core import validators
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
-
 from enumfields import Enum, EnumField
 
 
@@ -14,20 +13,14 @@ class TipoResponsavelAtividade(Enum):
     AUSENTE = 'ausente'
 
 
-
-
 class StatusInscricao(Enum):
     ATIVA = 'ativa'
     INATIVA = 'INATIVA'
 
 
-
-
 class TipoInscricao(Enum):
     COMPLETA = 'COMPLETA'
     PARCIAL = 'PARCIAL'
-
-
 
 
 class StatusCheckIn(Enum):
@@ -36,16 +29,14 @@ class StatusCheckIn(Enum):
     AUSENTE = 'AUSENTE'
 
 
-
-
 class Usuario(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         'Nome do Usuário',
         max_length=30,
         unique=True,
         validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-        'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_''invalid'
-                                              )])
+        'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_'
+        'invalid')])
     email = models.EmailField('E-mail', unique=True)
     nome = models.CharField('Nome', max_length=100, blank=False)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
@@ -59,14 +50,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
 
-
-
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
-
-
-
 
     def __str__(self):
         return self.nome or self.username
@@ -82,8 +68,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     
     def get_eventos(self):
         return self.meus_eventos.all()
-
-
 
 
 class Inscricao(models.Model):
@@ -102,14 +86,9 @@ class Inscricao(models.Model):
     trilhas = models.ManyToManyField('core.Trilha', through="core.TrilhaInscricao")
 
 
-
-
     class Meta:
         verbose_name = 'Id de Inscricao'
         verbose_name_plural = 'Id das Inscricoes'
-
-
-
 
     def get_atividades(self):
         atividades = self.evento.atividades.all()
@@ -123,15 +102,11 @@ class Inscricao(models.Model):
         item_inscricao.save()
 
 
-
-
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
     gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
-
-
 
 
 class ItemInscricao(models.Model):
