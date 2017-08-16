@@ -93,6 +93,7 @@ def exibir_evento(request, eventos_id):
 
     form_gerentes = RegistrarGerentes(request.POST)
     form_tag_evento = RegistrarTagEventos(request.POST)
+    form_evento_satelite = AdicionarEventosSatelite(request.POST)
 
     form_periodo = PeriodoForm(request.POST)
     form_instituicao_evento = AssociarInstituicoesEvento(request.POST)
@@ -106,20 +107,16 @@ def exibir_evento(request, eventos_id):
 
     if request.method == 'POST':
 
-        formularioAtividadePadrao(form_atividade_padrao,form_horario, form_periodo, evento)
-        formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, form_periodo, evento)
-        formularioAtividadeContinua(form_atividade_continua, form_horario, form_periodo, evento)
-        formularioTag(form_tag_evento, evento)
-        formularioGerente(form_gerentes, evento)
+        formulario_atividade_padrao(form_atividade_padrao,form_horario, form_periodo, evento)
+        formulario_atividade_administrativa(form_atividade_administrativa, form_horario, form_periodo, evento)
+        formulario_atividade_continua(form_atividade_continua, form_horario, form_periodo, evento)
+        formulario_tag(form_tag_evento, evento)
+        formulario_gerente(form_gerentes, evento)
 
+        formulario_evento_satelite(form_evento_satelite, evento)
+
+        formulario_intituicao_evento(form_instituicao_evento, evento)
         # TODO AINDA POR FAZER
-        if form_instituicao_evento.is_valid():
-            instituicao_evento = form_instituicao_evento.save(commit=False)
-            instituicao_evento.evento_relacionado = evento
-            instituicao_evento.save()
-            # evento.add_instituicao(instituicao_evento)
-
-            form_instituicao_evento = AssociarInstituicoesEvento()
 
         if form_periodo.is_valid() and form_trilha_atividade.is_valid():
             trilha_atividade = form_trilha_atividade.save(commit=False)
@@ -136,14 +133,14 @@ def exibir_evento(request, eventos_id):
         form_periodo = PeriodoForm()
         form_tag_evento = RegistrarTagEventos()
         form_instituicao_evento = AssociarInstituicoesEvento()
-
+        form_evento_satelite = AdicionarEventosSatelite(request.POST)
         form_atividade_padrao = RegistrarAtividade()
         form_atividade_administrativa = RegistrarAtividadeAdministrativa()
         form_atividade_continua = RegistrarAtividadeContinua()
 
         form_horario = HorarioForm()
 
-    context = {'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
+    context = {'form_evento_satelite': form_evento_satelite, 'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
 
     return render(request, template_name, context)
 
@@ -151,21 +148,21 @@ def exibir_evento(request, eventos_id):
 
 
 # METODOS DO FORMULARIO
-def formularioTag(form_tag_evento, evento):
+def formulario_tag(form_tag_evento, evento):
     if form_tag_evento.is_valid():
         tag = form_tag_evento.save(commit=False)
         evento.add_tag(tag)
         tag.save()
         form_tag_evento = RegistrarTagEventos()
 
-def formularioGerente(form_gerentes, evento):
+def formulario_gerente(form_gerentes, evento):
     if form_gerentes.is_valid():
         gerente = form_gerentes.save(commit=False)
         gerente.evento = evento
         gerente.save()
         # form_gerentes = RegistrarGerentes()
 
-def formularioAtividadePadrao(form_atividade_padrao, form_horario, form_periodo, evento):
+def formulario_atividade_padrao(form_atividade_padrao, form_horario, form_periodo, evento):
     if form_atividade_padrao.is_valid() and form_horario.is_valid():
         atividade_padrao = form_atividade_padrao.save(commit=False)
         horario = form_horario.save(commit=False)
@@ -178,7 +175,7 @@ def formularioAtividadePadrao(form_atividade_padrao, form_horario, form_periodo,
         atividade_padrao.save()
         evento.add_atividade(atividade_padrao)
 
-def formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, form_periodo, evento):
+def formulario_atividade_administrativa(form_atividade_administrativa, form_horario, form_periodo, evento):
     if form_atividade_administrativa.is_valid() and form_horario.is_valid():
         atividade_administrativa = form_atividade_administrativa.save(commit=False)
         horario = form_horario.save(commit=False)
@@ -191,7 +188,7 @@ def formularioAtividadeAdministrativa(form_atividade_administrativa, form_horari
         atividade_administrativa.save()
         evento.add_atividade(atividade_administrativa)
 
-def formularioAtividadeContinua(form_atividade_continua, form_horario, form_periodo, evento):
+def formulario_atividade_continua(form_atividade_continua, form_horario, form_periodo, evento):
     if form_atividade_continua.is_valid() and form_horario.is_valid():
         atividade_continuna = form_atividade_continua.save(commit=False)
         horario = form_horario.save(commit=False)
@@ -204,3 +201,17 @@ def formularioAtividadeContinua(form_atividade_continua, form_horario, form_peri
         atividade_continuna.save()
         evento.add_atividade(atividade_continuna)
 
+def formulario_evento_satelite(form_evento_satelite, evento):
+    if form_evento_satelite.is_valid():
+        evento_satelite = form_evento_satelite.save(commit=False)
+        evento_satelite.evento = evento
+        evento_satelite.save()
+
+def formulario_intituicao_evento(form_instituicao_evento, evento):
+    if form_instituicao_evento.is_valid():
+        instituicao_evento = form_instituicao_evento.save(commit=False)
+        instituicao_evento.evento_relacionado = evento
+        instituicao_evento.save()
+        # evento.add_instituicao(instituicao_evento)
+
+        form_instituicao_evento = AssociarInstituicoesEvento()

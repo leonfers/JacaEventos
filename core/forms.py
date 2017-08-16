@@ -1,5 +1,5 @@
 from django import forms
-from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa
+from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa, EventoSatelite
 
 
 class RegistrarEvento(forms.ModelForm):
@@ -22,16 +22,6 @@ class AdicionarTagEmEventos(forms.ModelForm):
         model = Tag
         fields = '__all__'
 
-#
-# class RegistrarAtividades(forms.ModelForm):
-#     descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}))
-#
-#     class Meta:
-#         model = Atividade
-#         exclude = {'trilha', 'evento', 'periodo'}
-#         fields = '__all__'
-#
-
 
 class RegistrarInstituicoes(forms.ModelForm):
 
@@ -48,11 +38,11 @@ class RegistrarGerentes(forms.ModelForm):
         fields = '__all__'
 
 
-# class RegistrarEventosSatelite(forms.ModelForm):
-#
-#     class Meta:
-#         model = EventoSatelite
-#         fields = '__all__'
+class AdicionarEventosSatelite(forms.ModelForm):
+
+    class Meta:
+        model = EventoSatelite
+        fields = '__all__'
 
 
 class RegistrarTagEventos(forms.ModelForm):
