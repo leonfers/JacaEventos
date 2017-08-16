@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from pycep_correios import CEPInvalido
+
 from .forms import *
 import pycep_correios
 from user.models import Usuario
@@ -51,13 +53,16 @@ def registrar_eventos(request):
             # tag_evento.evento.add_tag(request.user)
             endereco = form_endereco.save(commit=False)
             # print(endereco.cep)
-            adress = pycep_correios.consultar_cep(endereco.cep)
-            print (adress)
-            endereco.cidade = adress['cidade']
-            endereco.estado = adress['uf']
-            endereco.logradouro = adress['end']
-            endereco.bairro = adress['bairro']
-            endereco.save()
+            try:
+                adress = pycep_correios.consultar_cep(endereco.cep)
+                print (adress)
+                endereco.cidade = adress['cidade']
+                endereco.estado = adress['uf']
+                endereco.logradouro = adress['end']
+                endereco.bairro = adress['bairro']
+                endereco.save()
+            except CEPInvalido as exc:
+                print(exc)
 
             periodo = form_periodo.save(commit=False)
             periodo.save()

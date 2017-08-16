@@ -1,12 +1,10 @@
 {% extends "geral/base.html" %} {% block base %}
 
 <ul class="collapsible popout" data-collapsible="accordion">
-
     <li>
         <div class="collapsible-header"><i class="material-icons">library_books</i>Descrição</div>
         <div class="collapsible-body"><span>{{exibir_evento.descricao}}<br>Valor total: {{exibir_evento.valor}}<br>Status do evento: {{exibir_evento.status_evento}}</span></div>
     </li>
-
     <li>
         <div class="collapsible-header"><i class="material-icons">people</i>Gerentes</div>
         <div class="collapsible-body"><span>
@@ -15,19 +13,19 @@
                 <li>
                     <div class="collapsible-header"><i class="material-icons">perm_identity</i>{{ exibir_evento.dono }}</div>
                     <div class="collapsible-body"><span>Dono do evento</span></div>
-    </li>
-    {% for gerente in exibir_evento.get_gerentes %}
-    <li>
-        <div class="collapsible-header"><i class="material-icons">person</i>{{ gerente }}</div>
-        <div class="collapsible-body"><span>{{ gerente.tipo_gerente.title }}</span></div>
-    </li>
-    {%endfor%}
-</ul>
+                </li>
+                {% for gerente in exibir_evento.get_gerentes %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">person</i>{{ gerente }}</div>
+                    <div class="collapsible-body"><span>{{ gerente.tipo_gerente.title }}</span></div>
+                </li>
+                {%endfor%}
+            </ul>
 
-<ul class="collapsible popout" data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{exibir_evento.nome}}</b></div>
-        <div class="collapsible-body"><span>
+        <ul class="collapsible popout" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{exibir_evento.nome}}</b></div>
+                <div class="collapsible-body"><span>
                     <div class="card-content">
                         <form class="form-horizontal" method="POST">
                             {% csrf_token %}
@@ -41,31 +39,29 @@
                                 </div>
                             </fieldset>
                         </form>
-                    </div>
-                    </span>
-        </div>
+                    </div></span>
+                </div>
+            </li>
+        </ul>
+        </span></div>
     </li>
-</ul>
-</span>
-</div>
-</li>
 
-<li>
-    <div class="collapsible-header"><i class="material-icons">event_note</i>Atividades</div>
-    <div class="collapsible-body"><span>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">event_note</i>Atividades</div>
+        <div class="collapsible-body"><span>
             <ul class="collapsible popout" data-collapsible="accordion">
                 {% for atividade in evento.get_atividades %}
                 <li>
                     <div class="collapsible-header"><i class="material-icons">storage</i>{{evento.nome}}</div>
                     <div class="collapsible-body"><span>Descrição: {{evento.descricao}}<br>Valor: {{evento.valor}}</span></div>
-</li>
-{%endfor%}
+                </li>
+                {%endfor%}
 
-</ul>
-<ul class="collapsible popout" data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{exibir_evento.nome}}</b></div>
-        <div class="collapsible-body"><span>
+            </ul>
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
                         <div class="card-content">
                             <form class="form-horizontal" method="POST">
                                 {% csrf_token %}
@@ -80,13 +76,12 @@
                                     </div>
                                 <!--</fieldset>-->
                             </form>
-                        </div>
-                    </span>
-        </div>
-    </li>
-    <li>
-        <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade Continua a <b>{{exibir_evento.nome}}</b></div>
-        <div class="collapsible-body"><span>
+                        </div></span>
+                    </div>
+                </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade Continua a <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
                         <div class="card-content">
                             <form class="form-horizontal" method="POST">
                                 {% csrf_token %}
@@ -102,12 +97,11 @@
                                 <!--</fieldset>-->
                             </form>
                         </div>
-                    </span>
-        </div>
-    </li>
-    <li>
-        <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade Administrativa a <b>{{exibir_evento.nome}}</b></div>
-        <div class="collapsible-body"><span>
+                    </span></div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade Administrativa a <b>{{exibir_evento.nome}}</b></div>
+                <div class="collapsible-body"><span>
                         <div class="card-content">
                             <form class="form-horizontal" method="POST">
                                 {% csrf_token %}
@@ -123,22 +117,20 @@
                                 <!--</fieldset>-->
                             </form>
                         </div>
-                    </span>
-        </div>
+                    </span></div>
+            </li>
+        </ul>
+        </span></div>
     </li>
-</ul>
-</span>
-</div>
-</li>
 
-<li>
-    <div class="collapsible-header"><i class="material-icons">layers</i>Tipo</div>
-    <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
-</li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">layers</i>Tipo</div>
+        <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
+    </li>
 
-<li>
-    <div class="collapsible-header"><i class="material-icons">sync</i>Eventos Satelite</div>
-    <div class="collapsible-body"><span>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">sync</i>Eventos Satelite</div>
+        <div class="collapsible-body"><span>
 
             <!--<ul class="collapsible popout" data-collapsible="accordion">-->
             <!--{% for gerente in exibir_evento.get_gerentes %}-->
@@ -165,20 +157,16 @@
                                     </div>
                                 <!--</fieldset>-->
                             </form>
-
                         </div>
-
                     </span></div>
-</li>
-</ul>
+                </li>
+            </ul></span>
+        </div>
+    </li>
 
-</span>
-</div>
-</li>
-
-<li>
-    <div class="collapsible-header"><i class="material-icons">local_offer</i>Tags</div>
-    <div class="collapsible-body"><span>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">local_offer</i>Tags</div>
+        <div class="collapsible-body"><span>
 
              <ul class="collapsible popout" data-collapsible="accordion">
                 {% for tag in exibir_evento.get_tags %}
@@ -208,19 +196,28 @@
                             </form>
                         </div>
                     </span></div>
-</li>
-</ul>
+                </li>
+            </ul>
+        </span>
+        </div>
+    </li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">place</i>Localização</div>
+        <div class="collapsible-body"><span>
 
-</span>
-</div>
-</li>
-<li>
-    <div class="collapsible-header"><i class="material-icons">place</i>Localização</div>
-    <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
-</li>
-<li>
-    <div class="collapsible-header"><i class="material-icons">location_city</i>Instituições Associadas</div>
-    <div class="collapsible-body"><span>
+                Pais : {{ exibir_evento.endereco.pais }}
+            <br>Estado: {{ exibir_evento.endereco.estado }}
+            <br>Cidade: {{ exibir_evento.endereco.cidade }}
+            <br>Bairro: {{ exibir_evento.endereco.bairro }}
+            <br>Rua: {{ exibir_evento.endereco.logradouro }}
+            <br>Numero: {{ exibir_evento.endereco.numero }}
+            <br>CEP: {{ exibir_evento.endereco.cep }}
+
+        </span></div>
+    </li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">location_city</i>Instituições Associadas</div>
+        <div class="collapsible-body"><span>
 
              <ul class="collapsible popout" data-collapsible="accordion">
                 {% for instituicoes in exibir_evento.get_instituicoes %}
@@ -250,12 +247,10 @@
                             </form>
                         </div>
                     </span></div>
-</li>
-</ul>
-
-</span>
-</div>
-</li>
-
+                </li>
+            </ul>
+        </span>
+        </div>
+    </li>
 </ul>
 {% endblock %}
