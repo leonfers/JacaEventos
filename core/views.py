@@ -115,9 +115,9 @@ def exibir_evento(request, eventos_id):
         # TODO AINDA POR FAZER
         if form_instituicao_evento.is_valid():
             instituicao_evento = form_instituicao_evento.save(commit=False)
-            # instituicao_evento.evento_relacionado = evento
-            # evento.add_instituicao(instituicao_evento)
+            instituicao_evento.evento_relacionado = evento
             instituicao_evento.save()
+            # evento.add_instituicao(instituicao_evento)
 
             form_instituicao_evento = AssociarInstituicoesEvento()
 
@@ -146,6 +146,8 @@ def exibir_evento(request, eventos_id):
     context = {'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
 
     return render(request, template_name, context)
+
+
 
 
 # METODOS DO FORMULARIO
