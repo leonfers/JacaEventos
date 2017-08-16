@@ -42,22 +42,26 @@
 <ul id="slide-out" class="side-nav">
 
     <li>
-        <div class="user-view">
+        <div class="userView">
             <div class="background">
                 <img src="../static/img/fundo_perfil.jpg" width="300px" height="220px">
             </div>
             <a href="#!user"><img class="circle" src="../static/img/photo.jpg" width="64px" height="64px"></a>
-            <a href="#!name"><span class="black-text name">Bem Vindo, {{user.nome.title}}</span></a>
-            <a href="#!email"><span class="black-text email">{{user.email}}</span></a>
+            <a href="#!name"><span class="white-text name">Bem Vindo, {{user.nome.title}}</span></a>
+            <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
         </div>
     </li>
 
-    <li><a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a></li>
+    <li>
+        <a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a>
+    </li>
     <!--<i class="material-icons">cloud-->
     <!--<li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>-->
     <li><a class="subheader">Subheader</a></li>
     <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}">Instituições</a></li>
-    <li><div class="divider"></div></li>
+    <li>
+        <div class="divider"></div>
+    </li>
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>
@@ -71,8 +75,10 @@
         </li>
     </ul>
 </ul>
-<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
+<div class="fixed-action-btn horizontal click-to-toggle">
+    <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large red"><i class="material-icons">menu</i></a>
+</div>
 <body>
 
 <div class="container">
