@@ -24,8 +24,8 @@ class EnderecoForm(forms.ModelForm):
     cidade = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
     logradouro = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
     numero = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
-    cep = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
-    # estado = forms.TypedChoiceField(choices=STATE_CHOICES, coerce=str,required=False)
+    cep = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea '}), required=False)
+    estado = forms.TypedChoiceField(choices=STATE_CHOICES, coerce=str,required=False)
 
 
     class Meta:
