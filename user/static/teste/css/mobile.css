@@ -1,0 +1,25 @@
+/*  kassio html para mobile  */
+
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+
+    .imagem-logo{
+        display: none;
+    }
+
+    .row .col.s6 {
+        width: 100%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+
+    .row .col.s4 {
+        width: 100%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+}

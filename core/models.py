@@ -157,8 +157,8 @@ class Evento(models.Model):
             print("Falha ao adicionar Instituicao ")
             return False
 
-
-class EventoSatelite():
+# kassio adicionou models.Model no parametro
+class EventoSatelite(models.Model):
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")
 
 
