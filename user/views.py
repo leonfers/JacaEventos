@@ -8,8 +8,8 @@ from user.models import Usuario
 from core.models import Evento
 from user.models import Usuario
 from utils.forms import PeriodoForm, EnderecoForm
-User = get_user_model()
 
+User = get_user_model()
 
 def registrar(request):
     template_name = 'login/registrar.html'
@@ -66,6 +66,7 @@ def registrar_eventos(request):
 
             evento = form_add_evento.save(commit=False)
             evento.dono = request.user
+
             evento.tipo_evento = tipo_evento
             evento.periodo = periodo
             evento.endereco = endereco
@@ -105,6 +106,8 @@ def meus_eventos(request):
     context = {'meus_eventos' : request.user.get_eventos()}
     return render(request, template_name, context)
 
+
+
 @login_required
 def exibir_evento(request, eventos_id):
     template_name = 'evento/exibir_evento.html'
@@ -112,11 +115,23 @@ def exibir_evento(request, eventos_id):
 
     form_gerentes = RegistrarGerentes(request.POST)
     form_tag_evento = RegistrarTagEventos(request.POST)
-    form = RegistrarAtividades(request.POST)
+
     form_periodo = PeriodoForm(request.POST)
     form_instituicao_evento = AssociarInstituicoesEvento(request.POST)
+    form_trilha_atividade = TrilhaAtividadeEvento(request.POST)
+
+    form_atividade_padrao = RegistrarAtividade(request.POST)
+    form_atividade_administrativa = RegistrarAtividadeAdministrativa(request.POST)
+    form_atividade_continua = RegistrarAtividadeContinua(request.POST)
 
     if request.method == 'POST':
+
+        formularioAtividadePadrao(form_atividade_padrao, evento)
+        formularioAtividadeAdministrativa(form_atividade_administrativa, evento)
+        formularioAtividadeContinua(form_atividade_continua, evento)
+        formularioTag(form_tag_evento, evento)
+        formularioGerente(form_gerentes, evento)
+
         # TODO AINDA POR FAZER
         if form_instituicao_evento.is_valid():
             instituicao_evento = form_instituicao_evento.save(commit=False)
@@ -126,41 +141,60 @@ def exibir_evento(request, eventos_id):
 
             form_instituicao_evento = AssociarInstituicoesEvento()
 
-        if form_periodo.is_valid() and form.is_valid():
+        if form_periodo.is_valid() and form_trilha_atividade.is_valid():
+            trilha_atividade = form_trilha_atividade.save(commit=False)
+            trilha_atividade.save()
+
             periodo = form_periodo.save(commit=False)
             periodo.save()
-            atividades = form.save(commit=False)
-            atividades.periodo = periodo
-            evento.add_atividade(atividades)
-            atividades.save()
 
-            form = RegistrarAtividades()
             form_periodo = PeriodoForm()
 
-        if form_gerentes.is_valid():
-            gerente = form_gerentes.save(commit=False)
-            gerente.evento = evento
-            gerente.save()
-
-            form_gerentes = RegistrarGerentes()
-
-
-        if form_tag_evento.is_valid():
-            tag = form_tag_evento.save(commit=False)
-            evento.add_tag(tag)
-            # tag.save()
-
-            form_tag_evento = RegistrarTagEventos()
 
     else:
         form_gerentes = RegistrarGerentes()
-        form = RegistrarAtividades()
         form_periodo = PeriodoForm()
         form_tag_evento = RegistrarTagEventos()
         form_instituicao_evento = AssociarInstituicoesEvento()
 
-    context = {'form_atividades' : form, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
+        form_atividade_padrao = RegistrarAtividade()
+
+    context = {'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
 
     return render(request, template_name, context)
 
+
+# METODOS DO FORMULARIO
+def formularioAtividadePadrao(form_atividade_padrao, evento):
+    if form_atividade_padrao.is_valid():
+        atividade_padrao = form_atividade_padrao.save(commit=False)
+        atividade_padrao.save()
+        evento.add_atividade(atividade_padrao)
+
+def formularioTag(form_tag_evento, evento):
+    if form_tag_evento.is_valid():
+        tag = form_tag_evento.save(commit=False)
+        evento.add_tag(tag)
+        # tag.save()
+
+        # form_tag_evento = RegistrarTagEventos()
+
+def formularioGerente(form_gerentes, evento):
+    if form_gerentes.is_valid():
+        gerente = form_gerentes.save(commit=False)
+        gerente.evento = evento
+        gerente.save()
+
+        # form_gerentes = RegistrarGerentes()
+
+
+def formularioAtividadeAdministrativa(form_atividade_administrativa, evento):
+    if form_atividade_administrativa.is_valid():
+        atividade_administrativa = form_atividade_administrativa.save(commit=False)
+        atividade_administrativa.save()
+
+def formularioAtividadeContinua(form_atividade_continua, evento):
+    if form_atividade_continua.is_valid():
+        atividade_continuna = form_atividade_continua.save(commit=False)
+        atividade_continuna.save()
 

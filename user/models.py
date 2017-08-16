@@ -8,8 +8,6 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 from enumfields import Enum, EnumField
 
 
-
-
 class TipoResponsavelAtividade(Enum):
     NAO_VERIFICADO = 'nao_verificado'
     PRESENTE = 'presente'
