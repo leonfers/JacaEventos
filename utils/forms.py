@@ -27,8 +27,7 @@ class EnderecoForm(forms.ModelForm):
     cep = forms.CharField(max_length=8, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
     # estado = forms.TypedChoiceField(choices=STATE_CHOICES, coerce=str,required=False)
 
-
     class Meta:
         model = Endereco
-        exclude =  ['pais','estado','cidade','logradouro',]
+        # exclude =  ['pais','estado','cidade','logradouro']
         fields = ['cep']

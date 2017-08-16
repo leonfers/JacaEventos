@@ -6,7 +6,13 @@
     <p></p>
     <div class="card-panel container col l6 push-l3 pull-l3 s12">
         <form method="POST" name="register" class="register-form">
-            {% csrf_token %} {{ form_evento }} {% csrf_token %} {{ form_endereco }} {% csrf_token %} {{ form_periodo }}
+            {% csrf_token %}
+            {{ form_evento }}
+            {% csrf_token %}
+            {{ form_endereco }}
+            {% csrf_token %}
+            {{ form_periodo }}
+
             <!--<form method="POST" name="register" class="register-form">-->
             <!--{% csrf_token %}-->
             <!---->
