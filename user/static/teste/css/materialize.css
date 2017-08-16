@@ -4435,6 +4435,8 @@ html {
   color: rgba(0, 0, 0, 0.87);
 }
 
+
+
 @media only screen and (min-width: 0) {
   html {
     font-size: 14px;
@@ -4599,6 +4601,7 @@ small {
     font-size: 1.488rem;
   }
 }
+
 
 @media only screen and (min-width: 750px) {
   .flow-text {
@@ -7226,32 +7229,33 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .side-nav .subheader:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .side-nav .userView {
-  position: relative;
-  padding: 32px 32px 0;
-  margin-bottom: 8px;
+    position: relative;
+    padding: 32px 32px 0;
+    margin-bottom: 8px;
 }
 
 .side-nav .userView > a {
-  height: auto;
-  padding: 0;
+    height: auto;
+    padding: 0;
 }
 
 .side-nav .userView > a:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .side-nav .userView .background {
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+
 }
 
 .side-nav .userView .circle, .side-nav .userView .name, .side-nav .userView .email {
@@ -7272,6 +7276,7 @@ input[type=range]:focus::-ms-fill-upper {
 .side-nav .userView .name {
   margin-top: 16px;
   font-weight: 500;
+
 }
 
 .side-nav .userView .email {
