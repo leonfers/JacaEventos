@@ -204,7 +204,7 @@ def formulario_atividade_continua(form_atividade_continua, form_horario, form_pe
 def formulario_evento_satelite(form_evento_satelite, evento):
     if form_evento_satelite.is_valid():
         evento_satelite = form_evento_satelite.save(commit=False)
-        evento_satelite.evento = evento
+        evento_satelite.eventos = evento
         evento_satelite.save()
 
 def formulario_intituicao_evento(form_instituicao_evento, evento):
