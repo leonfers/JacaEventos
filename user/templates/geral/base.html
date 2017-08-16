@@ -5,34 +5,36 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="{% static 'teste/css/mobile.css' %}" type="text/css" rel="stylesheet" media="(max-width: 480px)" )/>
     <!--<link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 
     <title>Jaca Eventos</title>
 
     <script>
-    $(window).load(function() {
-	    $("#loading-center").click(function() {
+        $(window).load(function() {
+            $("#loading-center").click(function() {
                 $("#loading").fadeOut(500);
-	    })
-    });
+            })
+        });
 
-    $(window).load(function() {
-        $("#loading").fadeOut(500);
-    })
-    function img() {
+        $(window).load(function() {
+            $("#loading").fadeOut(500);
+        })
 
-    }
+        function img() {
+
+        }
     </script>
 
 
 </head>
 <nav>
-    <div class="nav-wrapper #fb8c00 orange darken-1">
-        <a href="" class="brand-logo">Logo</a>
+    <div class="nav-wrapper #6a1b9a purple darken-3">
+        <a href="" class="brand-logo"><img class="imagem-logo" src="../static/img/Logonav.png" width="110px" height="60px"/></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="">Alterar senha</a></li>
-            <li><a  href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
+            <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
             <li><a href="">sass <span class="new badge">4</span></a></li>
         </ul>
     </div>
@@ -41,22 +43,26 @@
 <ul id="slide-out" class="side-nav">
 
     <li>
-        <div class="user-view">
+        <div class="userView">
             <div class="background">
                 <img src="../static/img/fundo_perfil.jpg" width="300px" height="220px">
             </div>
             <a href="#!user"><img class="circle" src="../static/img/photo.jpg" width="64px" height="64px"></a>
-            <a href="#!name"><span class="black-text name">Bem Vindo, {{user.nome.title}}</span></a>
-            <a href="#!email"><span class="black-text email">{{user.email}}</span></a>
+            <a href="#!name"><span class="white-text name">Bem Vindo, {{user.nome.title}}</span></a>
+            <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
         </div>
     </li>
 
-    <li><a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a></li>
+    <li>
+        <a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a>
+    </li>
     <!--<i class="material-icons">cloud-->
     <!--<li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>-->
     <li><a class="subheader">Subheader</a></li>
     <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}">Instituições</a></li>
-    <li><div class="divider"></div></li>
+    <li>
+        <div class="divider"></div>
+    </li>
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>
@@ -70,16 +76,17 @@
         </li>
     </ul>
 </ul>
-<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
-<body>
-
-<div class="container">
-    {% block base %}
-
-    {% endblock %}
+<div class="fixed-action-btn horizontal click-to-toggle">
+    <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large red"><i class="material-icons">menu</i></a>
 </div>
 
+<body>
+    <ul>
+        <div class="container">
+            {% block base %} {% endblock %}
+        </div>
+    </ul>
 </body>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -88,58 +95,56 @@
 <script>
     $().ready(function() {
         $('select').material_select();
-      });
+    });
     $('.datepicker').pickadate({
         selectMonths: false, // Creates a dropdown to control month
         selectYears: 70,
-        min: [1917,01,01],
+        min: [1917, 01, 01],
         max: false,
         format: 'yyyy-mm-dd'
     });
-    $(document).ready( function() {
-   /* Executa a requisição quando o campo CEP perder o foco */
-   $('#cep').blur(function(){
-           /* Configura a requisição AJAX */
-           $.ajax({
-                url : 'consultar_cep.php', /* URL que será chamada */
-                type : 'POST', /* Tipo da requisição */
-                data: 'cep=' + $('#cep').val(), /* dado que será enviado via POST */
-                dataType: 'json', /* Tipo de transmissão */
-                success: function(data){
-                    if(data.sucesso == 1){
+    $(document).ready(function() {
+        /* Executa a requisição quando o campo CEP perder o foco */
+        $('#cep').blur(function() {
+            /* Configura a requisição AJAX */
+            $.ajax({
+                url: 'consultar_cep.php',
+                /* URL que será chamada */
+                type: 'POST',
+                /* Tipo da requisição */
+                data: 'cep=' + $('#cep').val(),
+                /* dado que será enviado via POST */
+                dataType: 'json',
+                /* Tipo de transmissão */
+                success: function(data) {
+                    if (data.sucesso == 1) {
                         $('#rua').val(data.rua);
                         $('#bairro').val(data.bairro);
                         $('#cidade').val(data.cidade);
-                        $('#estado').val(data.estado);
- 
+                        $('#estado').val(data.estado); 
                         $('#numero').focus();
                     }
                 }
-           });
-   return false;
-   })
-});
+            });
+            return false;
+        })
+    });
 </script>
 
-{% block scripts%}
-
-{% endblock %}
+{% block scripts%} {% endblock %}
 
 <br>
-<footer class="page-footer #fb8c00 orange darken-1">
+<footer class="page-footer #6a1b9a purple darken-3">
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Jaca Eventos</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <p class="grey-text text-lighten-4">Participe de eventos incriveis ou crie um você mesmo.</p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/Jaca-Eventos-126885344599690/" target="_blank">Facebook/JacaEventos</a></li>
                 </ul>
             </div>
         </div>
@@ -150,4 +155,5 @@
         </div>
     </div>
 </footer>
+
 </html>

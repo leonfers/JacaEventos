@@ -23,6 +23,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('user.urls'), name='usuario'),
+    url(r'', include('core.urls'), name='evento'),
     url(r'^api/v1/token/', obtain_auth_token, name='api-token'),
     url(r'^api/v1/', include(router.urls)),
 
