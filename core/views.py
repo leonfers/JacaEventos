@@ -151,8 +151,8 @@ def exibir_evento(request, eventos_id):
 def formulario_tag(form_tag_evento, evento):
     if form_tag_evento.is_valid():
         tag = form_tag_evento.save(commit=False)
-        evento.add_tag(tag)
         tag.save()
+        evento.add_tag(tag)
         form_tag_evento = RegistrarTagEventos()
 
 def formulario_gerente(form_gerentes, evento):
