@@ -170,7 +170,7 @@ class AtividadeAbstrata(PolymorphicModel):
         through="AtividadeTrilha",
         related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="evento", related_name='polymorphic_myapp.mymodel_set+',null=False)
+    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name='polymorphic_myapp.mymodel_set+',null=False)
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",

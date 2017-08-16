@@ -106,9 +106,9 @@ def exibir_evento(request, eventos_id):
 
     if request.method == 'POST':
 
-        formularioAtividadePadrao(form_atividade_padrao,form_horario, evento)
-        formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, evento)
-        formularioAtividadeContinua(form_atividade_continua, form_horario, evento)
+        formularioAtividadePadrao(form_atividade_padrao,form_horario, form_periodo, evento)
+        formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, form_periodo, evento)
+        formularioAtividadeContinua(form_atividade_continua, form_horario, form_periodo, evento)
         formularioTag(form_tag_evento, evento)
         formularioGerente(form_gerentes, evento)
 
@@ -163,33 +163,42 @@ def formularioGerente(form_gerentes, evento):
         gerente.save()
         # form_gerentes = RegistrarGerentes()
 
-def formularioAtividadePadrao(form_atividade_padrao, form_horario, evento):
+def formularioAtividadePadrao(form_atividade_padrao, form_horario, form_periodo, evento):
     if form_atividade_padrao.is_valid() and form_horario.is_valid():
         atividade_padrao = form_atividade_padrao.save(commit=False)
         horario = form_horario.save(commit=False)
+        periodo = form_periodo.save(commit=False)
+        periodo.save()
         horario.save()
         atividade_padrao.horario = horario
         atividade_padrao.evento = evento
+        atividade_padrao.periodo = periodo
         atividade_padrao.save()
         evento.add_atividade(atividade_padrao)
 
-def formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, evento):
+def formularioAtividadeAdministrativa(form_atividade_administrativa, form_horario, form_periodo, evento):
     if form_atividade_administrativa.is_valid() and form_horario.is_valid():
         atividade_administrativa = form_atividade_administrativa.save(commit=False)
         horario = form_horario.save(commit=False)
+        periodo = form_periodo.save(commit=False)
+        periodo.save()
         horario.save()
         atividade_administrativa.horario = horario
         atividade_administrativa.evento = evento
+        atividade_administrativa.periodo = periodo
         atividade_administrativa.save()
         evento.add_atividade(atividade_administrativa)
 
-def formularioAtividadeContinua(form_atividade_continua, form_horario, evento):
+def formularioAtividadeContinua(form_atividade_continua, form_horario, form_periodo, evento):
     if form_atividade_continua.is_valid() and form_horario.is_valid():
         atividade_continuna = form_atividade_continua.save(commit=False)
         horario = form_horario.save(commit=False)
+        periodo = form_periodo.save(commit=False)
+        periodo.save()
         horario.save()
         atividade_continuna.horario = horario
         atividade_continuna.evento = evento
+        atividade_continuna.periodo = periodo
         atividade_continuna.save()
         evento.add_atividade(atividade_continuna)
 
