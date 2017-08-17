@@ -4265,6 +4265,11 @@ nav .brand-logo.center {
     display: none;
   }
 
+  .imagem-logo-nav2 {
+      float: right;
+      display: none;
+  }
+
   .row .col.s6 {
     width: 100%;
     margin-left: auto;
@@ -4407,6 +4412,11 @@ nav .input-field label.active i {
 }
 
 @media only screen and (min-width: 601px) {
+
+    .imagem-logo-nav2 {
+        /*float: right;*/
+        display: none;
+    }
   nav.nav-extended .nav-wrapper {
     min-height: 64px;
   }
