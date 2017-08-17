@@ -4265,9 +4265,9 @@ nav .brand-logo.center {
     display: none;
   }
 
-  .imagem-logo-nav2 {
-      /*float: right;*/
+  nav .brand-logo .imagem-logo-nav{
       display: none;
+      margin-left: -200px;
   }
 
   imagem-logo-nav{
@@ -4415,13 +4415,8 @@ nav .input-field label.active i {
   position: fixed;
 }
 
-/*kassio*/
-@media only screen and (min-width: 601px) {
 
-  nav .brand-logo .imagem-logo-nav{
-      display: none;
-      margin-left: -200px;
-  }
+@media only screen and (min-width: 601px) {
 
   nav.nav-extended .nav-wrapper {
     min-height: 64px;
