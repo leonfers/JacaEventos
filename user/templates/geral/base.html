@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="{% static 'teste/css/mobile.css' %}" type="text/css" rel="stylesheet" media="(max-width: 480px)" )/>
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection, mobile" />
+    <!--<link href="{% static 'teste/css/mobile.css' %}" type="text/css" rel="stylesheet" media="screen"/>-->
     <!--<link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 
     <title>Jaca Eventos</title>
@@ -29,13 +29,14 @@
 
 
 </head>
+
 <nav>
     <div class="nav-wrapper #6a1b9a purple darken-3">
         <a href="" class="brand-logo"><img class="imagem-logo" src="../static/img/Logonav.png" width="110px" height="60px"/></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="">Notificações<span class="new badge">4</span></a></li>
             <li><a href="">Alterar senha</a></li>
             <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
-            <li><a href="">sass <span class="new badge">4</span></a></li>
         </ul>
     </div>
 </nav>
@@ -82,11 +83,11 @@
 </div>
 
 <body>
-    <ul>
-        <div class="container">
-            {% block base %} {% endblock %}
-        </div>
-    </ul>
+<ul>
+    <div class="container">
+        {% block base %} {% endblock %}
+    </div>
+</ul>
 </body>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -121,7 +122,7 @@
                         $('#rua').val(data.rua);
                         $('#bairro').val(data.bairro);
                         $('#cidade').val(data.cidade);
-                        $('#estado').val(data.estado); 
+                        $('#estado').val(data.estado);
                         $('#numero').focus();
                     }
                 }
