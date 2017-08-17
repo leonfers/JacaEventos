@@ -92,38 +92,11 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="{% static 'teste/js/materialize.js' %}"></script>
 <script src="{% static 'teste/js/init.js' %}"></script>
-<script>
-    $().ready(function() {
-        $('select').material_select();
-      });
-    $('.datepicker').pickadate({
-        selectMonths: false, // Creates a dropdown to control month
-        selectYears: 70,
-        min: [1917,01,01],
-        max: false,
-        format: 'yyyy-mm-dd'
-    });
+<script src="{% static 'teste/js/calendario.js' %}"></script>
+<script src="{% static 'teste/js/select.js' %}"></script>
+<script src="{% static 'teste/js/cep.js' %}"></script>
 
-
-    $("input[name=cep]").blur(function() {
-    var cep = $(this).val().replace(/[^0-9]/, '');
-    var url = 'https://correiosapi.apphb.com/cep/'+cep;
-    $.ajax({
-        url: url,
-        type: "GET",
-        dataType: "jsonp",
-        success: function (data) {
-        $("input[name=pais]").val("Brasil");
-        $("input[name=estado]").val(data.estado);
-        $("input[name=cidade]").val(data.cidade);
-        $("input[name=logradouro]").val(data.tipoDeLogradouro + " " + data.logradouro);
-
-
-    }
-    });
-
-    });
-</script>
+<script> </script>
 
 {% block scripts%}
 
