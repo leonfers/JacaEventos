@@ -1,3 +1,3 @@
- $().ready(function() {
+    $().ready(function() {
         $('select').material_select();
       });
