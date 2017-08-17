@@ -4257,29 +4257,29 @@ nav .brand-logo.center {
 
 /*kassio*/
 @media only screen and (max-width: 480px) {
-  body {
-    font-size: 12px;
-  }
+    body {
+        font-size: 12px;
+    }
 
-  .imagem-logo{
-    display: none;
-  }
+    .imagem-logo{
+        display: none;
+    }
 
-  nav .brand-logo .imagem-logo-nav{
-      display: none;
-      margin-left: -200px;
-  }
+    imagem-logo-nav{
+        display: none;
+    }
 
-  imagem-logo-nav{
-      display: none;
-  }
+    .row .col.s6 {
+        width: 100%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
 
-  .row .col.s6 {
-    width: 100%;
-    margin-left: auto;
-    left: auto;
-    right: auto;
-  }
+    nav .brand-logo .imagem-logo-nav{
+        display: none;
+    }
+
 
   .row .col.s4 {
     width: 100%;
@@ -4418,16 +4418,21 @@ nav .input-field label.active i {
 
 @media only screen and (min-width: 601px) {
 
-  nav.nav-extended .nav-wrapper {
-    min-height: 64px;
-  }
-  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-    height: 64px;
-    line-height: 64px;
-  }
-  .navbar-fixed {
-    height: 64px;
-  }
+    nav.nav-extended .nav-wrapper {
+        min-height: 64px;
+    }
+    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+        height: 64px;
+        line-height: 64px;
+    }
+    .navbar-fixed {
+        height: 64px;
+    }
+
+    nav .brand-logo .imagem-logo-nav{
+        display: none;
+
+    }
 }
 
 @font-face {
@@ -4698,6 +4703,8 @@ small {
 }
 
 @media only screen and (max-width: 360px) {
+
+
   .flow-text {
     font-size: 1.2rem;
   }
