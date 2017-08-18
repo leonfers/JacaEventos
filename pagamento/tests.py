@@ -17,12 +17,13 @@ class TestarPagamentos(TestCase):
         self.assertTrue(status_pagamento_invalido.status, 'NAO PAGO')
     
     def test_calcular_valor_correto_de_quando_se_utilizar_um_cupom_promocional_individual(self):
-        pagamento_feito = Pagamento(valor_pagamento=80.0)
+        pagamento_feito = Pagamento(valor_pagamento=80.0)    
         evento = Evento(valor=100.0)
-        cupom_usado = Cupom(evento)
-        pagamento_cupom = PagamentoCupom(pagamento=pagamento_feito, cupom=cupom_usado)
+        cupom = Cupom(porcentagem=0.20, evento = evento)
+
+        pagamento_cupom = PagamentoCupom(pagamento=pagamento_feito, cupom=cupom)
         
-        self.assertEqual(pagamento_feito.valor_pagamento, evento.valor - (evento.valor * 0.2))
+        self.assertEqual(pagamento_feito.valor_pagamento, evento.valor - cupom.receberDesconto(evento.valor))
         
 
         
