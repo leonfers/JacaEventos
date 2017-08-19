@@ -20,7 +20,7 @@ class Endereco(models.Model):
     logradouro = models.TextField(blank=True, null=False)
     numero = models.TextField(blank=True, null=False)
     cep = models.TextField(blank=True, null=False)
-    estado = models.CharField(choices=STATE_CHOICES, max_length=2, default='??', blank=False,null=False)
+    estado = models.TextField(blank=False,null=False)
 
 
 class Horario(models.Model):
