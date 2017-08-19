@@ -1,0 +1,22 @@
+{% extends "geral/base.html" %}
+
+{% block base %}
+
+<div class="row">
+    {% for evento in eventos %}
+    <div class="col s4">
+        <div class="card">
+            <div class="card-image">
+                <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
+                <span class="card-title">{{evento.nome}}</span>
+                <a href="{% url 'exibir_evento' evento.id %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">input</i></a>
+            </div>
+            <div class="card-content">
+                <p>{{evento.descricao}}.</p>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{% endblock %}
