@@ -89,6 +89,12 @@ class Evento(models.Model):
         through="core.Tag_Evento",
         related_name='tags_do_evento')
 
+    @property
+    def atividades(self):
+        return AtividadeAbstrata.objects.all()
+
+
+
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
@@ -175,6 +181,10 @@ class AtividadeAbstrata(PolymorphicModel):
                                 verbose_name="periodo",
                                 related_name="periodo",
                                 default="")
+    
+    @staticmethod
+    def atividades_tipo( tipo):
+        return AtividadeAbstrata.objects.filter().instance_of(tipo)
 
     class Meta:
         verbose_name = 'Atividade'
