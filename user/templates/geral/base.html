@@ -5,37 +5,36 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="{% static 'teste/css/mobile.css' %}" type="text/css" rel="stylesheet" media="(max-width: 480px)" )/>
+
     <!--<link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 
     <title>Jaca Eventos</title>
 
     <script>
-        $(window).load(function() {
-            $("#loading-center").click(function() {
+    $(window).load(function() {
+	    $("#loading-center").click(function() {
                 $("#loading").fadeOut(500);
-            })
-        });
+	    })
+    });
 
-        $(window).load(function() {
-            $("#loading").fadeOut(500);
-        })
+    $(window).load(function() {
+        $("#loading").fadeOut(500);
+    })
+    function img() {
 
-        function img() {
-
-        }
+    }
     </script>
 
 
 </head>
 <nav>
     <div class="nav-wrapper #6a1b9a purple darken-3">
-        <a href="" class="brand-logo"><img class="imagem-logo" src="../static/img/Logonav.png" width="110px" height="60px"/></a>
+        <a href="" class="brand-logo"><img class="imagem-logo" src="../static/img/LogoComNome.png" width="110px" height="60px"/></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="">Alterar senha</a></li>
-            <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
-            <li><a href="">sass <span class="new badge">4</span></a></li>
+            <li><a  href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
         </ul>
     </div>
 </nav>
@@ -80,58 +79,27 @@
 <div class="fixed-action-btn horizontal click-to-toggle">
     <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large red"><i class="material-icons">menu</i></a>
 </div>
-
 <body>
-    <ul>
-        <div class="container">
-            {% block base %} {% endblock %}
-        </div>
-    </ul>
-</body>
 
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<div class="container">
+    {% block base %}
+
+    {% endblock %}
+</div>
+
+</body>
+<script src="{% static 'teste/js/jquery-2.1.1.min.js' %}"></script>
 <script src="{% static 'teste/js/materialize.js' %}"></script>
 <script src="{% static 'teste/js/init.js' %}"></script>
-<script>
-    $().ready(function() {
-        $('select').material_select();
-    });
-    $('.datepicker').pickadate({
-        selectMonths: false, // Creates a dropdown to control month
-        selectYears: 70,
-        min: [1917, 01, 01],
-        max: false,
-        format: 'yyyy-mm-dd'
-    });
-    $(document).ready(function() {
-        /* Executa a requisição quando o campo CEP perder o foco */
-        $('#cep').blur(function() {
-            /* Configura a requisição AJAX */
-            $.ajax({
-                url: 'consultar_cep.php',
-                /* URL que será chamada */
-                type: 'POST',
-                /* Tipo da requisição */
-                data: 'cep=' + $('#cep').val(),
-                /* dado que será enviado via POST */
-                dataType: 'json',
-                /* Tipo de transmissão */
-                success: function(data) {
-                    if (data.sucesso == 1) {
-                        $('#rua').val(data.rua);
-                        $('#bairro').val(data.bairro);
-                        $('#cidade').val(data.cidade);
-                        $('#estado').val(data.estado); 
-                        $('#numero').focus();
-                    }
-                }
-            });
-            return false;
-        })
-    });
-</script>
+<script src="{% static 'teste/js/calendario.js' %}"></script>
+<script src="{% static 'teste/js/select.js' %}"></script>
+<script src="{% static 'teste/js/cep.js' %}"></script>
 
-{% block scripts%} {% endblock %}
+<script> </script>
+
+{% block scripts%}
+
+{% endblock %}
 
 <br>
 <footer class="page-footer #6a1b9a purple darken-3">
@@ -139,12 +107,15 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Jaca Eventos</h5>
-                <p class="grey-text text-lighten-4">Participe de eventos incriveis ou crie um você mesmo.</p>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/Jaca-Eventos-126885344599690/" target="_blank">Facebook/JacaEventos</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
                 </ul>
             </div>
         </div>
@@ -155,5 +126,4 @@
         </div>
     </div>
 </footer>
-
 </html>
