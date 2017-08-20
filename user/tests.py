@@ -6,6 +6,23 @@ from django.urls import reverse
 from .models import *
 from core.models import *
 
+
+class TestesViewLogin(TestCase):
+
+
+    def test_resposta_de_status_a_registrar(self):
+        resposta = self.client.get(reverse('registrar'))
+        self.assertEqual(resposta.status_code, 200)
+    
+
+class TestesViewInicio(TestCase):
+
+
+    def test_resposta_de_status_a_pagina_inicial(self):
+        resposta = self.client.get(reverse('pagina_inicial'))
+        self.assertEqual(resposta.status_code, 302)
+    
+    
 class TestesPerfilUsuario(TestCase):
 
 
@@ -31,7 +48,7 @@ class TestesPerfilUsuario(TestCase):
 
     def test_username_em_branco(self):
          usuario = Usuario(username = '')
-         self.assertFalse(usuario.username, '')
+         self.assertTrue(usuario.username, '')
 
 
 class TesteInscricao(TestCase):
@@ -43,7 +60,7 @@ class TesteInscricao(TestCase):
         """
         atividade = Atividade(valor=5.0)
         evento_criado = Evento()
-        evento_criado.add_atividade(self, atividade)
+        evento_criado.add_atividade(atividade)
         inscricao = Inscricao(evento = evento_criado)
         
         self.assertEqual(evento_criado.valor, inscricao.evento.valor)
@@ -52,8 +69,8 @@ class TesteInscricao(TestCase):
         """
         Verifica o status_inscricao comparando se e ativa, e se for retorna erro.
         """  
-        inscricao = Inscricao(status_inscricao=ATIVA)
-        self.assertEqual(inscricao.status_inscricao, ATIVA)
+        inscricao = Inscricao(status_inscricao="ativa")
+        self.assertEqual(inscricao.status_inscricao, "ativa")
     
 
     
