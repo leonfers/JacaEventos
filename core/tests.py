@@ -24,20 +24,20 @@ class ClassTesteEvento(TestCase):
     def test_evento_criado_com_dono_e_conjunto_vazio_de_atividades(self):
         o_dono = Usuario(nome='Ele')
         evento = Evento(dono=o_dono)
+        sem_atividades = evento.get_atividades()
+        vazio = len(sem_atividades)
         self.assertEqual(evento.dono.nome, 'Ele')
-        """self.assertFalse(evento.get_atividades(), [])"""
-    
-    def test_evento_com_lista_vazia_de_relacionamento_com_empresas(self):
-        evento = Evento()
-        self.assertFalse(evento.get_instituicoes(), [])
+        self.assertEqual(vazio, 0)
     
     def test_campo_valor_em_branco(self):
         evento = Evento(valor='')
         self.assertEqual(evento.valor, '')
     
-    def test_lista_instituicoes_em_branco(self):
+    def test_evento_com_lista_vazia_de_relacionamento_com_empresas(self):
         evento = Evento()
-        self.assertFalse(evento.get_instituicoes(), [])
+        sem_instituicoes = evento.get_instituicoes()
+        vazio = len(sem_instituicoes)
+        self.assertEqual(vazio, 0)
 
 
 class ClasseTesteInstituiçao(TestCase):
@@ -90,16 +90,9 @@ class ClasseTesteValores(TestCase):
         Ver se na criacao do evento foram criada tambem lista de atividades vazia.
         """
         evento = Evento()
-        """
-        self.assertFalse(evento.get_atividades(), [])
-        """
-    
-    def test_atribuicao_de_lista_vazia_de_relacionamentos_com_empresas_a_Evento_recem_criado(self):
-        """
-        Ver se na criacao do evento foram criada tambem lista de atividades vazia.
-        """
-        evento = Evento()
-        self.assertFalse(evento.get_instituicoes(), [])
+        sem_atividades = evento.get_atividades()
+        vazio = len(sem_atividades)
+        self.assertEqual(vazio, 0)
     
     def test_nao_permitir_Atividades_de_Eventos_distintos_na_mesma_Atividade_(self):
         """
@@ -107,7 +100,5 @@ class ClasseTesteValores(TestCase):
         """
         atividade_repetida = Atividade(nome="Teste")
         evento = Evento()
-        """
         self.assertFalse(atividade_repetida in evento.get_atividades())
-        """
     
