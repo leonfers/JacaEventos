@@ -266,12 +266,12 @@
         <div class="collapsible-body"><span>
 
              <ul class="collapsible popout" data-collapsible="accordion">
-                {% for espaco in espacos %}
+                <!--{% for espaco in espacos %}-->
                     <div class="chip">
                         {{ espaco }}
                         <i class="close material-icons">close</i>
                     </div>
-                {%endfor%}
+                <!--{%endfor%}-->
             </ul>
             {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">

@@ -7,7 +7,7 @@ from pycep_correios import CEPInvalido
 from .forms import *
 import pycep_correios
 from user.models import Usuario
-from core.models import Evento
+from core.models import Evento, EspacoFisico
 from user.models import Usuario
 from utils.forms import PeriodoForm, EnderecoForm
 
@@ -36,5 +36,6 @@ def pagina_inicial(request):
 @login_required
 def inscricao_evento(request, inscricao_evento_id):
     template_name = 'inscricao/inscricao_evento.html'
-    context = {'evento' : Evento.objects.get(id=inscricao_evento_id)}
+    context = {'evento' : Evento.objects.get(id=inscricao_evento_id),
+               'espaco' : EspacoFisico.objects.all()}
     return render(request, template_name, context)
