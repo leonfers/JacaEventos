@@ -33,4 +33,8 @@ def registrar(request):
 def pagina_inicial(request):
     return render(request, 'inicio/pagina_inicial.html')
 
-
+@login_required
+def inscricao_evento(request, inscricao_evento_id):
+    template_name = 'inscricao/inscricao_evento.html'
+    context = {'evento' : Evento.objects.get(id=inscricao_evento_id)}
+    return render(request, template_name, context)

@@ -10,4 +10,7 @@ urlpatterns = [
     url('^registrar_evento/$', views.registrar_eventos, name='registrar_eventos'),
     url('^registrar_instituicoes/$', views.registrar_instituicoes, name='registrar_instituicoes'),
     url('^participar_evento/$', views.participar_evento, name='participar_evento'),
+
+
+
 ]

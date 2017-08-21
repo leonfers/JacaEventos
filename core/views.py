@@ -220,3 +220,4 @@ def participar_evento(request):
     template_name = 'evento/participar_evento.html'
     context = {'eventos': Evento.objects.all()}
     return render(request, template_name, context)
+
