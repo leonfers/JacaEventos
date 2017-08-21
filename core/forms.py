@@ -98,4 +98,5 @@ class RegistrarEspacoFisicoEvento(forms.ModelForm):
 
     class Meta:
         model = EspacoFisico
+        exclude = ['evento']
         fields = '__all__'

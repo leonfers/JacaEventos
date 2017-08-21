@@ -94,16 +94,14 @@ def exibir_evento(request, eventos_id):
     form_gerentes = RegistrarGerentes(request.POST)
     form_tag_evento = RegistrarTagEventos(request.POST)
     form_evento_satelite = AdicionarEventosSatelite(request.POST)
-
     form_periodo = PeriodoForm(request.POST)
     form_instituicao_evento = AssociarInstituicoesEvento(request.POST)
     form_trilha_atividade = TrilhaAtividadeEvento(request.POST)
-
     form_atividade_padrao = RegistrarAtividade(request.POST)
     form_atividade_administrativa = RegistrarAtividadeAdministrativa(request.POST)
     form_atividade_continua = RegistrarAtividadeContinua(request.POST)
-
     form_horario = HorarioForm(request.POST)
+    form_espaco_fisico = RegistrarEspacoFisicoEvento(request.POST)
 
     if request.method == 'POST':
 
@@ -112,10 +110,10 @@ def exibir_evento(request, eventos_id):
         formulario_atividade_continua(form_atividade_continua, form_horario, form_periodo, evento)
         formulario_tag(form_tag_evento, evento)
         formulario_gerente(form_gerentes, evento)
-
         formulario_evento_satelite(form_evento_satelite, evento)
-
         formulario_intituicao_evento(form_instituicao_evento, evento)
+        formularioEspacoFisico(form_espaco_fisico, evento)
+
         # TODO AINDA POR FAZER
 
         if form_periodo.is_valid() and form_trilha_atividade.is_valid():
@@ -137,10 +135,12 @@ def exibir_evento(request, eventos_id):
         form_atividade_padrao = RegistrarAtividade()
         form_atividade_administrativa = RegistrarAtividadeAdministrativa()
         form_atividade_continua = RegistrarAtividadeContinua()
-
         form_horario = HorarioForm()
+        form_espaco_fisico = RegistrarEspacoFisicoEvento()
 
-    context = {'form_evento_satelite': form_evento_satelite, 'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,  'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento}
+    context = {'form_evento_satelite': form_evento_satelite, 'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,
+               'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,
+               'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento, 'form_espaco_fisico' : form_espaco_fisico}
 
     return render(request, template_name, context)
 
@@ -215,6 +215,12 @@ def formulario_intituicao_evento(form_instituicao_evento, evento):
         # evento.add_instituicao(instituicao_evento)
 
         form_instituicao_evento = AssociarInstituicoesEvento()
+
+def formularioEspacoFisico(form_espaco_fisico, evento):
+    if form_espaco_fisico.is_valid():
+        espaco_fisico = form_espaco_fisico.save(commit=False)
+        espaco_fisico.evento = evento
+        espaco_fisico.save()
 
 def participar_evento(request):
     template_name = 'evento/participar_evento.html'
