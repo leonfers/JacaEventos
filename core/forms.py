@@ -1,5 +1,5 @@
 from django import forms
-from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa, EventoSatelite
+from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
 
 
 class RegistrarEvento(forms.ModelForm):
@@ -94,3 +94,8 @@ class RegistrarAtividadeAdministrativa(forms.ModelForm):
         fields = '__all__'
 
 
+class RegistrarEspacoFisicoEvento(forms.ModelForm):
+
+    class Meta:
+        model = EspacoFisico
+        fields = '__all__'
