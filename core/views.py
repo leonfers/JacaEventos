@@ -125,7 +125,6 @@ def exibir_evento(request, eventos_id):
 
             form_periodo = PeriodoForm()
 
-
     else:
         form_gerentes = RegistrarGerentes()
         form_periodo = PeriodoForm()
@@ -140,12 +139,10 @@ def exibir_evento(request, eventos_id):
 
     context = {'form_evento_satelite': form_evento_satelite, 'form_horario': form_horario,'atividade_continua': form_atividade_continua ,'atividade_administrativa': form_atividade_administrativa ,
                'atividade_padrao' : form_atividade_padrao, 'exibir_evento' : evento, 'form_periodo' : form_periodo, 'form_gerente' : form_gerentes,
-               'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento, 'form_espaco_fisico' : form_espaco_fisico}
+               'form_tag_evento' : form_tag_evento, 'form_instituicao_evento' : form_instituicao_evento, 'form_espaco_fisico' : form_espaco_fisico,
+               'espacos' : EspacoFisico.objects.all()}
 
     return render(request, template_name, context)
-
-
-
 
 # METODOS DO FORMULARIO
 def formulario_tag(form_tag_evento, evento):
@@ -214,14 +211,13 @@ def formulario_intituicao_evento(form_instituicao_evento, evento):
         instituicao_evento.save()
         # evento.add_instituicao(instituicao_evento)
 
-        form_instituicao_evento = AssociarInstituicoesEvento()
-
 def formularioEspacoFisico(form_espaco_fisico, evento):
     if form_espaco_fisico.is_valid():
         espaco_fisico = form_espaco_fisico.save(commit=False)
         espaco_fisico.evento = evento
         espaco_fisico.save()
 
+@login_required
 def participar_evento(request):
     template_name = 'evento/participar_evento.html'
     context = {'eventos': Evento.objects.all()}

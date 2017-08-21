@@ -266,9 +266,9 @@
         <div class="collapsible-body"><span>
 
              <ul class="collapsible popout" data-collapsible="accordion">
-                {% for instituicoes in exibir_evento.espaco_fisico %}
+                {% for espaco in espacos %}
                     <div class="chip">
-                        {{ instituicoes }}
+                        {{ espaco }}
                         <i class="close material-icons">close</i>
                     </div>
                 {%endfor%}

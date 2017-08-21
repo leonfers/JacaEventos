@@ -94,7 +94,6 @@ class Evento(models.Model):
         return AtividadeAbstrata.objects.all()
 
 
-
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
@@ -183,7 +182,7 @@ class AtividadeAbstrata(PolymorphicModel):
                                 default="")
     
     @staticmethod
-    def atividades_tipo( tipo):
+    def atividades_tipo(tipo):
         return AtividadeAbstrata.objects.filter().instance_of(tipo)
 
     class Meta:
@@ -361,4 +360,9 @@ class EspacoFisico(models.Model):
     evento = models.ForeignKey("core.Evento",related_name="espaco_do_evento", default="")
     atividade = models.ForeignKey("core.AtividadeAbstrata",related_name="espaco_da_atividade", default="")
 
+    def __str__(self):
+        return self.nome
 
+    @property
+    def evento(self):
+        return Evento.objects.all()
