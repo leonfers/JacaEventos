@@ -365,3 +365,4 @@ class EspacoFisico(models.Model):
 
     def __str__(self):
         return self.nome
+
