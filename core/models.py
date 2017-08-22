@@ -243,6 +243,9 @@ class Trilha(models.Model):
         verbose_name = 'Trilha'
         verbose_name_plural = 'Trilhas'
 
+    def __str__(self):
+        return self.nome
+
 
 class TrilhaInscricao(models.Model):
     trilha = models.ForeignKey('core.Trilha' ,

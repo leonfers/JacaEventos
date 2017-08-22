@@ -40,7 +40,7 @@
     </tr>
     <tr>
         <td>Periodo</td>
-        <td>{{evento.periodo}}</td>
+        <td>{{evento.periodo.data_inicio}} ate {{evento.periodo.data_fim}}</td>
     </tr>
     <tr>
         <td>Atividades</td>
@@ -67,5 +67,7 @@
 
     </tbody>
 </table>
+<br>
+{{form_incricao_evento}}
 
 {% endblock %}

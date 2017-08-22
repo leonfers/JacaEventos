@@ -36,6 +36,18 @@ def pagina_inicial(request):
 @login_required
 def inscricao_evento(request, inscricao_evento_id):
     template_name = 'inscricao/inscricao_evento.html'
+    if request.method == 'POST':
+        form_incricao_evento = InscricaoEvento(request.POST)
+
+        if form_incricao_evento.is_valid():
+            inscricao = form_incricao_evento.save(commit=False)
+            inscricao.usuario = request.user
+            inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
+
+    else:
+        form_incricao_evento = InscricaoEvento()
+
     context = {'evento' : Evento.objects.get(id=inscricao_evento_id),
-               'espaco' : EspacoFisico.objects.all()}
+               'espaco' : EspacoFisico.objects.all(),
+               'form_incricao_evento' : form_incricao_evento}
     return render(request, template_name, context)

@@ -8,6 +8,7 @@ from django import forms
 from core.models import TipoEvento
 
 from core.models import Evento, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite, Trilha, Atividade, AtividadeAdministrativa, AtividadeContinua
+from user.models import Inscricao
 
 User = get_user_model()
 
@@ -37,5 +38,12 @@ class RegistrarUsuario(forms.ModelForm):
         model = User
         # abstract = True
         fields = ['username','email','nome']
+
+class InscricaoEvento(forms.ModelForm):
+
+    class Meta:
+        model = Inscricao
+        exclude = ['usuario', 'evento']
+        fields = '__all__'
 
 
