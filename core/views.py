@@ -210,6 +210,7 @@ def formulario_intituicao_evento(form_instituicao_evento, evento):
         instituicao_evento.evento_relacionado = evento
         instituicao_evento.save()
         # evento.add_instituicao(instituicao_evento)
+        return redirect(settings.REALIZAR_INSCRICAO)
 
 def formularioEspacoFisico(form_espaco_fisico, evento):
     if form_espaco_fisico.is_valid():

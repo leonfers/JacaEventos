@@ -70,6 +70,7 @@
 <br>
 <div align="center">
     <form method="POST" name="register" class="register-form">
+        {% csrf_token %}
         {{form_incricao_evento}}
         <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Se Inscrever</button><br><br>
     </form>

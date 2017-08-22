@@ -44,6 +44,8 @@ def inscricao_evento(request, inscricao_evento_id):
             inscricao = form_incricao_evento.save(commit=False)
             inscricao.usuario = request.user
             inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
+            inscricao.save()
+            return render(request, 'inscricao/conclusao_inscricao.html')
 
     else:
         form_incricao_evento = InscricaoEvento()
