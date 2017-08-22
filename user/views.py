@@ -36,6 +36,7 @@ def pagina_inicial(request):
 @login_required
 def inscricao_evento(request, inscricao_evento_id):
     template_name = 'inscricao/inscricao_evento.html'
+
     if request.method == 'POST':
         form_incricao_evento = InscricaoEvento(request.POST)
 

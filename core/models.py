@@ -299,7 +299,7 @@ class Instituicao(models.Model):
 class EventoInstituicao(models.Model):
     tipo_relacionamento = EnumField(TipoInstituicao, default=TipoInstituicao.PADRAO)
 
-    instituicao = models.ForeignKey('core.Instituicao',verbose_name="Evento",
+    instituicao = models.ForeignKey('core.Instituicao',verbose_name="Instituição",
                                     related_name="evento_instituicao",
                                     default="")
     evento_relacionado = models.ForeignKey(Evento,
@@ -365,7 +365,3 @@ class EspacoFisico(models.Model):
 
     def __str__(self):
         return self.nome
-
-    @property
-    def evento(self):
-        return Evento.objects.all()
