@@ -112,7 +112,7 @@ def exibir_evento(request, eventos_id):
         formulario_gerente(form_gerentes, evento)
         formulario_evento_satelite(form_evento_satelite, evento)
         formulario_intituicao_evento(form_instituicao_evento, evento)
-        formularioEspacoFisico(form_espaco_fisico, evento)
+        formulario_espaco_fisico(form_espaco_fisico, evento)
 
         # TODO AINDA POR FAZER
 
@@ -212,7 +212,7 @@ def formulario_intituicao_evento(form_instituicao_evento, evento):
         # evento.add_instituicao(instituicao_evento)
         return redirect(settings.REALIZAR_INSCRICAO)
 
-def formularioEspacoFisico(form_espaco_fisico, evento):
+def formulario_espaco_fisico(form_espaco_fisico, evento):
     if form_espaco_fisico.is_valid():
         espaco_fisico = form_espaco_fisico.save(commit=False)
         espaco_fisico.evento = evento
