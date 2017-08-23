@@ -215,3 +215,8 @@ def formulario_intituicao_evento(form_instituicao_evento, evento):
         # evento.add_instituicao(instituicao_evento)
 
         form_instituicao_evento = AssociarInstituicoesEvento()
+
+def participar_evento(request):
+    template_name = 'evento/participar_evento.html'
+    context = {'eventos': Evento.objects.all()}
+    return render(request, template_name, context)

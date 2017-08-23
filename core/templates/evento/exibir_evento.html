@@ -21,7 +21,7 @@
                 </li>
                 {%endfor%}
             </ul>
-
+        {% if exibir_evento.dono == request.user %}
         <ul class="collapsible popout" data-collapsible="accordion">
             <li>
                 <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{exibir_evento.nome}}</b></div>
@@ -43,6 +43,7 @@
                 </div>
             </li>
         </ul>
+        {% endif %}
         </span></div>
     </li>
 
@@ -58,6 +59,7 @@
                 {%endfor%}
 
             </ul>
+            {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
                     <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{exibir_evento.nome}}</b></div>
@@ -123,6 +125,7 @@
                     </span></div>
             </li>
         </ul>
+            {% endif %}
         </span></div>
     </li>
 
@@ -135,14 +138,14 @@
         <div class="collapsible-header"><i class="material-icons">sync</i>Eventos Satelite</div>
         <div class="collapsible-body"><span>
 
-            <!--<ul class="collapsible popout" data-collapsible="accordion">-->
-            <!--{% for gerente in exibir_evento.get_gerentes %}-->
-            <!--<li>-->
-            <!--<div class="collapsible-header"><i class="material-icons">filter_drama</i>{{gerente}}</div>-->
-            <!--</li>-->
-            <!--{%endfor%}-->
-            <!--</ul>-->
-
+            <ul class="collapsible popout" data-collapsible="accordion">
+                {% for sat in satelite %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{ sat }}</div>
+                </li>
+                {%endfor%}
+            </ul>
+            {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
                     <div class="collapsible-header"><i class="material-icons">add</i>Adicionar Eventos satelites a <b>{{exibir_evento.nome}}</b></div>
@@ -163,7 +166,9 @@
                         </div>
                     </span></div>
                 </li>
-            </ul></span>
+            </ul>
+            {% endif %}
+        </span>
         </div>
     </li>
 
@@ -178,7 +183,7 @@
                     </div>
                 {%endfor%}
              </ul>
-
+            {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
                     <div class="collapsible-header"><i class="material-icons">add</i>Adicionar Tags ao <b>{{exibir_evento.nome}}</b></div>
@@ -200,6 +205,7 @@
                     </span></div>
                 </li>
             </ul>
+            {% endif %}
         </span>
         </div>
     </li>
@@ -229,7 +235,7 @@
                     </div>
                 {%endfor%}
             </ul>
-
+            {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
                     <div class="collapsible-header"><i class="material-icons">add</i>Associar Instituições ao <b>{{exibir_evento.nome}}</b></div>
@@ -251,6 +257,7 @@
                     </span></div>
                 </li>
             </ul>
+            {% endif %}
         </span>
         </div>
     </li>
