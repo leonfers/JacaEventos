@@ -1,4 +1,6 @@
 from django import forms
+
+from user.models import Inscricao
 from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
 
 
@@ -99,4 +101,10 @@ class RegistrarEspacoFisicoEvento(forms.ModelForm):
     class Meta:
         model = EspacoFisico
         exclude = ['evento']
+        fields = '__all__'
+
+class InscricaoEvento(forms.ModelForm):
+
+    class Meta:
+        model = Inscricao
         fields = '__all__'
