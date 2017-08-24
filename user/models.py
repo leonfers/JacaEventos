@@ -103,11 +103,16 @@ class Inscricao(models.Model):
             item_inscricao.atividade = atividade
             item_inscricao.save()
 
+#     kassio criou metodo de checkin
+    def registro_checkin_inscricao(self):
+        checkin_inscricao = CheckinItemInscricao()
+        # checkin_inscricao.gerente = Usuario.objects.get(id=self.evento.dono.id).id
+        checkin_inscricao.save()
 
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
-    gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
+    gerente = models.ForeignKey("user.Usuario", max_length='255',related_name="gerente_chekin" , default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
 

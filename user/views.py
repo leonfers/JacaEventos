@@ -47,12 +47,7 @@ def inscricao_evento(request, inscricao_evento_id):
             inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
             inscricao.save()
             inscricao.add_item_inscricao()
-
-            checkin_evento = form_checkin_evento.save(commit=False)
-            # checkin_evento.hora = '12:30'
-            checkin_evento.data = '2017-10-10'
-            checkin_evento.gerente = inscricao_evento_id.dono
-            checkin_evento.save()
+            inscricao.registro_checkin_inscricao()
 
             return render(request, 'inscricao/conclusao_inscricao.html')
 
