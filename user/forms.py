@@ -46,14 +46,6 @@ class InscricaoEvento(forms.ModelForm):
         exclude = ['usuario', 'evento']
         fields = '__all__'
 
-
-class ItemInscricaoEvento(forms.ModelForm):
-
-    class Meta:
-        model = ItemInscricao
-        fields = '__all__'
-
-
 class CheckinItemInscricaoEvento(forms.ModelForm):
 
     class Meta:

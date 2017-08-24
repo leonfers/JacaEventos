@@ -94,12 +94,14 @@ class Inscricao(models.Model):
         atividades = self.evento.atividades.all()
         return atividades
 
-    def add_item_inscricao(self, id ):
-        self.save()
-        item_inscricao = ItemInscricao()
-        item_inscricao.inscricao = self
-        item_inscricao.atividade = self.get_atividades()[id]
-        item_inscricao.save()
+    # kassio alterou esse metodo
+    def add_item_inscricao(self):
+        # self.save()
+        for atividade in self.get_atividades():
+            item_inscricao = ItemInscricao()
+            item_inscricao.inscricao = self
+            item_inscricao.atividade = atividade
+            item_inscricao.save()
 
 
 class CheckinItemInscricao(models.Model):

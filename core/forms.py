@@ -97,14 +97,16 @@ class RegistrarAtividadeAdministrativa(forms.ModelForm):
 
 
 class RegistrarEspacoFisicoEvento(forms.ModelForm):
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+                                required=False)
 
     class Meta:
         model = EspacoFisico
         exclude = ['evento']
         fields = '__all__'
 
-class InscricaoEvento(forms.ModelForm):
-
-    class Meta:
-        model = Inscricao
-        fields = '__all__'
+# class InscricaoEvento(forms.ModelForm):
+#
+#     class Meta:
+#         model = Inscricao
+#         fields = '__all__'
