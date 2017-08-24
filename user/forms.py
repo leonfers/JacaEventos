@@ -8,7 +8,7 @@ from django import forms
 from core.models import TipoEvento
 
 from core.models import Evento, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite, Trilha, Atividade, AtividadeAdministrativa, AtividadeContinua
-from user.models import Inscricao, ItemInscricao
+from user.models import Inscricao, ItemInscricao, CheckinItemInscricao
 
 User = get_user_model()
 
@@ -54,4 +54,8 @@ class ItemInscricaoEvento(forms.ModelForm):
         fields = '__all__'
 
 
+class CheckinItemInscricaoEvento(forms.ModelForm):
 
+    class Meta:
+        model = CheckinItemInscricao
+        fields = '__all__'
