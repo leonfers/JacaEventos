@@ -3,6 +3,25 @@
 * Copyright 2014-2015 Materialize
 * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
 */
+
+/*Kassio Alterando*/
+.mobile{
+    font-size: 10px;
+}
+
+.mobile ul {
+    display: block;
+}
+
+.mobile ul li{
+    font-size: 12px;
+}
+
+.mobile ul li a{
+    font-size: 12px;
+}
+
+
 .materialize-red {
   background-color: #e51c23 !important;
 }
@@ -2436,6 +2455,7 @@ input::-moz-focus-inner {
  */
 input {
   line-height: normal;
+  text-align: center;
 }
 
 /**
@@ -2803,7 +2823,7 @@ ul.staggered-list li {
 
 @media only screen and (max-width: 992px) {
   .hide-on-med-and-down {
-    display: block;
+    display: none !important;
   }
 }
 
@@ -4255,192 +4275,148 @@ nav .brand-logo.center {
   transform: translateX(-50%);
 }
 
-/*kassio*/
-@media only screen and (max-width: 480px) {
-    body {
-        font-size: 12px;
-    }
-
-    .imagem-logo{
-        display: none;
-    }
-
-    imagem-logo-nav{
-        display: none;
-    }
-
-    .row .col.s6 {
-        width: 100%;
-        margin-left: auto;
-        left: auto;
-        right: auto;
-    }
-
-    nav .brand-logo .imagem-logo-nav{
-        display: none;
-    }
-
-
-    .row .col.s4 {
-        width: 100%;
-        margin-left: auto;
-        left: auto;
-        right: auto;
-    }
-}
-
-
 @media only screen and (max-width: 992px) {
-    nav .brand-logo {
-        left: 50%;
-        -webkit-transform: translateX(-50%);
-        transform: translateX(-50%);
-    }
-    nav .brand-logo.left, nav .brand-logo.right {
-        padding: 0;
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    nav .brand-logo.left {
-        left: 0.5rem;
-    }
-
-    nav .brand-logo.right {
-        right: 0.5rem;
-        left: auto;
-    }
+  nav .brand-logo {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  nav .brand-logo.left, nav .brand-logo.right {
+    padding: 0;
+    -webkit-transform: none;
+    transform: none;
+  }
+  nav .brand-logo.left {
+    left: 0.5rem;
+  }
+  nav .brand-logo.right {
+    right: 0.5rem;
+    left: auto;
+  }
 }
 
 nav .brand-logo.right {
-    right: 0.5rem;
-    padding: 0;
+  right: 0.5rem;
+  padding: 0;
 }
 
 nav .brand-logo i,
 nav .brand-logo [class^="mdi-"], nav .brand-logo [class*="mdi-"],
 nav .brand-logo i.material-icons {
-    float: left;
-    margin-right: 15px;
+  float: left;
+  margin-right: 15px;
 }
 
 nav .nav-title {
-    display: inline-block;
-    font-size: 32px;
-    padding: 28px 0;
+  display: inline-block;
+  font-size: 32px;
+  padding: 28px 0;
 }
 
 nav ul {
-    margin: 0;
+  margin: 0;
 }
 
 nav ul li {
-    transition: background-color .3s;
-    float: left;
-    padding: 0;
+  transition: background-color .3s;
+  float: left;
+  padding: 0;
 }
 
 nav ul li.active {
-    background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 nav ul a {
-    transition: background-color .3s;
-    font-size: 1rem;
-    color: #fff;
-    display: block;
-    padding: 0 15px;
-    cursor: pointer;
+  transition: background-color .3s;
+  font-size: 1rem;
+  color: #fff;
+  display: block;
+  padding: 0 15px;
+  cursor: pointer;
 }
 
 nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
-    margin-top: -2px;
-    margin-left: 15px;
-    margin-right: 15px;
+  margin-top: -2px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 nav ul a.btn > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-flat > .material-icons, nav ul a.btn-floating > .material-icons {
-    height: inherit;
-    line-height: inherit;
+  height: inherit;
+  line-height: inherit;
 }
 
 nav ul a:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 nav ul.left {
-    float: left;
+  float: left;
 }
 
 nav form {
-    height: 100%;
+  height: 100%;
 }
 
 nav .input-field {
-    margin: 0;
-    height: 100%;
+  margin: 0;
+  height: 100%;
 }
 
 nav .input-field input {
-    height: 100%;
-    font-size: 1.2rem;
-    border: none;
-    padding-left: 2rem;
+  height: 100%;
+  font-size: 1.2rem;
+  border: none;
+  padding-left: 2rem;
 }
 
 nav .input-field input:focus, nav .input-field input[type=text]:valid, nav .input-field input[type=password]:valid, nav .input-field input[type=email]:valid, nav .input-field input[type=url]:valid, nav .input-field input[type=date]:valid {
-    border: none;
-    box-shadow: none;
+  border: none;
+  box-shadow: none;
 }
 
 nav .input-field label {
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
 }
 
 nav .input-field label i {
-    color: rgba(255, 255, 255, 0.7);
-    transition: color .3s;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color .3s;
 }
 
 nav .input-field label.active i {
-    color: #fff;
+  color: #fff;
 }
 
 .navbar-fixed {
-    position: relative;
-    height: 56px;
-    z-index: 997;
+  position: relative;
+  height: 56px;
+  z-index: 997;
 }
 
 .navbar-fixed nav {
-    position: fixed;
+  position: fixed;
 }
 
-
 @media only screen and (min-width: 601px) {
-
-    nav.nav-extended .nav-wrapper {
-        min-height: 64px;
-    }
-    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-        height: 64px;
-        line-height: 64px;
-    }
-    .navbar-fixed {
-        height: 64px;
-    }
-
-    /*nav .brand-logo .imagem-logo-nav{*/
-        /*display: none;*/
-
-    /*}*/
+  nav.nav-extended .nav-wrapper {
+    min-height: 64px;
+  }
+  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    height: 64px;
+    line-height: 64px;
+  }
+  .navbar-fixed {
+    height: 64px;
+  }
 }
 
 @font-face {
-    font-family: "Roboto";
-    src: local(Roboto Thin), url("../fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../fonts/roboto/Roboto-Thin.woff") format("woff");
-    font-weight: 100;
+  font-family: "Roboto";
+  src: local(Roboto Thin), url("../fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../fonts/roboto/Roboto-Thin.woff") format("woff");
+  font-weight: 100;
 }
 
 @font-face {
@@ -4580,32 +4556,24 @@ small {
 }
 
 @media only screen and (min-width: 420px) {
-
   .flow-text {
     font-size: 1.248rem;
   }
 }
 
 @media only screen and (min-width: 450px) {
-
   .flow-text {
     font-size: 1.272rem;
   }
 }
 
 @media only screen and (min-width: 480px) {
-
-
-
   .flow-text {
     font-size: 1.296rem;
   }
 }
 
 @media only screen and (min-width: 510px) {
-
-
-
   .flow-text {
     font-size: 1.32rem;
   }
@@ -4615,8 +4583,6 @@ small {
   .flow-text {
     font-size: 1.344rem;
   }
-
-
 }
 
 @media only screen and (min-width: 570px) {
@@ -4705,8 +4671,6 @@ small {
 }
 
 @media only screen and (max-width: 360px) {
-
-
   .flow-text {
     font-size: 1.2rem;
   }

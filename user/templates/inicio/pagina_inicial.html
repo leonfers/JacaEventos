@@ -1,51 +1,54 @@
 {% extends "geral/base.html" %}
-
 {% block base %}
 
 <br><br><br>
 
 <!--<div class="container" align="center">-->
-    <div class="row">
-        <!--<div class="container" align="center">-->
-        <div class="col s4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
-                    <span class="card-title">Meus Eventos</span>
-                    <a href="{% url 'meus_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                </div>
+<div class="row">
+    <!--<div class="container" align="center">-->
+    <div class="col s4">
+        <div class="card">
+            <div class="card-image">
+                <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
+                <span class="card-title">Meus Eventos</span>
+                <a class="btn-floating halfway-fab waves-effect waves-light red purple-text" href="{% url 'meus_eventos' %}"><i class="material-icons">input</i></a>
+                <!--<a href="{% url 'registrar_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>-->
             </div>
-        </div>
-        <div class="col s4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/static/teste/images/registrar-evento.jpg" width="300px" height="300px">
-                    <span class="card-title">Registrar Evento</span>
-                    <a href="{% url 'registrar_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                </div>
+            <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
             </div>
+            <!--<div class="card-action">-->
+                <!--<a class="btn-floating halfway-fab waves-effect waves-light red purple-text" href="{% url 'meus_eventos' %}"><i class="material-icons">input</i></a>-->
+            <!--</div>-->
         </div>
-        <div class="col s4">
-            <div class="card">
-                <div class="card-image">
-                    <img class="activator" src="../static/img/fundo_perfil.jpg" width="300px" height="300px">
-                    <!--<img src="/static/teste/images/participar-evento.jpg" width="300px" height="300px">-->
-                    <span class="card-title">Participe de Eventos</span>
-                    <a href="{% url 'participar_evento' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                </div>
-            </div>
-        </div>
-        <!--</div>-->
     </div>
+    <div class="col s4">
+        <div class="card">
+            <div class="card-image">
+                <img src="/static/teste/images/registrar-evento.jpg" width="300px" height="300px">
+                <span class="card-title">Registrar Evento</span>
+                <a href="{% url 'registrar_eventos' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="card">
+            <div class="card-image">
+                <img class="activator" src="../static/img/fundo_perfil.jpg" width="300px" height="300px">
+                <!--<img src="/static/teste/images/participar-evento.jpg" width="300px" height="300px">-->
+                <span class="card-title">Participe de Eventos</span>
+                <a href="{% url 'participar_evento' %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+        </div>
+    </div>
+    <!--</div>-->
+</div>
 <!--</div>-->
 
 {% endblock %}

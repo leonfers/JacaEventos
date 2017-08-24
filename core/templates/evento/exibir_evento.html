@@ -51,10 +51,11 @@
         <div class="collapsible-header"><i class="material-icons">event_note</i>Atividades</div>
         <div class="collapsible-body"><span>
             <ul class="collapsible popout" data-collapsible="accordion">
-                {% for atividade in evento.get_atividades %}
+                {% for atividade in exibir_evento.atividades %}
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">storage</i>{{evento.nome}}</div>
-                    <div class="collapsible-body"><span>Descrição: {{evento.descricao}}<br>Valor: {{evento.valor}}</span></div>
+                    <div class="collapsible-header"><i class="material-icons">storage</i>{{atividade.nome}}</div>
+                    <div class="collapsible-body"><span>Descrição: {{ atividade.descricao }}<br>
+                        Valor: {{ atividade.valor }}</span></div>
                 </li>
                 {%endfor%}
 
@@ -261,5 +262,49 @@
         </span>
         </div>
     </li>
+    <li>
+        <div class="collapsible-header"><i class="material-icons">location_city</i>Espaço Fisico</div>
+        <div class="collapsible-body"><span>
+
+             <ul class="collapsible popout" data-collapsible="accordion">
+                <!--{% for espaco in espacos %}-->
+                    <div class="chip">
+                        {{ espaco }}
+                        <i class="close material-icons">close</i>
+                    </div>
+                <!--{%endfor%}-->
+            </ul>
+            {% if exibir_evento.dono == request.user %}
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Espacos do <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-body"><span>
+
+                        <div class="card-content">
+                            <form class="form-horizontal" method="POST">
+                                {% csrf_token %}
+                                <!--<fieldset>-->
+                                    <div class="container">
+                                        <div class="col s6" align="center">
+                                            {{ form_espaco_fisico }}
+                                            <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
+                                        </div>
+                                    </div>
+                                <!--</fieldset>-->
+                            </form>
+                        </div>
+                    </span></div>
+                </li>
+            </ul>
+            {% endif %}
+        </span>
+        </div>
+    </li>
+    {% if exibir_evento.dono != request.user %}
+    <br>
+    <div align="center">
+        <button class="btn"><a  class="white-text" href="{% url 'inscricao_evento' exibir_evento.id %}">Se Inscrever</a></button><br><br>
+    </div>
+    {% endif %}
 </ul>
 {% endblock %}

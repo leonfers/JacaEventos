@@ -7,7 +7,7 @@ from pycep_correios import CEPInvalido
 from .forms import *
 import pycep_correios
 from user.models import Usuario
-from core.models import Evento
+from core.models import Evento, EspacoFisico
 from user.models import Usuario
 from utils.forms import PeriodoForm, EnderecoForm
 
@@ -33,4 +33,24 @@ def registrar(request):
 def pagina_inicial(request):
     return render(request, 'inicio/pagina_inicial.html')
 
+@login_required
+def inscricao_evento(request, inscricao_evento_id):
+    template_name = 'inscricao/inscricao_evento.html'
 
+    if request.method == 'POST':
+        form_incricao_evento = InscricaoEvento(request.POST)
+
+        if form_incricao_evento.is_valid():
+            inscricao = form_incricao_evento.save(commit=False)
+            inscricao.usuario = request.user
+            inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
+            inscricao.save()
+            return render(request, 'inscricao/conclusao_inscricao.html')
+
+    else:
+        form_incricao_evento = InscricaoEvento()
+
+    context = {'evento' : Evento.objects.get(id=inscricao_evento_id),
+               'espaco' : EspacoFisico.objects.all(),
+               'form_incricao_evento' : form_incricao_evento}
+    return render(request, template_name, context)

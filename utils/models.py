@@ -10,7 +10,7 @@ class Periodo(models.Model):
         verbose_name_plural = 'Periodos'
 
     def __str__(self):
-        return self.data_inicio.__str__() + "para " + self.data_fim.__str__()
+        return self.data_inicio.__str__() + " para " + self.data_fim.__str__()
 
 
 class Endereco(models.Model):
@@ -21,6 +21,9 @@ class Endereco(models.Model):
     numero = models.TextField(blank=True, null=False)
     cep = models.TextField(blank=True, null=False)
     estado = models.TextField(blank=False,null=False)
+
+    def __str__(self):
+        return self.pais + '\n' + self.cidade + '\n' + self.bairro + '\n' + self.logradouro + '\n' + self.numero + '\n' + self.cep + '\n' + self.estado
 
 
 class Horario(models.Model):
@@ -34,7 +37,7 @@ class Horario(models.Model):
         verbose_name_plural = 'Horario'
 
     def __str__(self):
-        return self.data.__str__() + " de  " + self.hora_inicio.__str__() + " para  " + self.hora_fim.__str__()
+        return self.hora_inicio.__str__() + "  para  " + self.hora_fim.__str__()
 
 class HorarioAtividadeContinua(Horario):
     atividade = models.ForeignKey("core.AtividadeContinua" ,
