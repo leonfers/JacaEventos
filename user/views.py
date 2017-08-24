@@ -39,7 +39,7 @@ def inscricao_evento(request, inscricao_evento_id):
 
     if request.method == 'POST':
         form_incricao_evento = InscricaoEvento(request.POST)
-        form_checkin_evento = CheckinItemInscricao(request.POST)
+        form_checkin_evento = CheckinItemInscricaoEvento(request.POST)
 
         if form_incricao_evento.is_valid():
             inscricao = form_incricao_evento.save(commit=False)
@@ -47,10 +47,13 @@ def inscricao_evento(request, inscricao_evento_id):
             inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
             inscricao.save()
             inscricao.add_item_inscricao()
-            # checkin_evento = form_checkin_evento.save(commit=False)
+
+            checkin_evento = form_checkin_evento.save(commit=False)
             # checkin_evento.hora = '12:30'
-            # checkin_evento.data = '2017-04-05'
-            # checkin_evento.save()
+            checkin_evento.data = '2017-10-10'
+            checkin_evento.gerente = inscricao_evento_id.dono
+            checkin_evento.save()
+
             return render(request, 'inscricao/conclusao_inscricao.html')
 
     else:
@@ -61,4 +64,5 @@ def inscricao_evento(request, inscricao_evento_id):
                'espaco' : EspacoFisico.objects.all(),
                'form_incricao_evento' : form_incricao_evento,
                'form_checkin_evento' : form_checkin_evento}
+
     return render(request, template_name, context)

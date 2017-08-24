@@ -50,4 +50,5 @@ class CheckinItemInscricaoEvento(forms.ModelForm):
 
     class Meta:
         model = CheckinItemInscricao
+        # exclude = ['hora', 'data', 'status']
         fields = '__all__'
