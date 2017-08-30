@@ -28,15 +28,19 @@ class TestesPerfilUsuario(TestCase):
 
     def test_iniciar_Usuario_com_email_e_senha(self):
         usuario = Usuario(email="teste@teste")
-        self.assertFalse(Usuario.email, None)
+        self.assertTrue(Usuario.email, "teste@teste")
     
-    def test_criacao_Lista_Vazia_de_Evento_para_Usuario_recem_criado(self):
+    def test_criacao_Lista_Vazia_de_Eventos_para_Usuario_recem_criado(self):
         usuario = Usuario()
-        self.assertEqual(usuario.get_eventos(), [])
+        sem_eventos = usuario.get_eventos()
+        vazio = len(sem_eventos)
+        self.assertEqual(vazio, 0)
     
     def test_criacao_Lista_Vazia_de_Inscricoes_para_Usuario_recem_criado(self):
         usuario = Usuario()
-        self.assertEqual(usuario.get_inscricoes(), [])
+        sem_inscricoes = usuario.get_inscricoes()
+        vazio = len(sem_inscricoes)
+        self.assertEqual(vazio, 0)
     
     def test_nao_permitir_criacao_de_Evento_sem_nome(self): 
         Evento_sem_nome = Evento()
@@ -48,7 +52,7 @@ class TestesPerfilUsuario(TestCase):
 
     def test_username_em_branco(self):
          usuario = Usuario(username = '')
-         self.assertTrue(usuario.username, '')
+         self.assertEqual(usuario.username, '')
 
 
 class TesteInscricao(TestCase):
