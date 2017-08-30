@@ -7,9 +7,6 @@ from utils.models import *
 from core.models import *
 
 
-class TesteTag(TestCase):
-
-
-    def test_tag_de_nome_em_branco(self):
-        tag_de_nome_nula = Tag(nome='')
-        self.assertEqual(tag_de_nome_nula.nome, '')
+def test_tag_de_nome_em_branco(self):
+    tag_de_nome_nula = Tag(nome='')
+    self.assertEqual(tag_de_nome_nula.nome, '')

@@ -7,7 +7,6 @@ from utils.models import *
 from core.models import *
 
 """
-class TestePovoamento(TestCase):
-    def inicio_testes(self):
-        exec(open('povoar.py').read())
+def inicio_testes(self):
+    exec(open('povoar.py').read())
 """

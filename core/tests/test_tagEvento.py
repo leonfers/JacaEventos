@@ -7,10 +7,7 @@ from utils.models import *
 from core.models import *
 
 
-class TesteTagEvento(TestCase):
-
-
-    def test_tag_sem_evento(self):
-        evento_teste = Evento()
-        tag_sem_evento = Tag_Evento(evento=evento_teste)
-        self.assertFalse(tag_sem_evento.evento.nome, '')
+def test_tag_sem_evento(self):
+    evento_teste = Evento()
+    tag_sem_evento = Tag_Evento(evento=evento_teste)
+    self.assertFalse(tag_sem_evento.evento.nome, '')

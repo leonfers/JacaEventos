@@ -7,10 +7,7 @@ from utils.models import *
 from core.models import *
 
 
-class TesteAtividades(TestCase):
-
-
-    def test_permitir_concomitancia_de_atividades(self):
+def test_permitir_concomitancia_de_atividades(self):
         """
         Agenda: Deve ser possível gerar a agenda do evento:
         o Com atividades ordenadas por dia/horário, considerando Espaço Físico, Trilha,

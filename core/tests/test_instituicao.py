@@ -7,9 +7,6 @@ from utils.models import *
 from core.models import *
 
 
-class TesteInstituicao(TestCase):
-
-
-    def test_campo_nome_Instituicao_em_branco(self):
-        instituicao = Instituicao(nome='Nova')
-        self.assertEqual(instituicao.__str__(), 'Nova')
+def test_campo_nome_Instituicao_em_branco(self):
+    instituicao = Instituicao(nome='Nova')
+    self.assertEqual(instituicao.__str__(), 'Nova')
