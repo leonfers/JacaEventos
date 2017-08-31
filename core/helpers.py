@@ -1,9 +1,6 @@
 # METODOS DO FORMULARIO
 import pycep_correios
 from pycep_correios import CEPInvalido
-from django.conf import settings
-from django.http import request, HttpResponseRedirect
-from django.shortcuts import redirect
 
 from core.forms import RegistrarTagEventosForm, RegistrarGerentesForm, RegistrarEspacoFisicoEventoForm, \
     AssociarInstituicoesEventoForm, AdicionarEventosSateliteForm, RegistrarAtividadeContinuaForm, \
@@ -155,12 +152,11 @@ def formulario_registrar_evento( form_periodo, form_endereco, form_add_evento, s
             periodo = form_periodo.save( commit=False )
             periodo.save()
 
-            # pega os dados selecionados no formulario em tipo evento
+            # pega os dados preenchidos no formulario na opção de tipo evento
             tipo_evento = self.request.POST[ 'tipo_evento' ]
 
             evento = form_add_evento.save( commit=False )
             evento.dono = self.request.user
-
             evento.tipo_evento = tipo_evento
             evento.periodo = periodo
             evento.endereco = endereco
