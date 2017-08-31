@@ -13,7 +13,7 @@ from user.models import Inscricao, ItemInscricao, CheckinItemInscricao
 User = get_user_model()
 
 
-class RegistrarUsuario(forms.ModelForm):
+class RegistrarUsuarioForm(forms.ModelForm):
 
     senha1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
     senha2 = forms.CharField(label='Confirmacao de Senha', widget=forms.PasswordInput)
@@ -26,7 +26,7 @@ class RegistrarUsuario(forms.ModelForm):
         return senha2
 
     def save(self, commit=True):
-        user = super(RegistrarUsuario, self).save(commit=False)
+        user = super(RegistrarUsuarioForm, self).save(commit=False)
         user.set_password(self.cleaned_data['senha1'])
 
         user.email = self.cleaned_data['email']
@@ -39,14 +39,14 @@ class RegistrarUsuario(forms.ModelForm):
         # abstract = True
         fields = ['username','email','nome']
 
-class InscricaoEvento(forms.ModelForm):
+class InscricaoEventoForm(forms.ModelForm):
 
     class Meta:
         model = Inscricao
         exclude = ['usuario', 'evento']
         fields = '__all__'
 
-class CheckinItemInscricaoEvento(forms.ModelForm):
+class CheckinItemInscricaoEventoForm(forms.ModelForm):
 
     class Meta:
         model = CheckinItemInscricao
