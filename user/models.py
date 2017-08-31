@@ -5,6 +5,7 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 from enumfields import Enum, EnumField
+from utils.models import Observado
 
 
 class TipoResponsavelAtividade(Enum):
@@ -114,7 +115,7 @@ class Inscricao(models.Model):
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
-    gerente = models.ForeignKey("user.Usuario", max_length='255',related_name="gerente_chekin" , default="")
+    gerente = models.ForeignKey("user.Usuario",related_name="gerente_chekin" , default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
 
