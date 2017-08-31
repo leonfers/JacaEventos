@@ -6,7 +6,7 @@ from pycep_correios import CEPInvalido
 
 from core.helpers import formulario_atividade_padrao, formulario_atividade_administrativa, \
     formulario_atividade_continua, formulario_tag, formulario_gerente, formulario_evento_satelite, \
-    formulario_intituicao_evento, formulario_espaco_fisico, formulario_periodo
+    formulario_intituicao_evento, formulario_espaco_fisico, formulario_periodo, formulario_registrar_evento
 from .forms import *
 import pycep_correios
 from user.models import Usuario
@@ -15,64 +15,65 @@ from user.models import Usuario
 from utils.forms import *
 from django.conf import settings
 
+
 class RegistrarEvento(View):
     template_name = 'evento/form_registrar.html'
-
     form_add_evento = RegistrarEventoForm
     form_periodo = PeriodoForm
     form_endereco = EnderecoForm
 
     def get(self, request, *args, **kwargs):
-
         form_add_evento = self.form_add_evento()
         form_periodo = self.form_periodo()
         form_endereco = self.form_endereco()
-
         context = { 'form_evento': form_add_evento, 'form_periodo': form_periodo, 'form_endereco': form_endereco }
-
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        form_add_evento = self.form_add_evento(request.POST)
+        form_periodo = self.form_periodo(request.POST)
+        form_endereco = self.form_endereco(request.POST)
 
-        form_add_evento = self.form_add_evento
-        form_periodo = self.form_periodo
-        form_endereco = self.form_endereco
+        if formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self):
+            return redirect(settings.PAGINA_INICIAL)
+        else:
+            return redirect(self.template_name)
 
-        if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
-            endereco = form_endereco.save(commit=False)
-            try:
-                adress = pycep_correios.consultar_cep(endereco.cep)
-                print(adress)
-                endereco.cidade = adress['cidade']
-                endereco.estado = adress['uf']
-                endereco.logradouro = adress['end']
-                endereco.bairro = adress['bairro']
-                endereco.save()
+        # if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
+        #     endereco = form_endereco.save(commit=False)
+        #
+        #     try:
+        #         adress = pycep_correios.consultar_cep(endereco.cep)
+        #         print(adress)
+        #         endereco.cidade = adress['cidade']
+        #         endereco.estado = adress['uf']
+        #         endereco.logradouro = adress['end']
+        #         endereco.bairro = adress['bairro']
+        #         endereco.save()
+        #
+        #         periodo = form_periodo.save(commit=False)
+        #         periodo.save()
+        #
+        #         tipo_evento = request.POST['tipo_evento']
+        #
+        #         evento = form_add_evento.save(commit=False)
+        #         evento.dono = request.user
+        #
+        #         evento.tipo_evento = tipo_evento
+        #         evento.periodo = periodo
+        #         evento.endereco = endereco
+        #
+        #         # tag_evento.save()
+        #         evento.save()
+        #         return redirect(settings.PAGINA_INICIAL)
+        #
+        #     except CEPInvalido as exc:
+        #         print(exc)
+        #         return redirect(settings.PAGINA_INICIAL)
 
-                periodo = form_periodo.save(commit=False)
-                periodo.save()
-
-                tipo_evento = request.POST['tipo_evento']
-
-                evento = form_add_evento.save(commit=False)
-                evento.dono = request.user
-
-                evento.tipo_evento = tipo_evento
-                evento.periodo = periodo
-                evento.endereco = endereco
-
-                # tag_evento.save()
-                evento.save()
-
-                redirect(self.template_name)
-
-            except CEPInvalido as exc:
-                print(exc)
-                redirect(self.template_name)
 
 class RegistrarInstituicoes(View):
     template_name = 'instituicoes/form_registrar.html'
-
     form_instituicoes = RegistrarInstituicoesForm
 
     def post(self, request, *args, **kwargs):
@@ -84,11 +85,10 @@ class RegistrarInstituicoes(View):
             return redirect(settings.PAGINA_INICIAL)
 
     def get(self, request, *args, **kwargs):
-
         form_instituicoes = RegistrarInstituicoesForm()
         context = {'form_instituicoes': form_instituicoes}
-
         return render(request, self.template_name, context)
+
 
 class MeusEventos(View):
     template_name = 'evento/meus_eventos.html'
@@ -96,6 +96,7 @@ class MeusEventos(View):
     def get(self, request, *args, **kwargs):
         context = {'meus_eventos': request.user.get_eventos()}
         return render(request, self.template_name, context)
+
 
 @login_required
 def exibir_evento(request, eventos_id):
@@ -120,7 +121,6 @@ def exibir_evento(request, eventos_id):
         # TODO AINDA POR FAZER
 
     else:
-
         form_gerentes = RegistrarGerentesForm()
         form_periodo = PeriodoForm()
         form_tag_evento = RegistrarTagEventosForm()
@@ -138,6 +138,7 @@ def exibir_evento(request, eventos_id):
                'espacos' : EspacoFisico.objects.all()}
 
     return render(request, template_name, context)
+
 
 class ParticiparEvento(View):
     template_name = 'evento/participar_evento.html'

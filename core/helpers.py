@@ -1,5 +1,6 @@
 # METODOS DO FORMULARIO
-
+import pycep_correios
+from pycep_correios import CEPInvalido
 from django.conf import settings
 from django.http import request
 from django.shortcuts import redirect
@@ -102,5 +103,40 @@ def formulario_periodo(form_periodo, evento, form_trilha_atividade):
 
         form_periodo = PeriodoForm()
 
+#TODO
 def formulario_trilhe_evento():
     form_trilha_atividade = TrilhaAtividadeEventoForm(request.POST)
+
+
+def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self):
+
+    if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
+        endereco = form_endereco.save(commit=False)
+        try:
+            adress = pycep_correios.consultar_cep(endereco.cep)
+            print(adress)
+            endereco.cidade = adress['cidade']
+            endereco.estado = adress['uf']
+            endereco.logradouro = adress['end']
+            endereco.bairro = adress['bairro']
+            endereco.save()
+
+            periodo = form_periodo.save(commit=False)
+            periodo.save()
+
+            tipo_evento = self.request.POST['tipo_evento']
+
+            evento = form_add_evento.save(commit=False)
+            evento.dono = self.request.user
+
+            evento.tipo_evento = tipo_evento
+            evento.periodo = periodo
+            evento.endereco = endereco
+
+            # tag_evento.save()
+            evento.save()
+            return True
+
+        except CEPInvalido as exc:
+            print(exc)
+            return False
