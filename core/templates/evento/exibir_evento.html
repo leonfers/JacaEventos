@@ -3,7 +3,11 @@
 <ul class="collapsible popout" data-collapsible="accordion">
     <li>
         <div class="collapsible-header"><i class="material-icons">library_books</i>Descrição</div>
-        <div class="collapsible-body"><span>{{exibir_evento.descricao}}<br>Valor total: {{exibir_evento.valor}}<br>Status do evento: {{ exibir_evento.status_evento }}</span></div>
+        <div class="collapsible-body"><span>{{ exibir_evento.descricao }}<br>
+            Valor total: {{ exibir_evento.valor }}<br>
+            Status do evento: {{ exibir_evento.status_evento }}
+        </span>
+        </div>
     </li>
     <li>
         <div class="collapsible-header"><i class="material-icons">people</i>Gerentes</div>
@@ -19,12 +23,13 @@
                     <div class="collapsible-header"><i class="material-icons">person</i>{{ gerente }}</div>
                     <div class="collapsible-body"><span>{{ gerente.tipo_gerente.title }}</span></div>
                 </li>
-                {%endfor%}
+                {% endfor %}
             </ul>
         {% if exibir_evento.dono == request.user %}
         <ul class="collapsible popout" data-collapsible="accordion">
             <li>
-                <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{exibir_evento.nome}}</b></div>
+                <div class="collapsible-header"><i class="material-icons">person_add</i>Adicionar Gerente a <b>{{ exibir_evento.nome }}</b>
+                </div>
                 <div class="collapsible-body"><span>
                     <div class="card-content">
                         <form class="form-horizontal" method="POST">
@@ -53,7 +58,7 @@
             <ul class="collapsible popout" data-collapsible="accordion">
                 {% for atividade in exibir_evento.atividades %}
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">storage</i>{{atividade.nome}}</div>
+                    <div class="collapsible-header"><i class="material-icons">storage</i>{{ atividade.nome }}</div>
                     <div class="collapsible-body"><span>Descrição: {{ atividade.descricao }}<br>
                         Valor: {{ atividade.valor }}</span></div>
                 </li>
@@ -63,7 +68,7 @@
             {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-header"><i class="material-icons">playlist_add</i>Adicionar Atividade a <b>{{ exibir_evento.nome }}</b></div>
                     <div class="collapsible-body"><span>
                         <div class="card-content">
                             <form class="form-horizontal" method="POST">
@@ -132,7 +137,7 @@
 
     <li>
         <div class="collapsible-header"><i class="material-icons">layers</i>Tipo</div>
-        <div class="collapsible-body"><span>{{exibir_evento.tipo_evento}}</span></div>
+        <div class="collapsible-body"><span>{{ exibir_evento.tipo_evento }}</span></div>
     </li>
 
     <li>
@@ -234,12 +239,12 @@
                         {{ instituicoes }}
                         <i class="close material-icons">close</i>
                     </div>
-                {%endfor%}
+                {% endfor %}
             </ul>
             {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">add</i>Associar Instituições ao <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Associar Instituições ao <b>{{ exibir_evento.nome }}</b></div>
                     <div class="collapsible-body"><span>
 
                         <div class="card-content">
@@ -277,7 +282,7 @@
             {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">add</i>Espacos do <b>{{exibir_evento.nome}}</b></div>
+                    <div class="collapsible-header"><i class="material-icons">add</i>Espacos do <b>{{ exibir_evento.nome }}</b></div>
                     <div class="collapsible-body"><span>
 
                         <div class="card-content">

@@ -18,17 +18,16 @@ from utils.forms import PeriodoForm, EnderecoForm
 
 User = get_user_model()
 
-class Registrar(FormView):
+class Registrar( FormView ):
     template_name = 'login/registrar.html'
     form_class = RegistrarUsuarioForm
 
-    def form_valid(self, form):
-        print('entrou')
+    def form_valid( self, form ):
         user = form.save()
-        user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
-        return redirect(settings.LOGIN_URL)
+        user = authenticate( username=user.username, password=form.cleaned_data['senha1'] )
+        return redirect( settings.LOGIN_URL )
 
-class PaginaInicial(TemplateView):
+class PaginaInicial( TemplateView ):
     template_name = 'inicio/pagina_inicial.html'
 
 #
@@ -69,34 +68,34 @@ class PaginaInicial(TemplateView):
 
 # falta refatorar inscricao evento
 @login_required
-def inscricao_evento(request, inscricao_evento_id):
+def inscricao_evento( request, inscricao_evento_id ):
     template_name = 'inscricao/inscricao_evento.html'
 
     if request.method == 'POST':
-        form_incricao_evento = InscricaoEventoForm(request.POST)
-        form_checkin_evento = CheckinItemInscricaoEventoForm(request.POST)
+        form_incricao_evento = InscricaoEventoForm( request.POST )
+        form_checkin_evento = CheckinItemInscricaoEventoForm( request.POST )
 
         if form_incricao_evento.is_valid():
-            inscricao = form_incricao_evento.save(commit=False)
+            inscricao = form_incricao_evento.save( commit=False )
             inscricao.usuario = request.user
-            inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
+            inscricao.evento = Evento.objects.get( id=inscricao_evento_id )
             inscricao.save()
 
             inscricao.add_item_inscricao()
             # inscricao.registro_checkin_inscricao()
-            return redirect(settings.CONCLUSAO_INSCRICAO)
+            return redirect( settings.CONCLUSAO_INSCRICAO )
 
     else:
         form_incricao_evento = InscricaoEventoForm()
         form_checkin_evento = CheckinItemInscricao()
 
-    context = {'evento' : Evento.objects.get(id=inscricao_evento_id),
+    context = {'evento' : Evento.objects.get( id=inscricao_evento_id ),
                'espaco' : EspacoFisico.objects.all(),
                'form_incricao_evento' : form_incricao_evento,
-               'form_checkin_evento' : form_checkin_evento}
+               'form_checkin_evento' : form_checkin_evento }
 
-    return render(request, template_name, context)
+    return render( request, template_name, context )
 
 
-class ConclusaoInscricao(TemplateView):
+class ConclusaoInscricao( TemplateView ):
     template_name = 'inscricao/conclusao_inscricao.html'

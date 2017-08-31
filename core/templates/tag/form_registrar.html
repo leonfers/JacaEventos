@@ -1,18 +1,18 @@
 {% extends "geral/base.html" %}
-{%load bootstrap%}
+{% block form_adicionar_tag %}
 
-{%block form_adicionar_tag%}
 <div class="container" align="center">
     <form class="form-horizontal" method="POST">
         {% csrf_token %}
         <div class="container" align="center">
             <h5>Adicione tags ao Evento</h5><br>
             <fieldset>
-                {{ form_adicionar_tag|bootstrap}}
+                {{ form_adicionar_tag }}
                 <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
             </fieldset>
         </div>
         <br>
     </form>
 </div>
+
 {% endblock %}

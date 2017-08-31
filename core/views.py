@@ -6,7 +6,7 @@ from pycep_correios import CEPInvalido
 
 from core.helpers import formulario_atividade_padrao, formulario_atividade_administrativa, \
     formulario_atividade_continua, formulario_tag, formulario_gerente, formulario_evento_satelite, \
-    formulario_intituicao_evento, formulario_espaco_fisico, formulario_periodo, formulario_registrar_evento
+    formulario_intituicao_evento, formulario_espaco_fisico, formulario_registrar_evento
 from .forms import *
 import pycep_correios
 from user.models import Usuario
@@ -110,15 +110,15 @@ def exibir_evento(request, eventos_id):
         form_horario = HorarioForm( request.POST )
 
         # CHAMA OS METODOS DO ARQUIVO HELPERS
-        formulario_atividade_padrao( form_horario, evento )
-        formulario_atividade_administrativa( form_horario, evento )
-        formulario_atividade_continua( form_horario, evento )
-        formulario_tag( evento )
-        formulario_gerente( evento )
-        formulario_evento_satelite( evento )
-        formulario_intituicao_evento( evento )
-        formulario_espaco_fisico( evento )
-        formulario_periodo( evento )
+        formulario_gerente( evento, request )
+        formulario_atividade_padrao( form_horario, evento, request )
+        formulario_atividade_administrativa( form_horario, evento, request )
+        formulario_atividade_continua( form_horario, evento, request )
+        formulario_tag( evento, request )
+        formulario_evento_satelite( evento, request )
+        formulario_intituicao_evento( evento, request )
+        formulario_espaco_fisico( evento, request )
+        # formulario_periodo( evento, request )
 
         # TODO AINDA POR FAZER
 

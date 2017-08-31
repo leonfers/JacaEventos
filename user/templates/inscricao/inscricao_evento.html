@@ -18,50 +18,50 @@
         <td>Gerentes</td>
         <td>
             {% for gerente in evento.get_gerentes %}
-            {{gerente}}
+            {{ gerente }}
             {% endfor %}
         </td>
     </tr>
     <tr>
         <td>Descricao</td>
-        <td>{{evento.descricao}}</td>
+        <td>{{ evento.descricao }}</td>
     </tr>
     <tr>
         <td>Valor</td>
-        <td>{{evento.valor}} R$</td>
+        <td>{{ evento.valor }} R$</td>
     </tr>
     <tr>
         <td>Tipo do Evento</td>
-        <td>{{evento.tipo_evento}}</td>
+        <td>{{ evento.tipo_evento }}</td>
     </tr>
     <tr>
         <td>Endereco</td>
-        <td>{{evento.endereco}}</td>
+        <td>{{ evento.endereco }}</td>
     </tr>
     <tr>
         <td>Periodo</td>
-        <td>{{evento.periodo.data_inicio}} ate {{evento.periodo.data_fim}}</td>
+        <td>{{ evento.periodo.data_inicio }} ate {{ evento.periodo.data_fim }}</td>
     </tr>
     <tr>
         <td>Atividades</td>
         <td>{% for atividade in evento.get_atividades %}
-            {{atividade}}<br>
+            {{ atividade }}<br>
             {% endfor %}</td>
     </tr>
     <tr>
         <td>Espaco Fisico</td>
-        <td>{{evento.espaco_do_evento}}</td>
+        <td>{{ evento.espaco_do_evento }}</td>
     </tr>
     <tr>
         <td>Tags do Evento</td>
-        <td>{{evento.tags_evento}}</td>
+        <td>{{ evento.tags_evento }}</td>
     </tr>
     <tr>
         <td>Instituicoes Associadas</td>
         <td>
             {% for instituicao in evento.get_instituicoes %}
-            {{instituicao}}
-            {%endfor%}
+            {{ instituicao }}
+            {% endfor %}
         </td>
     </tr>
 
@@ -74,7 +74,7 @@
         {{ form_incricao_evento }}
         <!--{% csrf_token %}-->
         <!--{{ form_checkin_evento }}-->
-        <button class="btn-large waves-effect waves-light teal">Se Inscre*ver</button><br><br>
+        <button class="btn-large waves-effect waves-light teal">Se Inscrever</button><br><br>
     </form>
 </div>
 
