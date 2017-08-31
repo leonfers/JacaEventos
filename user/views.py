@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.generic import FormView
 from pycep_correios import CEPInvalido
 
 from .forms import *
@@ -13,21 +14,15 @@ from utils.forms import PeriodoForm, EnderecoForm
 
 User = get_user_model()
 
-def registrar(request):
+class Registrar(FormView):
     template_name = 'login/registrar.html'
-    if request.method == 'POST':
-        form = RegistrarUsuario(request.POST)
+    form_class = RegistrarUsuario
 
-        if form.is_valid():
-            user = form.save()
-            user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
-            return redirect(settings.LOGIN_URL)
-    else:
-        form = RegistrarUsuario()
-    context = {'form' : form}
-
-    return render(request, template_name, context)
-
+    def form_valid(self, form):
+        print('entrou')
+        user = form.save()
+        user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
+        return redirect(settings.LOGIN_URL)
 
 @login_required
 def pagina_inicial(request):

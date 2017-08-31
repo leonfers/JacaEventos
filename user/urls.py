@@ -4,9 +4,10 @@ from django.conf import settings
 from django.contrib.auth.views import login, logout, logout_then_login
 from django.contrib.auth import user_logged_in
 from user import views
+from user.views import Registrar
 
 urlpatterns = [
-    url('^registrar/$', views.registrar, name='registrar'),
+    url('^registrar/$', Registrar.as_view(), name='registrar'),
     url('^pagina_inicial/$', views.pagina_inicial, name='pagina_inicial'),
     url('^$', login, {'template_name': 'login/form_login.html'}, name='login'),
     # url('^', login, {'template_name': 'login_usuario.html'}, name='login_usuario'),
