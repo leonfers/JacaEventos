@@ -4,7 +4,7 @@ from utils.EscolhaEnum import EscolhaEnum
 from enumfields import EnumField
 from enumfields import Enum
 from polymorphic.models import PolymorphicModel
-from utils.models import Horario, Endereco
+from utils.models import Horario, Endereco , Observado
 
 
 class StatusEvento(Enum):
@@ -93,6 +93,15 @@ class Evento(models.Model):
     def atividades(self):
         return AtividadeAbstrata.objects.all()
 
+    def getAgenda(self):
+
+        class Agenda(models.Model):
+            dias
+            horarios
+        agenda = Agenda()
+
+        return agenda
+
 
     class Meta:
         verbose_name = 'Evento'
@@ -162,12 +171,12 @@ class Evento(models.Model):
             print("Falha ao adicionar Instituicao ")
             return False
 
-# kassio adicionou models.Model no parametro
+
 class EventoSatelite(models.Model):
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")
 
 
-class AtividadeAbstrata(PolymorphicModel):
+class AtividadeAbstrata(PolymorphicModel,Observado):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
     trilhas = models.ManyToManyField(

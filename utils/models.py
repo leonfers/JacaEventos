@@ -48,3 +48,71 @@ class HorarioAtividadeContinua(Horario):
         verbose_name = 'Horario_da_atividdade'
         verbose_name_plural = 'Horarios_da_ativiade '
 
+class Observador(models.Model):
+
+    observado = models.ForeignKey("utils.Observador" ,
+                                  verbose_name = 'Observador' ,
+                                  related_name = 'Observador' ,
+                                  default="")
+
+
+    def atualizar(self):
+        return "sobrescreva"
+
+class Notificador(Observador):
+
+    class Meta:
+        verbose_name = 'Notificador'
+        verbose_name_plural = 'notificadores '
+
+    def atualizar(self, msg):
+        "enviar email para usuarios da atividade"
+        return true
+
+class Observado(models.Model):
+
+    def addObservador(self, observador):
+        observador.observado = self
+        return true
+
+    def removeObservador(self, observador):
+        observador.observado = null
+        return  true
+
+    def notificar(self, msg):
+        for observador in self.Observador:
+            observador.atualizar(msg)
+
+class MsgFactory():
+
+    def gerar_msg_simples(self, atributo):
+        msg = MsgSimples()
+        msg.atual = String(atributo)
+        return msg
+
+    def gerar_msg_completa(self, atributo):
+        msg = MsgCompleta()
+        msg.atual = String(atributo)
+        msg.data = datetime.now()
+        return  msg
+
+
+
+
+class MsgSimples(models.Model):
+    atual = models.TextField(default="")
+    def __str__(self):
+        return "novo " + self.atual +"."
+
+
+class MsgCompleta(MsgSimples):
+    data = models.DateTimeField(null=False)
+    anterior = models.TextField(default="")
+
+    def __str__(self):
+        return "Data :" + self.data + " Estado antigo :" + self.anterior + " Estado atual :" + self.atual +"."
+
+
+
+
+
