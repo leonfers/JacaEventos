@@ -2,7 +2,9 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.views.generic import FormView
+from django.views import View
+from django.views.generic import FormView, TemplateView
+from django.views.generic.edit import FormMixin
 from pycep_correios import CEPInvalido
 
 from .forms import *
@@ -24,14 +26,13 @@ class Registrar(FormView):
         user = authenticate(username=user.username, password=form.cleaned_data['senha1'])
         return redirect(settings.LOGIN_URL)
 
-@login_required
-def pagina_inicial(request):
-    return render(request, 'inicio/pagina_inicial.html')
+class PaginaInicial(TemplateView):
+    template_name = 'inicio/pagina_inicial.html'
 
+# falta refatorar inscricao evento
 @login_required
 def inscricao_evento(request, inscricao_evento_id):
     template_name = 'inscricao/inscricao_evento.html'
-    object_inscricao = None
 
     if request.method == 'POST':
         form_incricao_evento = InscricaoEvento(request.POST)
@@ -58,10 +59,5 @@ def inscricao_evento(request, inscricao_evento_id):
 
     return render(request, template_name, context)
 
-login_required
-def conclusao_inscricao(request):
+class ConclusaoInscricao(TemplateView):
     template_name = 'inscricao/conclusao_inscricao.html'
-    context = {
-        # 'inscricao' : Inscricao.objects.get(id=inscricao_id),
-    }
-    return render(request, template_name, context)
