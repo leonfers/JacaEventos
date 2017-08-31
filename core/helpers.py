@@ -12,7 +12,6 @@ from utils.forms import PeriodoForm, HorarioForm
 
 # formulario para registro de tags
 def formulario_tag( evento, request ):
-
     form_tag_evento = RegistrarTagEventosForm( request.POST )
 
     if form_tag_evento.is_valid():
@@ -24,7 +23,6 @@ def formulario_tag( evento, request ):
 
 # formulario para registro de gerentes
 def formulario_gerente( evento, request ):
-
     form_gerentes = RegistrarGerentesForm( request.POST )
 
     if form_gerentes.is_valid():
@@ -35,7 +33,6 @@ def formulario_gerente( evento, request ):
 
 # formulario para registro de atividade padrao
 def formulario_atividade_padrao( form_horario, evento, request ):
-
     form_periodo = PeriodoForm( request.POST )
     form_atividade_padrao = RegistrarAtividadeForm( request.POST )
 
@@ -57,7 +54,6 @@ def formulario_atividade_padrao( form_horario, evento, request ):
 
 # formulario para registro de atividade administrativa
 def formulario_atividade_administrativa( form_horario, evento, request ):
-
     form_periodo = PeriodoForm(request.POST)
     form_atividade_administrativa = RegistrarAtividadeAdministrativaForm( request.POST )
 
@@ -79,7 +75,6 @@ def formulario_atividade_administrativa( form_horario, evento, request ):
 
 # formulario para registro de atividade continua
 def formulario_atividade_continua( form_horario, evento, request ):
-
     form_periodo = PeriodoForm( request.POST )
     form_atividade_continua = RegistrarAtividadeContinuaForm( request.POST )
 
@@ -100,7 +95,6 @@ def formulario_atividade_continua( form_horario, evento, request ):
 
 # formulario para registro de eventos satelite
 def formulario_evento_satelite( evento, request ):
-
     form_evento_satelite = AdicionarEventosSateliteForm( request.POST )
 
     if form_evento_satelite.is_valid():
