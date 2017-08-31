@@ -104,10 +104,11 @@ class Inscricao(models.Model):
             item_inscricao.save()
 
 #     kassio criou metodo de checkin
-    def registro_checkin_inscricao(self):
-        checkin_inscricao = CheckinItemInscricao()
-        checkin_inscricao.gerente = self.evento.dono
-        checkin_inscricao.save()
+#   metodo dando erro
+#     def registro_checkin_inscricao(self):
+#         checkin_inscricao = CheckinItemInscricao()
+#         checkin_inscricao.gerente = self.evento.dono
+#         checkin_inscricao.save()
 
 
 class CheckinItemInscricao(models.Model):

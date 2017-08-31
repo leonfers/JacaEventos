@@ -3,7 +3,7 @@
 <ul class="collapsible popout" data-collapsible="accordion">
     <li>
         <div class="collapsible-header"><i class="material-icons">library_books</i>Descrição</div>
-        <div class="collapsible-body"><span>{{exibir_evento.descricao}}<br>Valor total: {{exibir_evento.valor}}<br>Status do evento: {{exibir_evento.status_evento}}</span></div>
+        <div class="collapsible-body"><span>{{exibir_evento.descricao}}<br>Valor total: {{exibir_evento.valor}}<br>Status do evento: {{ exibir_evento.status_evento }}</span></div>
     </li>
     <li>
         <div class="collapsible-header"><i class="material-icons">people</i>Gerentes</div>
@@ -33,7 +33,7 @@
                                 <div class="container">
                                     <div class="col s6" align="center">
                                         <!--<h5>Adicione gerentes a <b>{{exibir_evento.nome}}</b></h5>-->
-                                        {{ form_gerente}}
+                                        {{ form_gerente }}
                                         <button type="submit" name="_submit" class="btn">Adicionar</button><br><br>
                                     </div>
                                 </div>
