@@ -94,18 +94,27 @@ class Inscricao(models.Model):
         atividades = self.evento.atividades.all()
         return atividades
 
-    def add_item_inscricao(self, id ):
-        self.save()
-        item_inscricao = ItemInscricao()
-        item_inscricao.inscricao = self
-        item_inscricao.atividade = self.get_atividades()[id]
-        item_inscricao.save()
+    # kassio alterou esse metodo
+    def add_item_inscricao(self):
+        # self.save()
+        for atividade in self.get_atividades():
+            item_inscricao = ItemInscricao()
+            item_inscricao.inscricao = self
+            item_inscricao.atividade = atividade
+            item_inscricao.save()
+
+#     kassio criou metodo de checkin
+#   metodo dando erro
+#     def registro_checkin_inscricao(self):
+#         checkin_inscricao = CheckinItemInscricao()
+#         checkin_inscricao.gerente = self.evento.dono
+#         checkin_inscricao.save()
 
 
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
-    gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin" , default="")
+    gerente = models.ForeignKey("user.Usuario", max_length='255',related_name="gerente_chekin" , default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
 

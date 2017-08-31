@@ -36,21 +36,37 @@ def pagina_inicial(request):
 @login_required
 def inscricao_evento(request, inscricao_evento_id):
     template_name = 'inscricao/inscricao_evento.html'
+    object_inscricao = None
 
     if request.method == 'POST':
         form_incricao_evento = InscricaoEvento(request.POST)
+        form_checkin_evento = CheckinItemInscricaoEvento(request.POST)
 
         if form_incricao_evento.is_valid():
             inscricao = form_incricao_evento.save(commit=False)
             inscricao.usuario = request.user
             inscricao.evento = Evento.objects.get(id=inscricao_evento_id)
             inscricao.save()
-            return render(request, 'inscricao/conclusao_inscricao.html')
+
+            inscricao.add_item_inscricao()
+            # inscricao.registro_checkin_inscricao()
+            return redirect(settings.CONCLUSAO_INSCRICAO)
 
     else:
         form_incricao_evento = InscricaoEvento()
+        form_checkin_evento = CheckinItemInscricao()
 
     context = {'evento' : Evento.objects.get(id=inscricao_evento_id),
                'espaco' : EspacoFisico.objects.all(),
-               'form_incricao_evento' : form_incricao_evento}
+               'form_incricao_evento' : form_incricao_evento,
+               'form_checkin_evento' : form_checkin_evento}
+
+    return render(request, template_name, context)
+
+login_required
+def conclusao_inscricao(request):
+    template_name = 'inscricao/conclusao_inscricao.html'
+    context = {
+        # 'inscricao' : Inscricao.objects.get(id=inscricao_id),
+    }
     return render(request, template_name, context)

@@ -137,4 +137,4 @@ LOGIN_REDIRECT_URL = '/pagina_inicial/'
 LOGOUT_URL = '/logout/'
 REGISTRAR_EVENTO = '/pagina_inicial/'
 
-REALIZAR_INSCRICAO = '/conclusao_inscricao/'
+CONCLUSAO_INSCRICAO = '/conclusao_inscricao/'
