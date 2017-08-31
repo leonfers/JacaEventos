@@ -44,7 +44,7 @@ class InscricaoEvento(View):
         if form_inscricao.is_valid():
             inscricao = form_inscricao.save(commit=False)
             inscricao.usuario = request.user
-            inscricao.evento = evento = get_object_or_404( Evento, id = self.kwargs['inscricao_evento_id'] )
+            inscricao.evento = get_object_or_404( Evento, id = self.kwargs['inscricao_evento_id'] )
             inscricao.save()
             return redirect(settings.CONCLUSAO_INSCRICAO)
 

@@ -2,7 +2,7 @@
 import pycep_correios
 from pycep_correios import CEPInvalido
 from django.conf import settings
-from django.http import request
+from django.http import request, HttpResponseRedirect
 from django.shortcuts import redirect
 
 from core.forms import RegistrarTagEventosForm, RegistrarGerentesForm, RegistrarEspacoFisicoEventoForm, \
@@ -39,7 +39,7 @@ def formulario_atividade_padrao( form_horario, evento, request ):
     if form_atividade_padrao.is_valid() and form_horario.is_valid():
         atividade_padrao = form_atividade_padrao.save( commit=False )
         # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
+        periodo = form_periodo.save( commit=False )
         periodo.save()
         # formulario horario atividade
         horario = form_horario.save( commit=False )
@@ -91,6 +91,7 @@ def formulario_atividade_continua( form_horario, evento, request ):
         atividade_continuna.evento = evento
         atividade_continuna.periodo = periodo
         atividade_continuna.save()
+        # adicionando atividade registrada ao registro de evento
         evento.add_atividade( atividade_continuna )
 
 # formulario para registro de eventos satelite
