@@ -31,17 +31,15 @@ class Registrar(FormView):
 class PaginaInicial(TemplateView):
     template_name = 'inicio/pagina_inicial.html'
 
-
+#
 # class InscricaoEvento(View):
 #     template_name = 'inscricao/inscricao_evento.html'
 #     form_incricao_evento = InscricaoEventoForm
 #     form_checkin_evento = CheckinItemInscricaoEventoForm
 #
 #
-#     evento = get_object_or_404(Evento, id = self.kwargs[0])
-#     # print('Evento : ', evento)
-#
 #     def post(self, request, *args, **kwargs):
+#
 #         form_inscricao = self.form_incricao_evento(request.POST)
 #         form_checkin = self.form_checkin_evento(request.POST)
 #         if form_inscricao.is_valid():
@@ -52,6 +50,11 @@ class PaginaInicial(TemplateView):
 #             return redirect(settings.PAGINA_INICIAL)
 #
 #     def get(self, request, *args, **kwargs):
+#
+#         evento = get_object_or_404( Evento, id = self.args )
+#
+#         # print('Evento : ', evento)
+#
 #         form_inscricao = self.form_incricao_evento()
 #         form_checkin = self.form_checkin_evento()
 #
@@ -62,7 +65,7 @@ class PaginaInicial(TemplateView):
 #                         'form_incricao_evento': form_inscricao,
 #                         'form_checkin_evento': form_checkin}
 #                       )
-
+#
 
 # falta refatorar inscricao evento
 @login_required
