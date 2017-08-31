@@ -1,9 +1,11 @@
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView, TemplateView
+from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 from pycep_correios import CEPInvalido
 
@@ -34,13 +36,33 @@ class PaginaInicial(TemplateView):
 #     template_name = 'inscricao/inscricao_evento.html'
 #     form_incricao_evento = InscricaoEventoForm
 #     form_checkin_evento = CheckinItemInscricaoEventoForm
+#
+#
+#     evento = get_object_or_404(Evento, id = self.kwargs[0])
+#     # print('Evento : ', evento)
+#
 #     def post(self, request, *args, **kwargs):
 #         form_inscricao = self.form_incricao_evento(request.POST)
 #         form_checkin = self.form_checkin_evento(request.POST)
 #         if form_inscricao.is_valid():
 #             inscricao = form_inscricao.save(commit=False)
 #             inscricao.usuario = request.user
+#             inscricao.evento = Evento.objects.get(id=1)
+#             inscricao.save()
+#             return redirect(settings.PAGINA_INICIAL)
 #
+#     def get(self, request, *args, **kwargs):
+#         form_inscricao = self.form_incricao_evento()
+#         form_checkin = self.form_checkin_evento()
+#
+#         return render(request, 'inscricao/inscricao_evento.html',
+#                       {
+#                           # 'evento': evento,
+#                         'espaco': EspacoFisico.objects.all(),
+#                         'form_incricao_evento': form_inscricao,
+#                         'form_checkin_evento': form_checkin}
+#                       )
+
 
 # falta refatorar inscricao evento
 @login_required
