@@ -140,31 +140,30 @@ def formulario_registrar_evento( form_periodo, form_endereco, form_add_evento, s
     if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
         endereco = form_endereco.save( commit=False )
         # metodo para consultar o cep
-        try:
-            adress = pycep_correios.consultar_cep( endereco.cep )
-            print( adress )
-            endereco.cidade = adress[ 'cidade' ]
-            endereco.estado = adress[ 'uf' ]
-            endereco.logradouro = adress[ 'end' ]
-            endereco.bairro = adress[ 'bairro' ]
-            endereco.save()
 
-            periodo = form_periodo.save( commit=False )
-            periodo.save()
+        adress = pycep_correios.consultar_cep( endereco.cep )
+        print( adress )
+        endereco.cidade = adress[ 'cidade' ]
+        endereco.estado = adress[ 'uf' ]
+        endereco.logradouro = adress[ 'end' ]
+        endereco.bairro = adress[ 'bairro' ]
+        endereco.save()
 
-            # pega os dados preenchidos no formulario na opção de tipo evento
-            tipo_evento = self.request.POST[ 'tipo_evento' ]
+        periodo = form_periodo.save( commit=False )
+        periodo.save()
 
-            evento = form_add_evento.save( commit=False )
-            evento.dono = self.request.user
-            evento.tipo_evento = tipo_evento
-            evento.periodo = periodo
-            evento.endereco = endereco
+        # pega os dados preenchidos no formulario na opção de tipo evento
+        tipo_evento = self.request.POST[ 'tipo_evento' ]
 
-            # tag_evento.save()
-            evento.save()
-            return True
+        evento = form_add_evento.save( commit=False )
+        evento.dono = self.request.user
+        evento.tipo_evento = tipo_evento
+        evento.periodo = periodo
+        evento.endereco = endereco
 
-        except CEPInvalido as exc:
-            print( exc )
-            return False
+        # tag_evento.save()
+        evento.save()
+
+        # except CEPInvalido as exc:
+        #     print( exc )
+

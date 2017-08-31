@@ -33,10 +33,10 @@ class RegistrarEvento( View ):
         form_periodo = self.form_periodo( request.POST )
         form_endereco = self.form_endereco( request.POST )
 
-        if formulario_registrar_evento( form_periodo, form_endereco, form_add_evento, self ):
-            return redirect( settings.PAGINA_INICIAL )
-        else:
-            return redirect( self.template_name )
+        formulario_registrar_evento( form_periodo, form_endereco, form_add_evento, self )
+        return redirect( settings.PAGINA_INICIAL )
+        # else:
+        #     return redirect( self.template_name )
 
 
 class RegistrarInstituicoes( View ):
