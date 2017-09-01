@@ -8,6 +8,7 @@ from utils.models import Horario, Endereco
 import datetime
 from django.core.exceptions import ValidationError
 
+
 class StatusEvento(Enum):
     INSCRICOES_ABERTAS = 'inscricoes_abertas'
     INSCRICOES_FECHADAS = 'incricoes_fechado'
@@ -161,18 +162,6 @@ class Evento(models.Model):
         except Exception as e:
             print("Falha ao adicionar Instituicao ")
             return False
-
-    def validate_periodo(self):
-        if self.periodo.data_inicio < datetime.date.today():
-            raise ValidationError('Periodo do evento tem que ser maior que a data atual')
-
-    def clean(self):
-        super(Evento, self).clean()
-        self.validate_periodo()
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(Evento, self).save()
 
 
 class EventoSatelite(models.Model):
