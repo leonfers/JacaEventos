@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 
 class StatusEvento(Enum):
     INSCRICOES_ABERTAS = 'inscricoes_abertas'
-    INSCRICOES_FECHADAS = 'incricoes_fechado'
     ENCERRADO = 'encerrado'
     ANDAMENTO = 'andamento'
 
@@ -22,6 +21,11 @@ class TipoAtividade(Enum):
     WORKSHOP = 'workshop'
     MESA_REDONDA = 'mesa_redonda'
     PADRAO = 'padrao'
+
+
+class StatusInscricao(Enum):
+    ABERTAS = 'inscricoes_abertas'
+    FECHADAS = 'inscricoes_fechadas'
 
 
 class TipoEvento(Enum):
@@ -77,6 +81,10 @@ class Evento(models.Model):
     tipo_evento = EnumField(TipoEvento, default=TipoEvento.PADRAO)
     endereco = models.ForeignKey('utils.Endereco', related_name="endereco_do_evento")
     periodo = models.ForeignKey('utils.periodo', related_name="periodo_do_evento")
+    data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
+    periodo_de_inscricao = models.ForeignKey('utils.periodo', related_name="inscricoes_evento")
+    status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS)
+    status_inscricao = EnumField(StatusEvento, default=StatusInscricao.ABERTAS)
     dono = models.ForeignKey(
         'user.Usuario',
         verbose_name="dono",
@@ -162,6 +170,16 @@ class Evento(models.Model):
         except Exception as e:
             print("Falha ao adicionar Instituicao ")
             return False
+
+    def save(self, *args, **kwargs):
+        periodo_inscricao = Periodo.objects.create(data_inicio=self.data_criacao, data_fim=self.periodo.data_fim)
+        self.periodo_de_inscricao = periodo_inscricao
+        self.full_clean()
+        if self.periodo.data_fim < datetime.date.today:
+            self.status = StatusEvento.ANDAMENTO
+            self.status_inscricao = StatusInscricao.FECHADAS
+
+        super(Evento, self).save()
 
 
 class EventoSatelite(models.Model):
