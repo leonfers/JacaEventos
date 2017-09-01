@@ -6,9 +6,6 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection, mobile" />
-    <!--<link href="{% static 'teste/css/mobile.css' %}" type="text/css" rel="stylesheet" media="screen"/>-->
-    <!--<link href="{% static 'teste/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>-->
-
     <title>Jaca Eventos</title>
 
     <script>
@@ -49,8 +46,8 @@
                 <img src="../static/img/fundo_perfil.jpg" width="300px" height="220px">
             </div>
             <a href="#!user"><img class="circle" src="../static/img/photo.jpg" width="64px" height="64px"></a>
-            <a href="#!name"><span class="white-text name">Bem Vindo, {{user.nome.title}}</span></a>
-            <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
+            <a href="#!name"><span class="white-text name">Bem Vindo, {{ user.nome.title }}</span></a>
+            <a href="#!email"><span class="white-text email">{{ user.email }}</span></a>
         </div>
     </li>
 
@@ -85,7 +82,9 @@
 <body>
 <ul>
     <div class="container">
-        {% block base %} {% endblock %}
+        {% block base %}
+
+        {% endblock %}
     </div>
 </ul>
 </body>

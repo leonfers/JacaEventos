@@ -8,26 +8,26 @@ from django import forms
 from core.models import TipoEvento
 
 from core.models import Evento, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite, Trilha, Atividade, AtividadeAdministrativa, AtividadeContinua
-from user.models import Inscricao, ItemInscricao
+from user.models import Inscricao, ItemInscricao, CheckinItemInscricao
 
 User = get_user_model()
 
 
-class RegistrarUsuario(forms.ModelForm):
+class RegistrarUsuarioForm( forms.ModelForm ):
 
-    senha1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
-    senha2 = forms.CharField(label='Confirmacao de Senha', widget=forms.PasswordInput)
+    senha1 = forms.CharField( label='Senha', widget=forms.PasswordInput )
+    senha2 = forms.CharField( label='Confirmacao de Senha', widget=forms.PasswordInput )
 
-    def verificar_senha(self):
-        senha1 = self.cleaned_data.get("senha1")
-        senha2 = self.cleaned_data.get("senha2")
+    def verificar_senha( self ):
+        senha1 = self.cleaned_data.get( "senha1" )
+        senha2 = self.cleaned_data.get( "senha2" )
         if senha1 and senha2 and senha1 != senha2:
-            raise forms.ValidationError("A Confirmacao nao esta Correta")
+            raise forms.ValidationError( "A Confirmacao nao esta Correta" )
         return senha2
 
-    def save(self, commit=True):
-        user = super(RegistrarUsuario, self).save(commit=False)
-        user.set_password(self.cleaned_data['senha1'])
+    def save( self, commit=True ):
+        user = super( RegistrarUsuarioForm, self ).save( commit=False )
+        user.set_password( self.cleaned_data['senha1'] )
 
         user.email = self.cleaned_data['email']
         if commit:
@@ -39,19 +39,16 @@ class RegistrarUsuario(forms.ModelForm):
         # abstract = True
         fields = ['username','email','nome']
 
-class InscricaoEvento(forms.ModelForm):
+class InscricaoEventoForm( forms.ModelForm ):
 
     class Meta:
         model = Inscricao
         exclude = ['usuario', 'evento']
         fields = '__all__'
 
-
-class ItemInscricaoEvento(forms.ModelForm):
+class CheckinItemInscricaoEventoForm( forms.ModelForm ):
 
     class Meta:
-        model = ItemInscricao
+        model = CheckinItemInscricao
+        # exclude = ['hora', 'data', 'status']
         fields = '__all__'
-
-
-

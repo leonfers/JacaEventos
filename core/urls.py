@@ -3,11 +3,12 @@ from django.contrib import admin
 from django.conf import settings
 
 from core import views
+from core.views import RegistrarEvento, RegistrarInstituicoes, MeusEventos, ParticiparEvento, ExibirEvento
 
 urlpatterns = [
-    url('^meus_eventos/$', views.meus_eventos, name='meus_eventos'),
-    url('^meus_eventos/(?P<eventos_id>\d+)$', views.exibir_evento, name='exibir_evento'),
-    url('^registrar_evento/$', views.registrar_eventos, name='registrar_eventos'),
-    url('^registrar_instituicoes/$', views.registrar_instituicoes, name='registrar_instituicoes'),
-    url('^participar_evento/$', views.participar_evento, name='participar_evento'),
+    url('^eventos/$', MeusEventos.as_view(), name='meus_eventos'),
+    url('^eventos/(?P<eventos_id>\d+)$', ExibirEvento.as_view(), name='exibir_evento'),
+    url('^registrar_evento/$', RegistrarEvento.as_view(), name='registrar_eventos'),
+    url('^registrar_instituicoes/$', RegistrarInstituicoes.as_view(), name='registrar_instituicoes'),
+    url('^participar_evento/$', ParticiparEvento.as_view(), name='participar_evento'),
 ]
