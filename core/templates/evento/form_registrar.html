@@ -11,8 +11,14 @@
             {% csrf_token %}
             {{ form_endereco }}
             {% csrf_token %}
-            {{ form_periodo }}
-
+            {{ form_periodo.non_field_errors }}
+            {% for field in form_periodo %}
+            <div class="pure-control-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
             <!--<form method="POST" name="register" class="register-form">-->
             <!--{% csrf_token %}-->
             <!---->
