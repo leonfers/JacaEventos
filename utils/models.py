@@ -27,7 +27,6 @@ class Endereco(models.Model):
 
 
 class Horario(models.Model):
-    # kasio permitiu data como null
     data = models.DateField("Data inicio", blank=True, null=True)
     hora_inicio = models.TimeField("Hora inicio" , blank=True, null = False)
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)

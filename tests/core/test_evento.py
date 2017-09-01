@@ -39,7 +39,7 @@ class TesteEvento(TestCase):
         self.assertEqual(vazio, 0)
 
     def test_nao_permitir_Atividades_de_Eventos_distintos_na_mesma_Atividade(self):
-        atividade_repetida = Atividade(nome="Teste")
+        atividade_repetida = AtividadePadrao(nome="Teste")
         evento = Evento()
         self.assertFalse(atividade_repetida in evento.get_atividades())
     
@@ -63,7 +63,7 @@ class TesteEvento(TestCase):
         evento_extra = Evento(nome='evento grande')
         evento_satelite = EventoSatelite(eventos=evento_extra)
         usuario = Usuario(nome='Usuario')
-        atividade = Atividade(nome='Atividade')
+        atividade = AtividadePadrao(nome='Atividade')
         trilha = Trilha(id=1, nome = 'trilha', valor = 15.00, evento = evento_novo)
         trilhaSatelite = Trilha(id=2, nome='trilha', valor=15.00, evento=evento_extra)
         inscricao = Inscricao(id=1, status_inscricao = 'ativa', usuario = usuario, evento = evento_novo)

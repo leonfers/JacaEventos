@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django import forms
 from core.models import TipoEvento
 
-from core.models import Evento, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite, Trilha, Atividade, AtividadeAdministrativa, AtividadeContinua
+from core.models import Evento, TipoEvento, Tag, Instituicao, GerenciaEvento, EventoInstituicao,EventoSatelite, Trilha, AtividadePadrao, AtividadeAdministrativa, AtividadeContinua
 from user.models import Inscricao, ItemInscricao, CheckinItemInscricao
 
 User = get_user_model()

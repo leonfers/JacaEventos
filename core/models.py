@@ -5,107 +5,49 @@ from enumfields import EnumField
 from enumfields import Enum
 from polymorphic.models import PolymorphicModel
 from utils.models import Horario, Endereco , Observado
-
-
-class StatusEvento(Enum):
-    INSCRICOES_ABERTAS = 'inscricoes_abertas'
-    INSCRICOES_FECHADAS = 'incricoes_fechado'
-    ENCERRADO = 'encerrado'
-    ANDAMENTO = 'andamento'
-
-
-class TipoAtividade(Enum):
-    PALESTRA = 'palestra'
-    MINICURSO = 'minicurso'
-    WORKSHOP = 'workshop'
-    MESA_REDONDA = 'mesa_redonda'
-    PADRAO = 'padrao'
-
-
-class TipoEvento(Enum):
-    CONGRESSO = 'congresso'
-    SEMANA = 'semana'
-    SEMINARIO = 'seminario'
-    PADRAO = 'padrao'
-
-
-class TipoInstituicao(Enum):
-    APOIO = 'apoio'
-    PATROCINIO = 'patrocinio'
-    REALIZACAO = 'realizacao'
-    PADRAO = 'padrao'
-
-
-class CategoriaAtividade(Enum):
-    LOCAL = 'local'
-    SATELITE = 'satelite'
-
-
-class TipoResponsavel(Enum):
-    PALESTRANTE = 'palestrantes'
-    PROFESSOR = 'professor'
-    STAFF = 'staff'
-    PADRAO = 'padrao'
-
-
-class StatusAtividade(Enum):
-    ATIVA = 'ativa'
-    INATIVA = 'inativa'
-
-
-class TipoEspacoFisico(Enum):
-    SALA = 'sala'
-    LABORATORIO = 'laboratorio'
-    AUDITORIO = 'auditorio'
-    PREDIO = 'predio'
-    AR_LIVRE = 'ar_livre'
-    PADRAO = 'padrao'
-
-
-class TipoGerencia(Enum):
-    DONO = 'dono'
-    STAFF = 'staff'
-    PADRAO = 'padrao'
-
+from core.enum import *
 
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento,default=TipoEvento.PADRAO)
-    endereco = models.ForeignKey('utils.Endereco' , related_name="endereco_do_evento")
-    periodo = models.ForeignKey('utils.periodo' , related_name="periodo_do_evento")
-    dono = models.ForeignKey(
-        'user.Usuario',
-        verbose_name="dono",
-        related_name='meus_eventos',
-        blank=False, null=False)
-    gerentes = models.ManyToManyField(
-      'user.Usuario',
-      related_name="gerentes_do_evento",
-      through="GerenciaEvento")
-    tags_do_evento = models.ManyToManyField(
-        'core.Tag',
-        through="core.Tag_Evento",
-        related_name='tags_do_evento')
 
-    @property
-    def atividades(self):
-        return AtividadeAbstrata.objects.all()
+    endereco = models.ForeignKey('utils.Endereco' ,
+                                 related_name="endereco_do_evento")
 
-    def getAgenda(self):
+    periodo = models.ForeignKey('utils.periodo' ,
+                                related_name="periodo_do_evento")
 
-        class Agenda(models.Model):
-            dias
-            horarios
-        agenda = Agenda()
+    dono = models.ForeignKey('user.Usuario',
+                             verbose_name="dono",
+                             related_name='meus_eventos',
+                             blank=False, null=False)
 
-        return agenda
+    gerentes = models.ManyToManyField('user.Usuario',
+                                      related_name="gerentes_do_evento",
+                                      through="GerenciaEvento")
+
+    tags_do_evento = models.ManyToManyField('core.Tag',
+                                            through="core.Tag_Evento",
+                                            related_name='tags_do_evento')
 
 
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
+
+    @property
+    def atividades(self):
+        return Atividade.objects.all()
+
+    def getAgenda(self):
+        class Agenda(models.Model):
+            pass
+
+        agenda = Agenda()
+
+        return agenda
 
     def __str__(self):
         return self.nome
@@ -176,41 +118,47 @@ class EventoSatelite(models.Model):
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite" , default="")
 
 
-class AtividadeAbstrata(PolymorphicModel,Observado):
+class Atividade(PolymorphicModel,Observado):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
-    trilhas = models.ManyToManyField(
-        'core.Trilha',
-        through="AtividadeTrilha",
-        related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2,default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name='polymorphic_myapp.mymodel_set+',null=False)
+
+    evento = models.ForeignKey('core.Evento',
+                               verbose_name="atividades",
+                               related_name='polymorphic_myapp.mymodel_set+',
+                               null=False)
+
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",
                                 default="")
-    
-    @staticmethod
-    def atividades_tipo(tipo):
-        return AtividadeAbstrata.objects.filter().instance_of(tipo)
+
+    trilhas = models.ManyToManyField('core.Trilha',
+                                     through="AtividadeTrilha",
+                                     related_name="trilha_atividade")
 
     class Meta:
         verbose_name = 'Atividade'
         verbose_name_plural = 'Atividades'
 
+    @staticmethod
+    def atividades_tipo(tipo):
+        return Atividade.objects.filter().instance_of(tipo)
+
     def __str__(self):
         return self.nome
 
 
-class Atividade(AtividadeAbstrata):
-    horario = models.ForeignKey('utils.Horario' ,related_name="horario_atividade_simples")
+class AtividadePadrao(Atividade):
+    horario = models.ForeignKey('utils.Horario',
+                                related_name="horario_atividade_simples")
 
     class Meta:
-        verbose_name = 'AtividadeSimples'
-        verbose_name_plural = 'Atividades Simples'
+        verbose_name = 'Atividade Padrao'
+        verbose_name_plural = 'Atividades Padrao'
 
 
-class AtividadeContinua(AtividadeAbstrata):
+class AtividadeContinua(Atividade):
 
     class Meta:
         verbose_name = 'AtividadeContinua'
@@ -221,7 +169,7 @@ class AtividadeContinua(AtividadeAbstrata):
         horario.atividade = self
 
 
-class AtividadeAdministrativa(AtividadeAbstrata):
+class AtividadeAdministrativa(Atividade):
     valor = 0
 
     class Meta:
@@ -236,17 +184,18 @@ class AtividadeAdministrativa(AtividadeAbstrata):
 class Trilha(models.Model):
     nome = models.CharField('nome', max_length= 40)
     valor = models.DecimalField('valor', max_digits=5, decimal_places=2, default=0)
+
     evento = models.ForeignKey('core.Evento' ,
                                related_name="evento_trilha",
                                verbose_name="evento")
-    responsaveis = models.ManyToManyField(
-        'user.Usuario',
-        through="ResponsavelTrilha",
-        related_name="responsavel_trilha")
-    atividades = models.ManyToManyField(
-        'core.AtividadeAbstrata',
-        through="AtividadeTrilha",
-        related_name="atividade_trilha")
+
+    responsaveis = models.ManyToManyField('user.Usuario',
+                                          through="ResponsavelTrilha",
+                                          related_name="responsavel_trilha")
+
+    atividades = models.ManyToManyField('core.Atividade',
+                                        through="AtividadeTrilha",
+                                        related_name="atividade_trilha")
 
     class meta:
         verbose_name = 'Trilha'
@@ -260,38 +209,44 @@ class TrilhaInscricao(models.Model):
     trilha = models.ForeignKey('core.Trilha' ,
                                related_name="trilha_Inscricao",
                                verbose_name="trilha_inscricao")
+
     inscricao = models.ForeignKey('user.Inscricao',
                                related_name="inscricao_trilha_Inscricao",
                                verbose_name="trilha_incricao")
 
 
 class ResponsavelTrilha(models.Model):
+    tipo_responsavel_trilha = models.CharField(max_length=30)
+
     responsavel = models.ForeignKey("user.Usuario",
                                     related_name="usuario_responsavel_trilha",
                                     default="")
+
     trilha = models.ForeignKey("core.Trilha",
                                   related_name="trilha_dirigida",
                                   default="")
-    tipo_responsavel_trilha = models.CharField(max_length=30)
 
 
 class GerenciaEvento(models.Model):
+    tipo_gerente = EnumField(TipoGerencia, max_length=25, default=TipoGerencia.PADRAO)
+
     gerente = models.ForeignKey("user.Usuario" ,
                                 related_name="usuario_gerente" ,
                                 default="")
+
     evento = models.ForeignKey("core.Evento",
                                 related_name="evento_gerente",
                                 default="")
-    tipo_gerente = EnumField(TipoGerencia, max_length=25, default=TipoGerencia.PADRAO)
 
 
 class ResponsavelAtividade(models.Model):
     responsavel = models.CharField('nome', max_length=30, unique=True, blank=True)
     descricao = models.CharField('descricao', max_length=500, unique=True, blank=True)
-    atividade = models.ForeignKey("core.AtividadeAbstrata",
+    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
+
+    atividade = models.ForeignKey("core.Atividade",
                                 related_name="atividade_dirigida",
                                 default="")
-    tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
 
 
 class Instituicao(models.Model):
@@ -311,10 +266,11 @@ class EventoInstituicao(models.Model):
     instituicao = models.ForeignKey('core.Instituicao',verbose_name="Instituição",
                                     related_name="evento_instituicao",
                                     default="")
+
     evento_relacionado = models.ForeignKey(Evento,
-        verbose_name="Evento",
-        related_name="evento_relacionado",
-        default="")
+                                           verbose_name="Evento",
+                                           related_name="evento_relacionado",
+                                           default="")
 
     class Meta:
         verbose_name = 'Relacionamento_Instituicao_Evento'
@@ -337,8 +293,13 @@ class Tag(models.Model):
 
 
 class Tag_Usuario(models.Model):
-    tag = models.ForeignKey(Tag, related_name='tag_de_usuario', default="")
-    usuario = models.ForeignKey(Usuario, related_name='tag_de_usuario' , default="")
+    tag = models.ForeignKey(Tag,
+                            related_name='tag_de_usuario',
+                            default="")
+
+    usuario = models.ForeignKey(Usuario,
+                                related_name='tag_de_usuario',
+                                default="")
 
     class Meta:
         verbose_name = 'Relacionamento_Tag_Usuario'
@@ -349,8 +310,13 @@ class Tag_Usuario(models.Model):
 
 
 class Tag_Evento(models.Model):
-    tag = models.ForeignKey(Tag, related_name='tag_de_evento', default="")
-    evento = models.ForeignKey(Evento, related_name='tag_de_evento', default="")
+    tag = models.ForeignKey(Tag,
+                            related_name='tag_de_evento',
+                            default="")
+
+    evento = models.ForeignKey(Evento,
+                               related_name='tag_de_evento',
+                               default="")
 
     class Meta:
         verbose_name = 'Relacionamento_Tag_Evento'
@@ -361,16 +327,25 @@ class Tag_Evento(models.Model):
 
 
 class AtividadeTrilha(models.Model):
-    atividade = models.ForeignKey("core.AtividadeAbstrata", related_name="atividades_de_trilha" , default="")
-    trilha = models.ForeignKey("core.Trilha", related_name="trilhas_de_atividade", default="" )
+    atividade = models.ForeignKey("core.Atividade",
+                                  related_name="atividades_de_trilha" ,
+                                  default="")
+    trilha = models.ForeignKey("core.Trilha", related_name="trilhas_de_atividade",
+                               default="" )
 
 
 class EspacoFisico(models.Model):
     nome = models.TextField('nome', max_length=30 , default="")
     tipoEspacoFisico = EnumField(TipoEspacoFisico , default=TipoEspacoFisico.PADRAO)
     capacidade = models.DecimalField("capacidade", max_digits=5, decimal_places=0 ,default=0)
-    evento = models.ForeignKey("core.Evento",related_name="espaco_do_evento", default="")
-    atividade = models.ForeignKey("core.AtividadeAbstrata",related_name="espaco_da_atividade", default="")
+
+    evento = models.ForeignKey("core.Evento",
+                               related_name="espaco_do_evento",
+                               default="")
+
+    atividade = models.ForeignKey("core.Atividade",
+                                  related_name="espaco_da_atividade",
+                                  default="")
 
     def __str__(self):
         return self.nome

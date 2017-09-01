@@ -113,7 +113,7 @@ atividade_neutra.save()
 print("periodo para atividade Criado")
 
 #criando atividade
-atividade = Atividade()
+atividade = AtividadePadrao()
 atividade.nome = "Gilberto Gil"
 atividade.descricao = "Show do Gilberto Gil"
 atividade.valor = 0
