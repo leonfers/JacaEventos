@@ -91,6 +91,7 @@ class Inscricao(models.Model):
 
 
     def validate_periodo_inscricao(self):
+        from core.models import StatusEvento
         if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
             return ValidationError("Periodo de inscricoes ja encerrou")
 
