@@ -2,6 +2,7 @@ from core.models import *
 from user.models import *
 from utils.models import *
 from pagamento.models import *
+import datetime
 #para rodar o Script use
 #pyhton manage.py shell
 #exec(open('povoar.py').read())
@@ -36,8 +37,8 @@ print("endereco para evento Criado")
 
 #criando um periodo para evento
 periodo = Periodo()
-periodo.data_inicio = "2017-10-10"
-periodo.data_fim = "2017-10-12"
+periodo.data_inicio = datetime.date.today()
+periodo.data_fim = datetime.date(2018,1,1)
 periodo.save()
 print("periodo para evento Criado")
 
@@ -121,11 +122,7 @@ atividade.evento = evento
 print("Atividade Criada")
 
 #criando um periodo para atividade
-periodo = Periodo()
-periodo.data_inicio  = "2017-10-10"
-periodo.data_fim = "2017-10-10"
-periodo.save()
-print("periodo criado")
+
 
 #craindo um horario para atividade
 horario = Horario()
@@ -261,8 +258,8 @@ print("cupom criado")
 
 #criar periodo de validade do cupom
 periodo_cupom = Periodo()
-periodo_cupom.data_inicio = "2017-5-5"
-periodo_cupom.data_fim = "2017-10-5"
+periodo_cupom.data_inicio = datetime.date.today()
+periodo_cupom.data_fim = datetime.date.today() + datetime.timedelta(1)
 periodo_cupom.save()
 print("periodo de validade criado")
 

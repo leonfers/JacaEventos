@@ -1,4 +1,3 @@
-
 import re
 
 from django.db import models
@@ -7,19 +6,26 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, User
 from enumfields import Enum, EnumField
 from utils.models import Observado
 from user.enum import *
+from django.db.models import Q
+from core.models import *
+from django.core.exceptions import ValidationError
+
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('Nome do Usuário', max_length=30, unique=True,
-                                validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-                                'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_'
-                                'invalid')])
+    username = models.CharField(
+        'Nome do Usuário',
+        max_length=30,
+        unique=True,
+        validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
+                                              'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_'
+                                              'invalid')])
+   
     email = models.EmailField('E-mail', unique=True)
     nome = models.CharField('Nome', max_length=100, blank=False)
     data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
     objects = UserManager()
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
-
     tags = models.ManyToManyField('core.Tag',
                                   through="core.Tag_Usuario",
                                   related_name='tags_do_usuario')
@@ -40,9 +46,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def get_inscricoes(self):
         return self.inscricoes.all()
-    
+
     def get_eventos(self):
         return self.meus_eventos.all()
+
+    @property
+    def inscrever(self):
+        return Evento.objects.all().filter(~Q(dono=self.dono))
 
 
 class Inscricao(models.Model):
@@ -64,7 +74,6 @@ class Inscricao(models.Model):
     trilhas = models.ManyToManyField('core.Trilha',
                                      through="core.TrilhaInscricao")
 
-
     class Meta:
         verbose_name = 'Id de Inscricao'
         verbose_name_plural = 'Id das Inscricoes'
@@ -80,15 +89,25 @@ class Inscricao(models.Model):
             item_inscricao.atividade = atividade
             item_inscricao.save()
 
-   # def registro_checkin_inscricao(self):
-   #     checkin_inscricao = CheckinItemInscricao()
-   #     checkin_inscricao.gerente = self.evento.dono
-   #     checkin_inscricao.save()
+
+    def validate_periodo_inscricao(self):
+        if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
+            return ValidationError("Periodo de inscricoes ja encerrou")
+
+    def clean(self):
+        super(Inscricao, self).clean()
+        self.validate_periodo_inscricao()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Inscricao, self).save()
+
 
 
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
+    gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin", default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
     gerente = models.ForeignKey("user.Usuario",
