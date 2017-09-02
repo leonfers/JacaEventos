@@ -43,12 +43,16 @@ class Endereco(models.Model):
                                   message='Informe um cep valido no formato 88888888 ou 88888-888', code='invalid')])
     estado = models.TextField(blank=False, null=False)
 
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(Endereco, self).save()
+    class Meta:
+        verbose_name = 'Endereco'
+        verbose_name_plural = 'Enderecos'
 
     def str(self):
         return self.pais
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Endereco, self).save()
 
 
 class Horario(models.Model):
