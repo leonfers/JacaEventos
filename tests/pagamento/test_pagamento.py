@@ -1,25 +1,42 @@
-from django.utils import timezone
-from django.test import TestCase
-from django.urls import reverse
+import unittest
+from .pagamento import TestPagamento
 from pagamento.models import *
-from core.models import *
-from utils.models import *
+import datetime
+from django.core.exceptions import ValidationError
 
 
-class TestarPagamentos(TestCase):
+class PagamentoTeste(TestUtils):
 
 
-    def test_pagamento_negativo(self):
-        pagamento_invalido = Pagamento(valor_pagamento = 0)
-        self.assertEqual(pagamento_invalido.valor_pagamento, 0)
-            
-    def test_status_pagamento_em_espera(self):
-        status_pagamento_invalido = Pagamento(status='NAO_PAGO')
-        self.assertEqual(status_pagamento_invalido.status, 'NAO PAGO')
-    
-    def test_calcular_valor_correto_de_quando_se_utilizar_um_cupom_promocional_individual(self):
-        pagamento_feito = Pagamento(valor_pagamento=80.0)    
-        evento = Evento(valor=100.0)
-        cupom = Cupom(porcentagem=0.20, evento = evento)
-        pagamento_cupom = PagamentoCupom(pagamento=pagamento_feito, cupom=cupom)
-        self.assertEqual(pagamento_feito.valor_pagamento, evento.valor - cupom.receberDesconto(evento.valor))
+    def test_criar_pagamento(self):
+        self.criar_pagamento()
+
+    def test_criar_pagamento_com_valor_inferior_ao_de_evento(self):
+        pagamento = self.pagamento()
+        pagamento.valor_pagamento -= 20
+        with self.assertRaises(ValidationError):
+            pagamento.save()
+
+    def test_nao_permitir_relacao_cupom_com_evento_quando_esse_for_AUTOMATICO(self):
+        relacionamento = TestPagamento.criar_relacionamento_pagamento_cupom()
+        relacionamento.cupom.tipo = TipoCupom.AUTOMATICO
+        with self.assertRaises(ValidationError):
+            relacionamento.save()
+
+    def test_invalidar_inscricao_enquanto_aguarda_pagamento(self):
+        pagamento = TestPagamento.pagamento()
+        self.assertEquals(pagamento.status, StatusPagamento.NAO_PAGO)
+        self.assertEquals(pagamento.inscricao.status_inscricao, StatusInscricao.INATIVA)
+
+    def test_validar_relacao_pagamento_cupom(self):
+        relacionamento = TestPagamento.criar_relacionamento_pagamento_cupom()
+        with self.assertRaises(ValidationError):
+            relacionamento.save()
+
+    def test_avaliar_valor_pos_desconto(self):
+        relacionamento = TestPagamento.criar_relacionamento_pagamento_cupom()
+        self.assertEquals(relacionamento.pagamento, relacionamento.cupom.evento.valor)
+
+    def test_validar_cupom(self):
+        cupom = TestPagamento.criar_cupom()
+        self.assertEquals(len(cupom.codigo_do_cupom), 14)
