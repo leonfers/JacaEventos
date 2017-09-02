@@ -28,8 +28,8 @@ class Periodo(models.Model):
         self.full_clean()
         super(Periodo, self).save()
 
-    def str(self):
-        return self.data_inicio.str() + " para " + self.data_fim.str()
+    def __str__(self):
+        return self.data_inicio.__str__() + " para " + self.data_fim.__str__()
 
 
 class Endereco(models.Model):
@@ -47,7 +47,7 @@ class Endereco(models.Model):
         verbose_name = 'Endereco'
         verbose_name_plural = 'Enderecos'
 
-    def str(self):
+    def __str__(self):
         return self.pais
 
     def save(self, *args, **kwargs):
@@ -64,8 +64,20 @@ class Horario(models.Model):
         verbose_name = 'Horario'
         verbose_name_plural = 'Horario'
 
-    def str(self):
-        return self.hora_inicio.str() + "  para  " + self.hora_fim.str()
+    def __str__(self):
+        return self.hora_inicio.__str__() + "  para  " + self.hora_fim.__str__()
+
+    def validate_horario(self):
+        if self.hora_inicio > self.hora_fim:
+            raise ValidationError('Periodo tem que ser maior que a data atual')
+
+    def clean(self):
+        super(Horario, self).clean()
+        self.validate_horario()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Horario, self).save()
 
 
 class HorarioAtividadeContinua(Horario):
