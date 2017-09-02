@@ -31,7 +31,9 @@ endereco.pais = "Brasil"
 endereco.estado = "Piaui"
 endereco.logradouro = "Praca"
 endereco.numero = "N/A"
-endereco.cep = "64532-12"
+endereco.cidade = "Teresina"
+endereco.bairro = "Macauba"
+endereco.cep = "64532-123"
 endereco.save()
 print("endereco para evento Criado")
 

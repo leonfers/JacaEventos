@@ -1,6 +1,4 @@
-import pycep_correios
-from pycep_correios import CEPInvalido
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import ListView
@@ -11,6 +9,8 @@ from .forms import *
 from core.models import Evento
 from utils.forms import *
 from django.conf import settings
+from pycep_correios import CEPInvalido
+from django.http import HttpResponse
 
 
 class RegistrarEvento(View):
@@ -36,12 +36,15 @@ class RegistrarEvento(View):
         form_endereco = self.form_endereco(request.POST)
 
         formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
-
+        #    return redirect(settings.PAGINA_INICIAL)
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
                    'form_endereco': form_endereco}
+        if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
+            return redirect(settings.PAGINA_INICIAL)
 
-        return render(request, self.template_name, context)
+        else:
+            return render(request, self.template_name, context)
 
 
 class RegistrarInstituicoes(View):

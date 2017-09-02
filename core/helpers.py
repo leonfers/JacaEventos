@@ -1,11 +1,13 @@
 # METODOS DO FORMULARIO
 import pycep_correios
 from pycep_correios import CEPInvalido
-
+from django.shortcuts import redirect
+from django.conf import settings
 from core.forms import RegistrarTagEventosForm, RegistrarGerentesForm, RegistrarEspacoFisicoEventoForm, \
     AssociarInstituicoesEventoForm, AdicionarEventosSateliteForm, RegistrarAtividadeContinuaForm, \
     RegistrarAtividadeAdministrativaForm, RegistrarAtividadeForm, TrilhaAtividadeEventoForm
 from utils.forms import PeriodoForm, HorarioForm
+from django.http import HttpResponseRedirect
 
 
 # formulario para registro de tags
@@ -149,21 +151,18 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
     if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
         endereco = form_endereco.save(commit=False)
         # metodo para consultar o cep
-
         adress = pycep_correios.consultar_cep(endereco.cep)
-        print(adress)
         endereco.cidade = adress['cidade']
         endereco.estado = adress['uf']
         endereco.logradouro = adress['end']
         endereco.bairro = adress['bairro']
+        endereco.pais = "Brasil"
+        endereco.numero = "3130"
         endereco.save()
-
         periodo = form_periodo.save(commit=False)
         periodo.save()
-
         # pega os dados preenchidos no formulario na opção de tipo evento
         tipo_evento = self.request.POST['tipo_evento']
-
         evento = form_add_evento.save(commit=False)
         evento.dono = self.request.user
         evento.tipo_evento = tipo_evento
@@ -172,6 +171,3 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
 
         # tag_evento.save()
         evento.save()
-
-        # except CEPInvalido as exc:
-        #     print( exc )
