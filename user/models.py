@@ -135,23 +135,44 @@ class ItemInscricao(models.Model):
                                   blank=True, default="")
 
     checkin = models.ForeignKey('CheckinItemInscricao',
-                                default="", null=True)
+                                default="", null=True, blank=True)
 
     def validate_atividade_existente(self):
-        for atividade in self.inscricao.atividades.all():
-            if atividade == self.atividade:
-                raise ValidationError('Voce ja se inscreveu nessa atividade')
+        # for atividade in self.inscricao.atividades.all():
+        if self.atividade in self.inscricao.atividades.all():
+            raise ValidationError('Voce ja se inscreveu nessa atividade')
 
     def validate_atividade_evento(self):
-        pass
+        # for atividade in self.inscricao.evento.atividades.all():
+        if self.atividade not in self.inscricao.evento.atividades.all():
+            raise ValidationError('Atividade não pertence ao evento')
 
     def validate_conflito_horario_atividade(self):
-        pass
+        if type(self.atividade) == AtividadePadrao:
+            for atividade in self.inscricao.atividades.all():
+                if atividade.horario.hora_inicio == self.atividade.horario.hora_inicio:
+                    raise ValidationError('Voce ja possui uma atividade nesse horario')
+                if atividade.horario.hora_fim > self.atividade.horario.hora_inicio:
+                    raise ValidationError('Voce estara em atividade nesse dia')
+
+    def validate_conflito_data_atividade(self):
+        if type(self.atividade) == AtividadeContinua:
+            for atividade in self.inscricao.atividades.all():
+                if atividade.horario.data_inicio == self.atividade.horario.data_inicio:
+                    raise ValidationError('Voce ja possui uma atividade nesse horario')
+                if atividade.horario.data_fim > self.atividade.horario.data_inicio:
+                    raise ValidationError('Voce estara em atividade nesse dia')
+
+    def validade_trilha_atividade(self):
+        if self.inscricao.trilhas not in self.atividade:
+            raise ValidationError('Atividade não pertence a trilha escolhida')
 
     def clean(self):
         super(ItemInscricao, self).clean()
-        # self.validate_atividade_existente()
+        self.validate_atividade_existente()
+        self.validate_atividade_evento()
+        self.validate_conflito_horario_atividade()
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.full_clean()
         super(ItemInscricao, self).save()
