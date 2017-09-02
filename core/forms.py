@@ -1,28 +1,24 @@
 from django import forms
 
 from user.models import Inscricao
-from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, \
-    AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
+from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, AtividadePadrao, AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
 
 
 class RegistrarEventoForm(forms.ModelForm):
-    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                           required=False)
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                                required=False)
-    tipo_evento = forms.TypedChoiceField(choices=TipoEvento.choices(), coerce=str, required=False)
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),required=False)
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
+    tipo_evento = forms.TypedChoiceField(choices=TipoEvento.choices(), coerce=str,required=False)
 
     class Meta:
         model = Evento
         exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
         fields = ['nome', 'descricao', 'valor', 'tipo_evento']
-        # foram inseridos novos campos dentro do modelo de eventos
-        # tu vai ter que colocar no forms de registrar evento um registro de periodo e de endereço como fizemos em atividade antes.
+        #foram inseridos novos campos dentro do modelo de eventos
+        #tu vai ter que colocar no forms de registrar evento um registro de periodo e de endereço como fizemos em atividade antes.
 
 
 class AdicionarTagEmEventosForm(forms.ModelForm):
-    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                           required=False)
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
         model = Tag
@@ -30,12 +26,14 @@ class AdicionarTagEmEventosForm(forms.ModelForm):
 
 
 class RegistrarInstituicoesForm(forms.ModelForm):
+
     class Meta:
         model = Instituicao
         fields = '__all__'
 
 
 class RegistrarGerentesForm(forms.ModelForm):
+
     class Meta:
         model = GerenciaEvento
         exclude = {'evento'}
@@ -43,18 +41,21 @@ class RegistrarGerentesForm(forms.ModelForm):
 
 
 class AdicionarEventosSateliteForm(forms.ModelForm):
+
     class Meta:
         model = EventoSatelite
         fields = '__all__'
 
 
 class RegistrarTagEventosForm(forms.ModelForm):
+
     class Meta:
         model = Tag
         fields = '__all__'
 
 
 class AssociarInstituicoesEventoForm(forms.ModelForm):
+
     class Meta:
         model = EventoInstituicao
         exclude = ['evento_relacionado']
@@ -62,24 +63,23 @@ class AssociarInstituicoesEventoForm(forms.ModelForm):
 
 
 class TrilhaAtividadeEventoForm(forms.ModelForm):
+
     class Meta:
         model = Trilha
         fields = '__all__'
 
 
 class RegistrarAtividadeForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                                required=False)
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
-        model = Atividade
+        model = AtividadePadrao
         exclude = ['periodo', 'horario', 'evento']
         fields = '__all__'
 
 
 class RegistrarAtividadeContinuaForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                                required=False)
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
         model = AtividadeContinua
@@ -88,8 +88,7 @@ class RegistrarAtividadeContinuaForm(forms.ModelForm):
 
 
 class RegistrarAtividadeAdministrativaForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                                required=False)
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
         model = AtividadeAdministrativa
@@ -99,15 +98,15 @@ class RegistrarAtividadeAdministrativaForm(forms.ModelForm):
 
 class RegistrarEspacoFisicoEventoForm(forms.ModelForm):
     nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
-                           required=False)
+                                required=False)
 
     class Meta:
         model = EspacoFisico
         exclude = ['evento']
         fields = '__all__'
 
-        # class InscricaoEvento(forms.ModelForm):
-        #
-        #     class Meta:
-        #         model = Inscricao
-        #         fields = '__all__'
+# class InscricaoEvento(forms.ModelForm):
+#
+#     class Meta:
+#         model = Inscricao
+#         fields = '__all__'

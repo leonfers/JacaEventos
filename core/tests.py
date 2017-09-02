@@ -43,7 +43,7 @@ class TesteEvento(TestCase):
         self.assertEqual(vazio, 0)
 
     def test_nao_permitir_Atividades_de_Eventos_distintos_na_mesma_Atividade(self):
-        atividade_repetida = Atividade(nome="Teste")
+        atividade_repetida = AtividadePadrao(nome="Teste")
         evento = Evento()
         self.assertFalse(atividade_repetida in evento.get_atividades())
 
