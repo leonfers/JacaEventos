@@ -4,6 +4,8 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 from enumfields import Enum, EnumField
+
+import core
 from utils.models import Observado
 from user.enum import *
 from django.db.models import Q
@@ -92,9 +94,14 @@ class Inscricao(models.Model):
         if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
             return ValidationError("Periodo de inscricoes ja encerrou")
 
+    def validate_inscricao_evento(self):
+        if Inscricao.objects.all().filter(evento=self.evento).exists():
+            return ValidationError("Voce ja se inscreveu nesse evento")
+
     def clean(self):
         super(Inscricao, self).clean()
         # self.validate_periodo_inscricao()
+        self.validate_inscricao_evento()
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -148,16 +155,17 @@ class ItemInscricao(models.Model):
             raise ValidationError('Atividade não pertence ao evento')
 
     def validate_conflito_horario_atividade(self):
-        if type(self.atividade) == AtividadePadrao:
-            for atividade in self.inscricao.atividades.all():
+        print("ATIVIDADE ===== ", type(self.atividade))
+        if type(self.atividade) == core.models.AtividadePadrao:
+            for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadePadrao):
                 if atividade.horario.hora_inicio == self.atividade.horario.hora_inicio:
                     raise ValidationError('Voce ja possui uma atividade nesse horario')
                 if atividade.horario.hora_fim > self.atividade.horario.hora_inicio:
                     raise ValidationError('Voce estara em atividade nesse dia')
 
     def validate_conflito_data_atividade(self):
-        if type(self.atividade) == AtividadeContinua:
-            for atividade in self.inscricao.atividades.all():
+        if type(self.atividade) == core.models.AtividadeContinua:
+            for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadeContinua):
                 if atividade.horario.data_inicio == self.atividade.horario.data_inicio:
                     raise ValidationError('Voce ja possui uma atividade nesse horario')
                 if atividade.horario.data_fim > self.atividade.horario.data_inicio:
