@@ -21,6 +21,9 @@ class TestUser(TestCase):
         inscricao = Inscricao
         return inscricao
 
+    def inscricao(self):
+        return Inscricao()
+
     def create_checkin(self):
         checkin = CheckinItemInscricao
         return checkin

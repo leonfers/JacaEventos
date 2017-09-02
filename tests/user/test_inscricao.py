@@ -13,6 +13,10 @@ class TesteInscricao(TestUser):
     def test_create_inscricao(self):
         self.create_inscricao()
 
+
+    def test_verificar_inscricao_evento(self):
+        self.inscricao()
+
     # dando exception
     def test_calcular_valor_correto_de_inscricao_dado_um_conjunto_de_atividades_adicionadas(self):
         atividade = AtividadePadrao(valor=5.0)

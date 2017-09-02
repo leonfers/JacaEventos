@@ -156,7 +156,6 @@ class ItemInscricao(models.Model):
             raise ValidationError('Atividade não pertence ao evento')
 
     def validate_conflito_horario_atividade(self):
-        print("ATIVIDADE ===== ", type(self.atividade))
         if type(self.atividade) == core.models.AtividadePadrao:
             for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadePadrao):
                 if atividade.horario.hora_inicio == self.atividade.horario.hora_inicio:

@@ -15,11 +15,6 @@ class TesteUsuario(TestUser):
         self.assertEqual(usuario.email, 'teste@teste')
         self.assertEqual(usuario.username, 'Will')
         self.assertEqual(usuario.nome, 'Will')
-    #
-    # def test_create_user_sem_email(self):
-    #     usuario = self.usuario()
-    #     usuario.username = 'jaca'
-    #     usuario.nome = 'jaquinha'
 
     def test_iniciar_Usuario_com_email_e_senha(self):
         usuario = self.usuario()
@@ -37,5 +32,3 @@ class TesteUsuario(TestUser):
         sem_inscricoes = usuario.get_inscricoes()
         vazio = len(sem_inscricoes)
         self.assertEqual(vazio, 0)
-
-
