@@ -118,19 +118,19 @@ class CheckinItemInscricao(models.Model):
                                 related_name="gerente_chekin",
                                 default="")
 
-    def validate_gerente_chekin(self):
-        if self.status == StatusCheckIn.VERIFICADO and self.gerente == "":
-            raise ValidationError('Gerente nao Informado')
-        if self.status == StatusCheckIn.NAO_VERIFICADO and self.gerente != "":
-            raise ValidationError('Status do Checkin nao foi alterado')
-
-    def clean(self):
-        super(CheckinItemInscricao, super).clean()
-        # self.validate_gerente_chekin()
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(CheckinItemInscricao, self).save()
+    # def validate_gerente_chekin(self):
+    #     if self.status == StatusCheckIn.VERIFICADO and self.gerente == "":
+    #         raise ValidationError('Gerente nao Informado')
+    #     if self.status == StatusCheckIn.NAO_VERIFICADO and self.gerente != "":
+    #         raise ValidationError('Status do Checkin nao foi alterado')
+    #
+    # def clean(self):
+    #     super(CheckinItemInscricao, super).clean()
+    #     # self.validate_gerente_chekin()
+    #
+    # def save(self, *args, **kwargs):
+    #     self.full_clean()
+    #     super(CheckinItemInscricao, self).save()
 
 
 class ItemInscricao(models.Model):
