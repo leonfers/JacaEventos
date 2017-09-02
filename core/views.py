@@ -40,9 +40,6 @@ class RegistrarEvento(View):
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
                    'form_endereco': form_endereco}
-
-            #
-        print(form_add_evento.is_valid())
         if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
             return redirect(settings.PAGINA_INICIAL)
 
