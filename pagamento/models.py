@@ -5,6 +5,8 @@ from core.models import *
 from localflavor.br.br_states import STATE_CHOICES
 import datetime
 from django.core.exceptions import ValidationError
+import random
+import string
 
 class StatusPagamento(Enum):
     PAGO = 'PAGO'
@@ -22,13 +24,13 @@ class TipoCupom(Enum):
 
 
 class Pagamento(models.Model):
-    status = EnumField(StatusPagamento, default=StatusPagamento.NAO_PAGO)
-    usuario_recebimento = models.ForeignKey("user.Usuario" , related_name="recebido_usuario" , default="")
-    inscricao = models.ForeignKey("user.Inscricao" , related_name="de_incricao" , default="")
-    data = models.DateField('Data de entrada', auto_now_add=True)
-    hora = models.TimeField("Hora", blank=True, null=False)
-    cupons = models.ManyToManyField('pagamento.Cupom', through="PagamentoCupom" , default="")
-    valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
+    status = EnumField(StatusPagamento, default=StatusPagamento.NAO_PAGO, blank=False, null=False)
+    usuario_recebimento = models.ForeignKey("user.Usuario" , related_name="recebido_usuario" , default="", blank=False, null=False)
+    inscricao = models.ForeignKey("user.Inscricao" , related_name="de_incricao" , default="", blank=False, null=False)
+    data = models.DateField('Data de entrada', auto_now_add=True, blank=False, null=False)
+    hora = models.TimeField("Hora", blank=False, null=False)
+    cupons = models.ManyToManyField('pagamento.Cupom', through="PagamentoCupom" , default="", blank=True)
+    valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2, blank=False, null=False)
 
     def validar_pagamento(self):
         if self.valor_pagamento <= self.inscricao.evento.valor:
@@ -57,8 +59,8 @@ class Pagamento(models.Model):
 
 
 class PagamentoCupom(models.Model):
-    pagamento = models.ForeignKey("pagamento.Pagamento" , related_name="pagamento_cupom" , default="")
-    cupom = models.ForeignKey("pagamento.Cupom" , related_name="cupom_de_pagamento" , default="")
+    pagamento = models.ForeignKey("pagamento.Pagamento" , related_name="pagamento_cupom" , default="", blank=False, null=False)
+    cupom = models.ForeignKey("pagamento.Cupom" , related_name="cupom_de_pagamento" , default="", blank=False, null=False)
 
     def validar_relacao_pagamento_cupom(self):
         if self.cupom.status == StatusCupom.INATIVO:
@@ -83,15 +85,15 @@ class PagamentoCupom(models.Model):
 
 
 class Cupom(models.Model):
-    codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True) #Algoritmo que crie um
-    porcentagem = models.DecimalField("porcentagem", max_digits=2, decimal_places=0 , default=0)
-    status = EnumField(StatusCupom, max_length=25, default=StatusCupom.ATIVO)
-    tipo = EnumField(TipoCupom, max_length=25, default=TipoCupom.SIMPLES)
-    evento = models.ForeignKey('core.Evento', related_name="cupom_do_evento" , default="")
+    codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=False, null=False) #Algoritmo que crie um
+    porcentagem = models.DecimalField("porcentagem", max_digits=2, decimal_places=0 , default=0, blank=False, null=False)
+    status = EnumField(StatusCupom, max_length=25, default=StatusCupom.ATIVO, blank=False, null=False)
+    tipo = EnumField(TipoCupom, max_length=25, default=TipoCupom.SIMPLES, blank=False, null=False)
+    evento = models.ForeignKey('core.Evento', related_name="cupom_do_evento" , default="", blank=False, null=False)
     periodo =  models.OneToOneField(
         'utils.Periodo',
         on_delete=models.CASCADE,
-        primary_key=True,
+        primary_key=True, blank=False, null=False
         )
 
     def atualizar_valor_com_desconto(self):
