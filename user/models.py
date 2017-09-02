@@ -49,6 +49,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         through="core.Tag_Usuario",
         related_name='tags_do_usuario'
     )
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
@@ -56,8 +57,16 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
 
-    def __str__(self):
-        return self.nome or self.username
+    @property
+    def inscrever(self):
+        return Evento.objects.all().filter(~Q(dono=self.dono))
+
+    def clean(self):
+        super(Usuario, self).clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Usuario, self).save()
 
     def get_username(self):
         return self.username
@@ -71,9 +80,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def get_eventos(self):
         return self.meus_eventos.all()
 
-    @property
-    def inscrever(self):
-        return Evento.objects.all().filter(~Q(dono=self.dono))
+    def __str__(self):
+        return self.nome or self.username
 
 
 class Inscricao(models.Model):
@@ -100,7 +108,7 @@ class Inscricao(models.Model):
         return atividades
 
     # kassio alterou esse metodo
-    def add_item_inscricao(self):
+    def add_inscricao_evento(self):
         # self.save()
         for atividade in self.get_atividades():
             item_inscricao = ItemInscricao()
@@ -108,24 +116,24 @@ class Inscricao(models.Model):
             item_inscricao.atividade = atividade
             item_inscricao.save()
 
+    # kassio criou metodo de checkin
+    # metodo dando erro
+    def registro_checkin_inscricao(self):
+        checkin_inscricao = CheckinItemInscricao()
+        checkin_inscricao.gerente = self.evento.dono
+        checkin_inscricao.save()
+
     def validate_periodo_inscricao(self):
         if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
             return ValidationError("Periodo de inscricoes ja encerrou")
 
     def clean(self):
         super(Inscricao, self).clean()
-        self.validate_periodo_inscricao()
+        # self.validate_periodo_inscricao()
 
     def save(self, *args, **kwargs):
         self.full_clean()
         super(Inscricao, self).save()
-
-    #     kassio criou metodo de checkin
-    #   metodo dando erro
-    def registro_checkin_inscricao(self):
-        checkin_inscricao = CheckinItemInscricao()
-        checkin_inscricao.gerente = self.evento.dono
-        checkin_inscricao.save()
 
 
 class CheckinItemInscricao(models.Model):
@@ -134,8 +142,41 @@ class CheckinItemInscricao(models.Model):
     gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin", default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
+    def validate_gerente_chekin(self):
+        if self.status == StatusCheckIn.VERIFICADO and self.gerente == "":
+            raise ValidationError('Gerente nao Informado')
+        if self.status == StatusCheckIn.NAO_VERIFICADO and self.gerente != "":
+            raise ValidationError('Status do Checkin nao foi alterado')
+
+    def clean(self):
+        super(CheckinItemInscricao, super).clean()
+        self.validate_gerente_chekin()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(CheckinItemInscricao, self).save()
+
 
 class ItemInscricao(models.Model):
     inscricao = models.ForeignKey('Inscricao', blank=True, default="", related_name="itens")
     atividade = models.ForeignKey('core.AtividadeAbstrata', blank=True, default="")
     checkin = models.ForeignKey('CheckinItemInscricao', default="", null=True)
+
+    def validate_atividade_existente(self):
+        for atividade in self.inscricao.atividade.atividades:
+            if atividade == self.atividade:
+                raise ValidationError('Voce ja se inscreveu nessa atividade')
+
+    def validate_atividade_evento(self):
+        pass
+
+    def validate_conflito_horario_atividade(self):
+        pass
+
+    def clean(self):
+        super(ItemInscricao, self).clean()
+        self.validate_atividade_existente()
+
+    def save(self):
+        self.full_clean()
+        super(ItemInscricao, self).save()
