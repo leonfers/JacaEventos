@@ -81,7 +81,7 @@ class Inscricao(models.Model):
         atividades = self.evento.atividades.all()
         return atividades
 
-    def add_item_inscricao(self):
+    def add_inscricao_evento(self):
         for atividade in self.get_atividades():
             item_inscricao = ItemInscricao()
             item_inscricao.inscricao = self
@@ -94,7 +94,7 @@ class Inscricao(models.Model):
 
     def clean(self):
         super(Inscricao, self).clean()
-        self.validate_periodo_inscricao()
+        # self.validate_periodo_inscricao()
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -119,7 +119,7 @@ class CheckinItemInscricao(models.Model):
 
     def clean(self):
         super(CheckinItemInscricao, super).clean()
-        self.validate_gerente_chekin()
+        # self.validate_gerente_chekin()
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -138,7 +138,7 @@ class ItemInscricao(models.Model):
                                 default="", null=True)
 
     def validate_atividade_existente(self):
-        for atividade in self.inscricao.atividade.atividades:
+        for atividade in self.inscricao.atividades.all():
             if atividade == self.atividade:
                 raise ValidationError('Voce ja se inscreveu nessa atividade')
 
@@ -150,7 +150,7 @@ class ItemInscricao(models.Model):
 
     def clean(self):
         super(ItemInscricao, self).clean()
-        self.validate_atividade_existente()
+        # self.validate_atividade_existente()
 
     def save(self):
         self.full_clean()

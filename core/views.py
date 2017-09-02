@@ -1,3 +1,5 @@
+import pycep_correios
+from pycep_correios import CEPInvalido
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views import View
@@ -33,10 +35,12 @@ class RegistrarEvento(View):
         form_periodo = self.form_periodo(request.POST)
         form_endereco = self.form_endereco(request.POST)
 
-        formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
-        return redirect(settings.PAGINA_INICIAL)
-        # else:
-        #     return redirect( self.template_name )
+        try:
+            formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
+            return redirect(settings.PAGINA_INICIAL)
+
+        except CEPInvalido as exc:
+            print(exc)
 
 
 class RegistrarInstituicoes(View):
