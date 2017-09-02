@@ -1,7 +1,7 @@
 from django import forms
 
 from user.models import Inscricao
-from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, Atividade, AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
+from .models import Evento, Tag, TipoEvento, Instituicao, GerenciaEvento, EventoInstituicao, Trilha, AtividadePadrao, AtividadeContinua, AtividadeAdministrativa, EventoSatelite, EspacoFisico
 
 
 class RegistrarEventoForm(forms.ModelForm):
@@ -73,7 +73,7 @@ class RegistrarAtividadeForm(forms.ModelForm):
     descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}), required=False)
 
     class Meta:
-        model = Atividade
+        model = AtividadePadrao
         exclude = ['periodo', 'horario', 'evento']
         fields = '__all__'
 
