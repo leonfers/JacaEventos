@@ -1,5 +1,5 @@
 from .serializers import EventosSerializer, AtividadeSerializer
-from core.models import Evento, Atividade
+from core.models import Evento, AtividadePadrao
 from rest_framework import viewsets, authentication, permissions
 from api.views import DefaultMixin
 
@@ -16,7 +16,7 @@ class EventoViewSet(DefaultMixin, viewsets.ModelViewSet):
 class AtividadeViewSet(DefaultMixin, viewsets.ModelViewSet):
     """API endpoint for listing atividades."""
 
-    queryset = Atividade.objects.all()
+    queryset = AtividadePadrao.objects.all()
     serializer_class = AtividadeSerializer
     search_fields = ('nome')
     ordering_fields = ('id')

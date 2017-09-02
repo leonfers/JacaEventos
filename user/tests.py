@@ -62,7 +62,7 @@ class TesteInscricao(TestCase):
         """
         Atualiza o valor da inscricao conforme a adicao de novas atividades ao pacote do usuario.
         """
-        atividade = Atividade(valor=5.0)
+        atividade = AtividadePadrao(valor=5.0)
         evento_criado = Evento()
         evento_criado.add_atividade(atividade)
         inscricao = Inscricao(evento = evento_criado)
