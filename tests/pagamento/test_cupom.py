@@ -1,28 +1,19 @@
-from django.utils import timezone
-from django.test import TestCase
-from django.urls import reverse
+import unittest
+from .pagamento import TestPagamento
 from pagamento.models import *
-from core.models import *
-from utils.models import *
+import datetime
+from django.core.exceptions import ValidationError
 
 
-class TesteCupons(TestCase):
+class CupomTeste(TestPagamento):
 
 
-    def test_alterar_status_do_cupom_quando_expirar_periodo_do_evento(self):
-        periodo = Periodo(data_inicio='2017-08-20', data_fim='2017-08-24')
-        cupom = Cupom(periodo)
-        dias = periodo.data_fim.split('-')
-        days = 30
-        if (timezone.now().day > int(dias[2])):
-            self.assertEqual(cupom.status, 'INATIVO')
-        else:
-            self.assertEqual(cupom.status, 'ATIVO')
-    
-    def test_tipo_cupom_SIMPLES(self):
-        cupom_teste = Cupom(tipo='SIMPLES')
-        self.assertEqual(cupom_teste.tipo, 'SIMPLES')
-    
-    def test_tipo_cupom_AUTOMATICO(self):
-        cupom_teste = Cupom(tipo='AUTOMATICO')
-        self.assertEqual(cupom_teste.tipo, 'AUTOMATICO')
+    def test_nao_permitir_relacao_cupom_com_evento_quando_esse_for_AUTOMATICO(self):
+        relacionamento = self.criar_relacionamento_pagamento_cupom()
+        relacionamento.cupom.tipo = TipoCupom.AUTOMATICO
+        with self.assertRaises(ValidationError):
+            relacionamento.save()
+
+    def test_validar_cupom(self):
+        cupom = self.criar_cupom()
+        self.assertEquals(len(cupom.codigo_do_cupom), 14)
