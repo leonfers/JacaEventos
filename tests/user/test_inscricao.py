@@ -30,10 +30,7 @@ class TesteInscricao(TestUser):
         # self.assertTrue(inscricao.evento, evento)
 
     def test_valor_total_de_uma_inscricao_por_evento_deve_ser_igual_ao_valor_evento(self):
-        # atividade = AtividadeAdministrativa(nome='credenciamento', descricao='abc', evento=self.evento)
         inscricao = Inscricao(usuario=self.user, evento=self.evento)
-        # print (inscricao.evento.valor)
-        # print(self.evento.valor)
         self.assertTrue(inscricao.evento.valor == self.evento.valor)
 
 # def test_calculo_do_valor_final_de_uma_inscricao_direta_deve_ser_especificado_no_proprio_evento(self):

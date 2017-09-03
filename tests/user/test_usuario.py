@@ -12,7 +12,6 @@ class TesteUsuario(TestUser):
 
     def test_create_usuario(self):
         usuario = self.create_user()
-        # usuario = Usuario(username="Will", email="teste@teste", nome="Will")
         self.assertEqual(usuario.email, 'teste@teste')
         self.assertEqual(usuario.username, 'Will')
         self.assertEqual(usuario.nome, 'Will')
@@ -26,6 +25,11 @@ class TesteUsuario(TestUser):
         usuario = self.usuario()
         usuario.email = ''
         self.assertEqual(usuario.email, '')
+
+    def test_nome_em_branco(self):
+        usuario = self.usuario()
+        usuario.nome = ''
+        self.assertEqual(usuario.nome, '')
 
     def test_iniciar_Usuario_com_email_e_senha(self):
         usuario = self.usuario()
