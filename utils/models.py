@@ -28,8 +28,8 @@ class Periodo(models.Model):
         self.full_clean()
         super(Periodo, self).save()
 
-    def str(self):
-        return self.data_inicio.str() + " para " + self.data_fim.str()
+    def __str__(self):
+        return self.data_inicio.__str__() + " para " + self.data_fim.__str__()
 
 
 class Endereco(models.Model):
@@ -47,7 +47,7 @@ class Endereco(models.Model):
         verbose_name = 'Endereco'
         verbose_name_plural = 'Enderecos'
 
-    def str(self):
+    def __str__(self):
         return self.pais
 
     def save(self, *args, **kwargs):
@@ -64,8 +64,51 @@ class Horario(models.Model):
         verbose_name = 'Horario'
         verbose_name_plural = 'Horario'
 
-    def str(self):
-        return self.hora_inicio.str() + "  para  " + self.hora_fim.str()
+    def __str__(self):
+        return self.hora_inicio.__str__() + "  para  " + self.hora_fim.__str__()
+
+    def validate_horario(self):
+        if self.hora_inicio > self.hora_fim:
+            raise ValidationError('Periodo tem que ser maior que a data atual')
+
+    def clean(self):
+        super(Horario, self).clean()
+        self.validate_horario()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Horario, self).save()
+
+
+class HorarioAtividade(models.Model):
+    data_inicio = models.DateField("Data inicio", blank=True, null=False)
+    data_fim = models.DateField("Data fim", blank=True, null=False)
+    hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
+    hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
+    atividade = models.OneToOneField('core.Atividade', blank=True, null=True, related_name="horario_atividade")
+
+    def get_dias_atividade(self):
+        dias = self.data_fim - self.data_inicio
+        dias = dias.days
+        dict = {}
+        for i in range(dias + 1):
+            dict[str(i)] = self.data_inicio + datetime.timedelta(i)
+        return dict
+
+    def validate_horario_atividade(self):
+        periodo_evento = self.atividade.evento.periodo
+        if self.data_inicio < periodo_evento.data_inicio:
+            raise ValidationError("A data de inicio da atividade deve ser igual ou maior a data de inicio do evento")
+        if self.data_fim > periodo_evento.data_fim:
+            raise ValidationError("A data fim da atividade deve ser menor ou igual a data final do evento")
+
+    def clean(self):
+        super(HorarioAtividade, self).clean()
+        self.validate_horario_atividade()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(HorarioAtividade, self).save()
 
 
 class HorarioAtividadeContinua(Horario):
