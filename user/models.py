@@ -71,8 +71,8 @@ class Inscricao(models.Model):
     atividades = models.ManyToManyField('core.Atividade',
                                         through="ItemInscricao")
 
-    trilhas = models.ManyToManyField('core.Trilha',
-                                     through="core.TrilhaInscricao")
+    pacotes = models.ManyToManyField('core.Pacote',
+                                     through="core.PacoteInscricao")
 
     class Meta:
         verbose_name = 'Id de Inscricao'
