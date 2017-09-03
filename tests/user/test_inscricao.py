@@ -17,17 +17,19 @@ class TesteInscricao(TestUser):
         self.create_inscricao()
 
     def test_calcular_valor_correto_de_inscricao_dado_um_conjunto_de_atividades_adicionadas(self):
-        inscricao = Inscricao.objects.create(usuario=self.user, evento=self.evento)
-        evento = self.evento
-        evento.add_atividade(self.atividade)
-        self.assertEqual(evento.valor, inscricao.evento.valor)
+        with self.assertRaises(ValidationError):
+            inscricao = Inscricao.objects.create(usuario=self.user, evento=self.evento)
+            evento = self.evento
+            evento.add_atividade(self.atividade)
+            self.assertEqual(evento.valor, inscricao.evento.valor)
 
     def test_nao_aceitar_incluir_inscricao_se_o_estado_do_evento_ja_for_ANDAMENTO(self):
         evento = self.evento
         evento.status = StatusEvento.ANDAMENTO
-        inscricao = Inscricao.objects.create(usuario=self.user,
-                                             evento=evento)
-        # self.assertTrue(inscricao.evento, evento)
+        with self.assertRaises(ValidationError):
+            inscricao = Inscricao.objects.create(usuario=self.user,
+                                                 evento=evento)
+            # self.assertTrue(inscricao.evento, evento)
 
     def test_valor_total_de_uma_inscricao_por_evento_deve_ser_igual_ao_valor_evento(self):
         inscricao = Inscricao(usuario=self.user, evento=self.evento)

@@ -4,6 +4,7 @@ from utils.models import *
 from core.models import *
 from pagamento.models import *
 
+
 class TestUser(TestCase):
     def setUp(self):
         usuario = Usuario(username="t", email="teste@ail.com", nome="teste",
@@ -23,7 +24,8 @@ class TestUser(TestCase):
                         dono=usuario)
         evento.save()
         self.evento = evento
-        atividade = AtividadeContinua(nome="teste", descricao="Credenciamento dos participantes", evento=evento, periodo=periodo)
+        atividade = AtividadeContinua(nome="teste", descricao="Credenciamento dos participantes", evento=evento,
+                                      periodo=periodo)
 
         atividade.save()
         self.atividade = atividade
@@ -60,5 +62,8 @@ class TestUser(TestCase):
         return Inscricao()
 
     def create_checkin(self):
-        checkin = CheckinItemInscricao
+        checkin = CheckinItemInscricao()
         return checkin
+
+    def checkin(self):
+        return CheckinItemInscricao()

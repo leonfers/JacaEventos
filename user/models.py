@@ -4,7 +4,7 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, UserManager)
 from enumfields import Enum, EnumField
-
+from datetime import datetime
 import core
 from utils.models import Observado
 from user.enum import *
@@ -101,11 +101,11 @@ class Inscricao(models.Model):
     def validate_periodo_inscricao(self):
         from core.models import StatusEvento
         if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
-            return ValidationError("Periodo de inscricoes ja encerrou")
+            raise ValidationError("Periodo de inscricoes ja encerrou")
 
     def validate_inscricao_evento(self):
         if Inscricao.objects.all().filter(evento=self.evento).exists():
-            return ValidationError("Voce ja se inscreveu nesse evento")
+            raise ValidationError("Voce ja se inscreveu nesse evento")
 
     def clean(self):
         super(Inscricao, self).clean()
@@ -129,16 +129,28 @@ class CheckinItemInscricao(models.Model):
                                 default="")
 
     def validate_data_checkin(self):
-        if self.data < datetime.date.today():
-            return ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
+        agora = datetime.now()
+        if self.data.day < agora.day:
+            if self.data.month < agora.month:
+                if self.data.year < agora.year:
+                    raise ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
 
-    def validate_hora_checkin(self):
-        if self.hora < self.datetime.time:
-            return ValidationError("Hora do checkin nao pode ser inferior a hora atual")
+        if self.data.month < agora.month:
+            if self.data.year < agora.year:
+                raise ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
 
+        if self.data.year < agora.year:
+            raise ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
+
+    # def validate_hora_checkin(self):
+    #     if self.hora < self.datetime.timedelta:
+    #         return ValidationError("Hora do checkin nao pode ser inferior a hora atual")
+
+    #
     def clean(self):
-        super(CheckinItemInscricao, super).clean()
-        # self.validate_gerente_chekin()
+        super(CheckinItemInscricao, self).clean()
+        # self.validate_hora_checkin()
+        self.validate_data_checkin()
 
     def save(self, *args, **kwargs):
         self.full_clean()
