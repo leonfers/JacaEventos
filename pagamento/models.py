@@ -97,7 +97,7 @@ class Cupom(models.Model):
         )
 
     def atualizar_valor_com_desconto(self):
-        desconto = self.receberDesconto(self.evento.valor)
+        desconto = self.receberDesconto()
         self.evento.valor = self.evento.valor - desconto
 
     def gerar_codigo_cupom(self):
@@ -119,7 +119,7 @@ class Cupom(models.Model):
 
     def usar_cupom_automatico(self):
         self.tipo = TipoCupom.AUTOMATICO
-        self.evento.valor -= self.receberDesconto(self.evento.valor)
+        self.evento.valor -= self.receberDesconto()
 
     def clean(self):
         super(Cupom, self).clean()
@@ -138,5 +138,6 @@ class Cupom(models.Model):
     def __str__(self):
         return self.Cupons
 
-    def receberDesconto(self, valor):
+    def receberDesconto(self):
+        valor = self.evento.valor
         return valor*self.porcentagem
