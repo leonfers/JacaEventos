@@ -11,7 +11,7 @@ class TesteInscricao(TestCase):
 
 
     def test_calcular_valor_correto_de_inscricao_dado_um_conjunto_de_atividades_adicionadas(self):
-        atividade = Atividade(valor=5.0)
+        atividade = AtividadePadrao(valor=5.0)
         evento_criado = Evento()
         evento_criado.add_atividade(atividade)
         inscricao = Inscricao(evento = evento_criado)

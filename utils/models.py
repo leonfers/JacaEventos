@@ -2,6 +2,8 @@ from django.db import models
 from localflavor.br.br_states import STATE_CHOICES
 import datetime
 from django.core.exceptions import ValidationError
+from django.core import validators
+import re
 
 
 class Periodo(models.Model):
@@ -26,25 +28,34 @@ class Periodo(models.Model):
         self.full_clean()
         super(Periodo, self).save()
 
-    def __str__(self):
-        return self.data_inicio.__str__() + " para " + self.data_fim.__str__()
+    def str(self):
+        return self.data_inicio.str() + " para " + self.data_fim.str()
 
 
 class Endereco(models.Model):
-    pais = models.TextField(blank=True, null=False)
-    cidade = models.TextField(blank=True, null=False)
-    bairro = models.TextField(blank=True, null=False)
+    pais = models.TextField(blank=False, null=False)
+    cidade = models.TextField(blank=False, null=False)
+    bairro = models.TextField(blank=False, null=False)
     logradouro = models.TextField(blank=True, null=False)
-    numero = models.TextField(blank=True, null=False)
-    cep = models.TextField(blank=True, null=False)
+    numero = models.TextField(blank=False, null=False)
+    cep = models.CharField(max_length=9, blank=False, validators=[
+        validators.RegexValidator(re.compile(r'^\d{8}$|^\d{5}-\d{3}$'),
+                                  message='Informe um cep valido no formato 88888888 ou 88888-888', code='invalid')])
     estado = models.TextField(blank=False, null=False)
 
-    def __str__(self):
-        return self.pais + '\n' + self.cidade + '\n' + self.bairro + '\n' + self.logradouro + '\n' + self.numero + '\n' + self.cep + '\n' + self.estado
+    class Meta:
+        verbose_name = 'Endereco'
+        verbose_name_plural = 'Enderecos'
+
+    def str(self):
+        return self.pais
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Endereco, self).save()
 
 
 class Horario(models.Model):
-    # kasio permitiu data como null
     data = models.DateField("Data inicio", blank=True, null=True)
     hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
@@ -53,8 +64,8 @@ class Horario(models.Model):
         verbose_name = 'Horario'
         verbose_name_plural = 'Horario'
 
-    def __str__(self):
-        return self.hora_inicio.__str__() + "  para  " + self.hora_fim.__str__()
+    def str(self):
+        return self.hora_inicio.str() + "  para  " + self.hora_fim.str()
 
 
 class HorarioAtividadeContinua(Horario):
@@ -118,7 +129,7 @@ class MsgFactory():
 class MsgSimples(models.Model):
     atual = models.TextField(default="")
 
-    def __str__(self):
+    def str(self):
         return "novo " + self.atual + "."
 
 
@@ -126,5 +137,5 @@ class MsgCompleta(MsgSimples):
     data = models.DateTimeField(null=False)
     anterior = models.TextField(default="")
 
-    def __str__(self):
+    def str(self):
         return "Data :" + self.data + " Estado antigo :" + self.anterior + " Estado atual :" + self.atual + "."

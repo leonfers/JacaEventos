@@ -12,15 +12,15 @@ class TesteEspacoFisico(TestCase):
 
     def test_controle_espaco_fisico(self):
         evento = Evento(nome="Teste")
-        atividade = Atividade(nome="Poker")
+        atividade = AtividadePadrao(nome="Poker")
         espaco = EspacoFisico(nome = 'nome', tipoEspacoFisico = 'padrao', capacidade = 9999, evento = evento, atividade = atividade)
         self.assertFalse(espaco.tipoEspacoFisico == '')
 
     def test_impedir_que_atividades_ocorram_no_mesmo_espaco_fisico_com_tempos_sobrepostos(self):
         evento = Evento(nome="Teste")
         horario_definido= Horario(data = '2017-09-15', hora_inicio = '12:30:00', hora_fim = '22:30:00')
-        atividade = Atividade(nome="Poker", horario=horario_definido)
-        atividade_secundaria = Atividade(nome="Xadrez", horario=horario_definido)
+        atividade = AtividadePadrao(nome="Poker", horario=horario_definido)
+        atividade_secundaria = AtividadePadrao(nome="Xadrez", horario=horario_definido)
         espaco = EspacoFisico(nome='nome', tipoEspacoFisico='padrao', capacidade=9999, evento=evento,
                               atividade=atividade)
         self.assertFalse(espaco.tipoEspacoFisico == '')
@@ -28,7 +28,7 @@ class TesteEspacoFisico(TestCase):
 
     def test_permitir_usuario_usar_um_espaco_fisico_dentro_de_um_espaco_fisico(self):
         evento = Evento(nome="Teste")
-        atividade = Atividade(nome="Poker")
+        atividade = AtividadePadrao(nome="Poker")
         espaco = EspacoFisico(nome='nome', tipoEspacoFisico='padrao', capacidade=9999, evento=evento,
                               atividade=atividade)
         espaco_interno = EspacoFisico(nome='Interno', tipoEspacoFisico='padrao', capacidade=99, evento=evento,

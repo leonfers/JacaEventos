@@ -1,5 +1,6 @@
 from enumfields import Enum, EnumField
 from django.db import models
+<<<<<<< HEAD
 from user.models import *
 from core.models import *
 from localflavor.br.br_states import STATE_CHOICES
@@ -49,6 +50,28 @@ class Pagamento(models.Model):
         self.full_clean()
         super(Pagamento, self).save()
 
+=======
+from pagamento.enum import *
+
+
+class Pagamento(models.Model):
+    status = EnumField(StatusPagamento, default=StatusPagamento.NAO_PAGO)
+    data = models.DateField('Data de entrada', auto_now_add=True)
+    hora = models.TimeField("Hora", blank=True, null=False)
+    valor_pagamento = models.DecimalField("valor pagamento", max_digits=5, decimal_places=2)
+>>>>>>> master
+
+    inscricao = models.ForeignKey("user.Inscricao",
+                                  related_name="de_incricao",
+                                  default="")
+
+    usuario_recebimento = models.ForeignKey("user.Usuario",
+                                            related_name="recebido_usuario",
+                                            default="")
+
+    cupons = models.ManyToManyField('pagamento.Cupom',
+                                    through="PagamentoCupom" ,
+                                    default="")
 
     class Meta:
         verbose_name = 'Pagamento'
@@ -59,6 +82,7 @@ class Pagamento(models.Model):
 
 
 class PagamentoCupom(models.Model):
+<<<<<<< HEAD
     pagamento = models.ForeignKey("pagamento.Pagamento" , related_name="pagamento_cupom" , default="", blank=False, null=False)
     cupom = models.ForeignKey("pagamento.Cupom" , related_name="cupom_de_pagamento" , default="", blank=False, null=False)
 
@@ -95,6 +119,30 @@ class Cupom(models.Model):
         on_delete=models.CASCADE,
         primary_key=True, blank=False, null=False
         )
+=======
+    pagamento = models.ForeignKey("pagamento.Pagamento" ,
+                                  related_name="pagamento_cupom" ,
+                                  default="")
+
+    cupom = models.ForeignKey("pagamento.Cupom",
+                              related_name="cupom_de_pagamento" ,
+                              default="")
+
+
+class Cupom(models.Model):
+    codigo_do_cupom =  models.CharField('cupom', max_length=100, blank=True)
+    porcentagem = models.DecimalField("porcentagem", max_digits=2, decimal_places=0 , default=0)
+    status = EnumField(StatusCupom, max_length=25, default=StatusCupom.ATIVO)
+    tipo = EnumField(TipoCupom, max_length=25, default=TipoCupom.SIMPLES)
+
+    evento = models.ForeignKey('core.Evento',
+                               related_name="cupom_do_evento" ,
+                               default="")
+
+    periodo =  models.OneToOneField('utils.Periodo',
+                                    on_delete=models.CASCADE,
+                                    primary_key=True)
+>>>>>>> master
 
     def atualizar_valor_com_desconto(self):
         desconto = self.receberDesconto()
