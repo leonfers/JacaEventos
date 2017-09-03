@@ -54,7 +54,7 @@ class TestUser(TestCase):
         # self.new_inscricao = new_inscricao
 
         pagamento = Pagamento(status=StatusPagamento.PAGO, usuario_recebimento=evento.dono, data="2017-10-10",
-                              hora="20:00", valor_pagamento=0, inscricao=inscricao)
+                              hora="20:00", valor_pagamento=100.00, inscricao=inscricao)
         pagamento.save()
         self.pagamento = pagamento
 

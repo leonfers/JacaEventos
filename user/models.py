@@ -128,12 +128,6 @@ class CheckinItemInscricao(models.Model):
                                 related_name="gerente_chekin",
                                 default="")
 
-    def validate_gerente_status(self):
-        if self.status.VERIFICADO and self.gerente == '':
-            raise ValidationError("O gerente precisa de informado")
-        if self.status.NAO_VERIFICADO and self.gerente != '':
-            raise ValidationError("O status precisa ser colocado como verificado")
-
     def validate_data_checkin(self):
         agora = datetime.now()
         if self.data.day < agora.day:
@@ -162,7 +156,6 @@ class CheckinItemInscricao(models.Model):
         super(CheckinItemInscricao, self).clean()
         # self.validate_hora_checkin()
         self.validate_data_checkin()
-        self.validate_gerente_status()
 
     def save(self, *args, **kwargs):
         self.full_clean()

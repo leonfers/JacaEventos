@@ -9,7 +9,7 @@ class TesteItemInscricao(TestUser):
     def test_criar_item_inscricao(self):
         ItemInscricao.objects.create(inscricao=self.inscricao, atividade=self.atividade)
 
-    def test_verificar_atividade_pertence_ao_evento(self):
+    def test_verificar_atividade_pertence_ao_evento_inscrito(self):
         item_inscricao = ItemInscricao.objects.create(inscricao=self.inscricao, atividade=self.atividade)
         self.assertEqual(item_inscricao.atividade.evento, item_inscricao.inscricao.evento)
 

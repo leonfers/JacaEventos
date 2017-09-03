@@ -33,7 +33,9 @@ class TesteUsuario(TestUser):
     def test_iniciar_usuario_com_email_e_senha(self):
         usuario = self.usuario()
         usuario.email = "teste@teste"
+        usuario.password = '123'
         self.assertEqual(usuario.email, "teste@teste")
+        self.assertEqual(usuario.password, "123")
 
     def test_criacao_lista_vazia_de_eventos_para_usuario_recem_criado(self):
         usuario = self.usuario()
@@ -46,3 +48,4 @@ class TesteUsuario(TestUser):
         sem_inscricoes = usuario.get_inscricoes()
         vazio = len(sem_inscricoes)
         self.assertEqual(vazio, 0)
+
