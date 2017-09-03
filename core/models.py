@@ -164,7 +164,6 @@ class Atividade(PolymorphicModel, Observado):
         'core.Trilha',
         through="AtividadeTrilha",
         related_name="trilha_atividade")
-    horarioAtividade = models.OneToOneField('core.HorarioAtividade' ,blank=True, null=True, related_name="atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
@@ -190,21 +189,6 @@ class Atividade(PolymorphicModel, Observado):
 
     def __str__(self):
         return self.nome
-
-
-class HorarioAtividade(models.Model):
-    data_inicio = models.DateField("Data inicio", blank=True, null=False)
-    data_fim = models.DateField("Data fim", blank=True, null=False)
-    hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
-    hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
-
-    def get_dias_atividade(self):
-        dias = self.data_fim - self.data_inicio
-        dias = dias.days
-        dict = {}
-        for i in range(dias + 1):
-            dict[str(i)] = self.data_inicio + datetime.timedelta(i)
-        return dict
 
 
 class AtividadePadrao(Atividade):
