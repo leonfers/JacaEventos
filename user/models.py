@@ -132,6 +132,9 @@ class CheckinItemInscricao(models.Model):
         if self.data < datetime.date.today():
             return ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
 
+    def validate_hora_checkin(self):
+        if self.hora < self.datetime.time:
+            return ValidationError("Hora do checkin nao pode ser inferior a hora atual")
 
     def clean(self):
         super(CheckinItemInscricao, super).clean()
@@ -152,6 +155,10 @@ class ItemInscricao(models.Model):
 
     checkin = models.ForeignKey('CheckinItemInscricao',
                                 default="", null=True, blank=True)
+
+    def validade_status_inscricao(self):
+        if self.inscricao.status_inscricao == StatusInscricao.INATIVA:
+            raise ValidationError('Voce nao pode se inscrever em atividades com a inscricao inativa')
 
     def validate_atividade_existente(self):
         # for atividade in self.inscricao.atividades.all():
