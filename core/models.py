@@ -174,6 +174,7 @@ class Atividade(PolymorphicModel, Observado):
     trilhas = models.ManyToManyField('core.Trilha',
                                      through="AtividadeTrilha",
                                      related_name="trilha_atividade")
+    h= models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
 
     @staticmethod
     def atividades_tipo(tipo):
