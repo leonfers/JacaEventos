@@ -90,6 +90,14 @@ class Inscricao(models.Model):
             item_inscricao.atividade = atividade
             item_inscricao.save()
 
+    def validate_usuario_evento(self):
+        print(self.evento.dono)
+        print(self.usuario)
+        if self.evento.dono == self.usuario:
+            return ValidationError("O dono do evento não pode se inscrever no evento")
+        if self.usuario in self.evento.gerentes.all():
+            return ValidationError("Um gerende do evento nao pode se inscrever")
+
     def validate_periodo_inscricao(self):
         from core.models import StatusEvento
         if self.evento.status != StatusEvento.INSCRICOES_ABERTAS:
@@ -101,7 +109,8 @@ class Inscricao(models.Model):
 
     def clean(self):
         super(Inscricao, self).clean()
-        # self.validate_periodo_inscricao()
+        self.validate_periodo_inscricao()
+        self.validate_usuario_evento()
         self.validate_inscricao_evento()
 
     def save(self, *args, **kwargs):
@@ -119,23 +128,21 @@ class CheckinItemInscricao(models.Model):
                                 related_name="gerente_chekin",
                                 default="")
 
-    # def validate_gerente_chekin(self):
-    #     if self.status == StatusCheckIn.VERIFICADO and self.gerente == "":
-    #         raise ValidationError('Gerente nao Informado')
-    #     if self.status == StatusCheckIn.NAO_VERIFICADO and self.gerente != "":
-    #         raise ValidationError('Status do Checkin nao foi alterado')
-    #
-    # def clean(self):
-    #     super(CheckinItemInscricao, super).clean()
-    #     # self.validate_gerente_chekin()
-    #
-    # def save(self, *args, **kwargs):
-    #     self.full_clean()
-    #     super(CheckinItemInscricao, self).save()
+    def validate_data_checkin(self):
+        if self.data < datetime.date.today():
+            return ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
+
+
+    def clean(self):
+        super(CheckinItemInscricao, super).clean()
+        # self.validate_gerente_chekin()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(CheckinItemInscricao, self).save()
 
 
 class ItemInscricao(models.Model):
-
     inscricao = models.ForeignKey('Inscricao',
                                   blank=True, default="",
                                   related_name="itens")

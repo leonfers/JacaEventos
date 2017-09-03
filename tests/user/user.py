@@ -1,5 +1,6 @@
 from django.test import TestCase
 from user.models import *
+from utils.models import Periodo
 
 
 class TestUser(TestCase):
