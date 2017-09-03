@@ -1,25 +1,24 @@
-from django.utils import timezone
-from django.test import TestCase
-from django.urls import reverse
+import unittest
+from .pagamento import TestPagamento
 from pagamento.models import *
-from core.models import *
-from utils.models import *
+import datetime
+from django.core.exceptions import ValidationError
 
 
-class TestarPagamentos(TestCase):
+class PagamentoTeste(TestPagamento):
 
 
-    def test_pagamento_negativo(self):
-        pagamento_invalido = Pagamento(valor_pagamento = 0)
-        self.assertEqual(pagamento_invalido.valor_pagamento, 0)
-            
-    def test_status_pagamento_em_espera(self):
-        status_pagamento_invalido = Pagamento(status='NAO_PAGO')
-        self.assertEqual(status_pagamento_invalido.status, 'NAO PAGO')
-    
-    def test_calcular_valor_correto_de_quando_se_utilizar_um_cupom_promocional_individual(self):
-        pagamento_feito = Pagamento(valor_pagamento=80.0)    
-        evento = Evento(valor=100.0)
-        cupom = Cupom(porcentagem=0.20, evento = evento)
-        pagamento_cupom = PagamentoCupom(pagamento=pagamento_feito, cupom=cupom)
-        self.assertEqual(pagamento_feito.valor_pagamento, evento.valor - cupom.receberDesconto(evento.valor))
+    def test_criar_pagamento(self):
+        pagamento = self.criar_pagamento()
+        self.assertTrue(pagamento.save())
+
+    def test_criar_pagamento_com_valor_inferior_ao_de_evento(self):
+        pagamento = self.criar_pagamento()
+        pagamento.valor_pagamento -= pagamento.valor_pagamento * 0.5
+        with self.assertRaises(ValidationError):
+            pagamento.save()
+
+    def test_invalidar_inscricao_enquanto_aguarda_pagamento(self):
+        pagamento = self.manter_status_inscricao_INATIVA_enquanto_aguarda_pagamento()
+        self.assertEqual(pagamento.status, StatusPagamento.NAO_PAGO)
+        self.assertEqual(pagamento.inscricao.status_inscricao, StatusInscricao.INATIVA)
