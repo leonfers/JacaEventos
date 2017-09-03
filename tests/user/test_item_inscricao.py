@@ -2,35 +2,28 @@ from tests.user.user import TestUser
 from user.models import *
 from utils.models import *
 from core.models import *
+from django.core.exceptions import ValidationError
 
 
 class TesteItemInscricao(TestUser):
-    def test_create_item_inscricao(self):
-        self.create_item_inscricao()
+    # py manage.py dumpdata - o test_fixtures.json
+    fixtures = ['test_fixtures.json']
 
-    def test_verificar_atividades_repetidas_item_inscricao(self):
-        item_inscricao = self.item_inscricao()
-        item_inscricao2 = self.item_inscricao()
+    def test_criar_item_inscricao(self):
+        self.inscricao()
 
-        usuario = Usuario(username="Will", email="teste@teste", nome="Will")
+    def test_verificar_atividade_pertence_ao_evento(self):
+        item_inscricao = ItemInscricao.objects.get(id=1)
+        self.assertEqual(item_inscricao.inscricao.evento, item_inscricao.atividade.evento)
 
-        endereco = Endereco(pais="Brasil", estado="Piaui", logradouro="Praca", numero="N/A", cidade="Teresina",
-                            bairro="Macauba", cep="64532-123")
-        periodo = Periodo(data_inicio=datetime.date.today(), data_fim=datetime.date(2018, 1, 1))
-        evento = Evento(nome="Festival de Musica de Pedro II",
-                        descricao="Evento criado no intuito de promover o turismo em pedro II alem de disseminar cultura",
-                        valor=0, tipo_evento=TipoEvento.SEMINARIO, periodo=periodo, endereco=endereco, dono=usuario)
-        atividade = AtividadeAdministrativa(nome='credenciamento', descricao='abc', evento=evento)
-        inscricao = Inscricao(status_inscricao=StatusInscricao.ATIVA, tipo_inscricao=TipoInscricao.PARCIAL,
-                              usuario=usuario, evento=evento)
-        # item_inscricao = self.item_inscricao
+    def test_verificar_atividade_nao_pertence_ao_evento(self):
+        item_inscricao = ItemInscricao.objects.get(id=1)
+        evento = Evento.objects.get(id=4)
+        self.assertFalse(item_inscricao.inscricao.evento, evento)
 
-        item_inscricao.inscricao = inscricao
-        item_inscricao.atividade = atividade
-
-        item_inscricao2.inscricao = inscricao
-        item_inscricao2.atividade = atividade
-
+    def test_nao_permitir_se_inscrever_em_uma_atividade_que_ja_esta_inscrito(self):
+        inscricao = Inscricao.objects.get(id=1)
+        atividade = inscricao.itens.get(id=1)
+        atividade = atividade.atividade
         with self.assertRaises(ValidationError):
-            item_inscricao.save()
-            item_inscricao2.save()
+            ItemInscricao.objects.create(inscricao=inscricao, atividade=atividade)

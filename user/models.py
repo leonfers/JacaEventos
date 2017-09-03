@@ -135,6 +135,7 @@ class CheckinItemInscricao(models.Model):
 
 
 class ItemInscricao(models.Model):
+
     inscricao = models.ForeignKey('Inscricao',
                                   blank=True, default="",
                                   related_name="itens")
