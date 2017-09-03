@@ -61,11 +61,29 @@ class Evento(models.Model):
         data = datetime.date.today()
         tamanho = len(self.atividades)
         dict = {}
+        agenda_hoje = {}
+        atividades = self.atividades
         for i in range(tamanho):
-            for j in range(len(self.atividades[i].horarioAtividade.get_dias_atividade())):
+            for j in range(len(atividades[i].horarioAtividade.get_dias_atividade())):
                 if data == self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]:
-                    dict[str(i)] = self.atividades[i].horarioAtividade.hora_inicio
-        return dict
+                    dict[str(i)] = str(self.atividades[i].horarioAtividade.hora_inicio) + " " + str(
+                        self.atividades[i].horarioAtividade.hora_fim)
+                    agenda_hoje[str(data)] = dict
+        return agenda_hoje
+
+    def get_agenda_dia(self, data):
+
+        tamanho = len(self.atividades)
+        dict = {}
+        agenda_hoje = {}
+        atividades = self.atividades
+        for i in range(tamanho):
+            for j in range(len(atividades[i].horarioAtividade.get_dias_atividade())):
+                if data == self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]:
+                    dict[str(self.atividades[i])] = str(self.atividades[i].horarioAtividade.hora_inicio) + " " + str(
+                        self.atividades[i].horarioAtividade.hora_fim)
+                    agenda_hoje[str(str(data))] = dict
+        return agenda_hoje
 
     def add_atividade(self, atividade):
         try:
@@ -146,7 +164,7 @@ class Atividade(PolymorphicModel, Observado):
         'core.Trilha',
         through="AtividadeTrilha",
         related_name="trilha_atividade")
-    horarioAtividade = models.ForeignKey('core.HorarioAtividade', blank=True, null=True)
+    horarioAtividade = models.OneToOneField('core.HorarioAtividade' ,blank=True, null=True, related_name="atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
     evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
@@ -186,7 +204,6 @@ class HorarioAtividade(models.Model):
         dict = {}
         for i in range(dias + 1):
             dict[str(i)] = self.data_inicio + datetime.timedelta(i)
-
         return dict
 
 
