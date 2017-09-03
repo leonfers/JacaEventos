@@ -13,8 +13,9 @@ class TesteInscricao(TestUser):
     def test_create_inscricao(self):
         self.create_inscricao()
 
-    def test_verificar_inscricao_evento(self):
-        self.create_inscricao()
+    def test_criar_inscricao_com_status_ativo(self):
+        inscricao = self.create_inscricao()
+        self.assertTrue(inscricao.status_inscricao.ATIVA, StatusInscricao.ATIVA)
 
     def test_calcular_valor_correto_de_inscricao_dado_um_conjunto_de_atividades_adicionadas(self):
         with self.assertRaises(ValidationError):
@@ -32,11 +33,12 @@ class TesteInscricao(TestUser):
             # self.assertTrue(inscricao.evento, evento)
 
     def test_valor_total_de_uma_inscricao_por_evento_deve_ser_igual_ao_valor_evento(self):
-        inscricao = Inscricao(usuario=self.user, evento=self.evento)
-        self.assertTrue(inscricao.evento.valor == self.evento.valor)
+        inscricao = Inscricao(usuario=self.user, evento=self.new_evento)
+        inscricao.save()
+        self.assertEqual(True, inscricao.evento.valor == self.evento.valor)
 
-# def test_calculo_do_valor_final_de_uma_inscricao_direta_deve_ser_especificado_no_proprio_evento(self):
-#         """
-#         Já para eventos de inscrição direto no evento o valor
-#         será especificado direto no evento, incluindo os valores do eventos Satelites.
-#         """
+    def test_nao_permitir_dono_do_evento_se_inscrever_no_evento(self):
+        inscricao = Inscricao(usuario=self.user, evento=self.evento)
+        with self.assertRaises(ValidationError):
+            inscricao.save()
+

@@ -13,7 +13,7 @@ class TestUser(TestCase):
         self.user = usuario
 
         novo_usuario = Usuario(username="tsad", email="tesadsdasdte@ail.com", nome="dasdasdaf",
-                          password="pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM=")
+                               password="pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM=")
         novo_usuario.save()
         self.new_user = novo_usuario
 
@@ -21,23 +21,38 @@ class TestUser(TestCase):
                                            cidade="Teresina",
                                            bairro="Macauba", cep="64532-123")
 
+        endereco.save()
         self.edereco = endereco
+
         periodo = Periodo.objects.create(data_inicio=datetime.date.today(), data_fim=datetime.date(2018, 1, 1))
+        periodo.save()
         self.periodo = periodo
+
         evento = Evento(nome="Festival",
                         descricao="Evento criado no intuito de promover o turismo em pedro II alem de disseminar cultura",
                         valor=0, tipo_evento=TipoEvento.SEMINARIO, periodo=self.periodo, endereco=endereco,
                         dono=usuario)
         evento.save()
         self.evento = evento
+
+        new_evento = Evento(nome="Festival123",
+                            descricao="Evento 2 criado no intuito de promover o turismo em pedro II alem de disseminar cultura",
+                            valor=0, tipo_evento=TipoEvento.CONGRESSO, periodo=self.periodo, endereco=endereco,
+                            dono=novo_usuario)
+        new_evento.save()
+        self.new_evento = new_evento
+
         atividade = AtividadeContinua(nome="teste", descricao="Credenciamento dos participantes", evento=evento,
                                       periodo=periodo)
-
         atividade.save()
         self.atividade = atividade
+
         inscricao = Inscricao(usuario=novo_usuario, evento=evento)
         inscricao.save()
         self.inscricao = inscricao
+
+
+        # self.new_inscricao = new_inscricao
 
         pagamento = Pagamento(status=StatusPagamento.PAGO, usuario_recebimento=evento.dono, data="2017-10-10",
                               hora="20:00", valor_pagamento=0, inscricao=inscricao)

@@ -128,6 +128,12 @@ class CheckinItemInscricao(models.Model):
                                 related_name="gerente_chekin",
                                 default="")
 
+    def validate_gerente_status(self):
+        if self.status.VERIFICADO and self.gerente == '':
+            raise ValidationError("O gerente precisa de informado")
+        if self.status.NAO_VERIFICADO and self.gerente != '':
+            raise ValidationError("O status precisa ser colocado como verificado")
+
     def validate_data_checkin(self):
         agora = datetime.now()
         if self.data.day < agora.day:
@@ -156,6 +162,7 @@ class CheckinItemInscricao(models.Model):
         super(CheckinItemInscricao, self).clean()
         # self.validate_hora_checkin()
         self.validate_data_checkin()
+        self.validate_gerente_status()
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -178,12 +185,10 @@ class ItemInscricao(models.Model):
             raise ValidationError('Voce nao pode se inscrever em atividades com a inscricao inativa')
 
     def validate_atividade_existente(self):
-        # for atividade in self.inscricao.atividades.all():
         if self.atividade in self.inscricao.atividades.all():
             raise ValidationError('Voce ja se inscreveu nessa atividade')
 
     def validate_atividade_evento(self):
-        # for atividade in self.inscricao.evento.atividades.all():
         if self.atividade not in self.inscricao.evento.atividades.all():
             raise ValidationError('Atividade não pertence ao evento')
 
@@ -212,6 +217,7 @@ class ItemInscricao(models.Model):
         self.validate_atividade_existente()
         self.validate_atividade_evento()
         self.validate_conflito_horario_atividade()
+        self.validade_status_inscricao()
 
     def save(self, *args, **kwargs):
         self.full_clean()
