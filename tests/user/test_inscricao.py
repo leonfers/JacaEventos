@@ -9,12 +9,12 @@ from tests.user.user import TestUser
 from utils.models import Periodo
 
 
-class TesteInscricao(TestUser):
+#class TesteInscricao(TestUser):
     # py manage.py dumpdata - o test_fixtures.json
-    fixtures = ['test_fixtures.json']
+  #  fixtures = ['test_fixtures.json']
 
-    def test_create_inscricao(self):
-        self.create_inscricao()
+#    def test_create_inscricao(self):
+ #       self.create_inscricao()
 
 #
 #     def test_verificar_inscricao_evento(self):
