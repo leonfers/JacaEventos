@@ -11,6 +11,12 @@ class TestUser(TestCase):
                           password="pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM=")
         usuario.save()
         self.user = usuario
+
+        novo_usuario = Usuario(username="tsad", email="tesadsdasdte@ail.com", nome="dasdasdaf",
+                          password="pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM=")
+        novo_usuario.save()
+        self.new_user = novo_usuario
+
         endereco = Endereco.objects.create(pais="Brasil", estado="Piaui", logradouro="Praca", numero="3130",
                                            cidade="Teresina",
                                            bairro="Macauba", cep="64532-123")
@@ -29,7 +35,7 @@ class TestUser(TestCase):
 
         atividade.save()
         self.atividade = atividade
-        inscricao = Inscricao(usuario=usuario, evento=evento)
+        inscricao = Inscricao(usuario=novo_usuario, evento=evento)
         inscricao.save()
         self.inscricao = inscricao
 

@@ -15,4 +15,13 @@ class TesteInscricao(TestUser):
         with self.assertRaises(ValidationError):
             checkin.save()
 
+    def test_checkin_com_status_NAO_VERIFICADO(self):
+        checkin = self.checkin()
+        checkin.status = StatusCheckIn.NAO_VERIFICADO
+        self.assertTrue(StatusCheckIn.NAO_VERIFICADO, 'NAO_VERIFICADO')
+
+    def test_checkin_gerente(self):
+        checkin = self.checkin()
+        checkin.gerente = self.new_user
+        self.assertTrue(checkin.gerente, self.new_user)
 

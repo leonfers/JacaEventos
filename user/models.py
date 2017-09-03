@@ -94,9 +94,9 @@ class Inscricao(models.Model):
         print(self.evento.dono)
         print(self.usuario)
         if self.evento.dono == self.usuario:
-            return ValidationError("O dono do evento não pode se inscrever no evento")
+            raise ValidationError("O dono do evento não pode se inscrever no evento")
         if self.usuario in self.evento.gerentes.all():
-            return ValidationError("Um gerende do evento nao pode se inscrever")
+            raise ValidationError("Um gerende do evento nao pode se inscrever")
 
     def validate_periodo_inscricao(self):
         from core.models import StatusEvento
@@ -143,10 +143,15 @@ class CheckinItemInscricao(models.Model):
             raise ValidationError("Data de Checkin nao pode ser inferior da data de hoje")
 
     # def validate_hora_checkin(self):
-    #     if self.hora < self.datetime.timedelta:
-    #         return ValidationError("Hora do checkin nao pode ser inferior a hora atual")
-
+    #     agora = datetime.now()
+    #     if self.hora.minute < agora.minute:
+    #         if self.hora.hour < agora.hour:
+    #             raise ValidationError("Hora do checkin nao pode ser inferior a hora atual")
     #
+    #     if self.hora.hour < agora.hour:
+    #         raise ValidationError("Hora do checkin nao pode ser inferior a hora atual")
+
+
     def clean(self):
         super(CheckinItemInscricao, self).clean()
         # self.validate_hora_checkin()
