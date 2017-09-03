@@ -9,7 +9,6 @@ from core.models import *
 
 
 class TesteUsuario(TestUser):
-
     def test_create_usuario(self):
         usuario = self.create_user()
         self.assertEqual(usuario.email, 'teste@teste')
@@ -17,9 +16,9 @@ class TesteUsuario(TestUser):
         self.assertEqual(usuario.nome, 'Will')
 
     def test_username_em_branco(self):
-         usuario = self.usuario()
-         usuario.username = ''
-         self.assertEqual(usuario.username, '')
+        usuario = self.usuario()
+        usuario.username = ''
+        self.assertEqual(usuario.username, '')
 
     def test_email_em_branco(self):
         usuario = self.usuario()
@@ -31,18 +30,18 @@ class TesteUsuario(TestUser):
         usuario.nome = ''
         self.assertEqual(usuario.nome, '')
 
-    def test_iniciar_Usuario_com_email_e_senha(self):
+    def test_iniciar_usuario_com_email_e_senha(self):
         usuario = self.usuario()
         usuario.email = "teste@teste"
         self.assertEqual(usuario.email, "teste@teste")
 
-    def test_criacao_Lista_Vazia_de_Eventos_para_Usuario_recem_criado(self):
+    def test_criacao_lista_vazia_de_eventos_para_usuario_recem_criado(self):
         usuario = self.usuario()
         sem_eventos = usuario.get_eventos()
         vazio = len(sem_eventos)
         self.assertEqual(vazio, 0)
 
-    def test_criacao_Lista_Vazia_de_Inscricoes_para_Usuario_recem_criado(self):
+    def test_criacao_lista_vazia_de_Inscricoes_para_usuario_recem_criado(self):
         usuario = self.usuario()
         sem_inscricoes = usuario.get_inscricoes()
         vazio = len(sem_inscricoes)

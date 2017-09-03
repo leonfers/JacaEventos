@@ -15,7 +15,13 @@ class TesteInscricao(TestUser):
 
     def test_criar_inscricao_com_status_ativo(self):
         inscricao = self.create_inscricao()
+        inscricao.status_inscricao = StatusInscricao.ATIVA
         self.assertTrue(inscricao.status_inscricao.ATIVA, StatusInscricao.ATIVA)
+
+    def test_criar_inscricao_com_tipo_parcial(self):
+        inscricao = self.create_inscricao()
+        inscricao.tipo_inscricao = TipoInscricao.PARCIAL
+        self.assertTrue(inscricao.tipo_inscricao.PARCIAL, TipoInscricao.PARCIAL)
 
     def test_calcular_valor_correto_de_inscricao_dado_um_conjunto_de_atividades_adicionadas(self):
         with self.assertRaises(ValidationError):
