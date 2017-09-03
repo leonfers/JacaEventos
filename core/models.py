@@ -157,23 +157,24 @@ class EventoSatelite(models.Model):
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite", default="")
 
 
-class Atividade(PolymorphicModel, Observado):
+class Atividade(PolymorphicModel):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
-    trilhas = models.ManyToManyField(
-        'core.Trilha',
-        through="AtividadeTrilha",
-        related_name="trilha_atividade")
     valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
-    evento = models.ForeignKey('core.Evento', verbose_name="atividades", related_name='polymorphic_myapp.mymodel_set+',
+    evento = models.ForeignKey('core.Evento',
+                               verbose_name="atividades",
+                               related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
+
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
                                 related_name="periodo",
                                 default="")
-    trilhas = models.ManyToManyField('core.Trilha',
-                                     through="AtividadeTrilha",
-                                     related_name="trilha_atividade")
+
+    trilhas = models.ManyToManyField('core.Pacote',
+                                     through="AtividadePacote",
+                                     related_name="pacote_atividade")
+
     h= models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
 
     @staticmethod
@@ -222,22 +223,24 @@ class AtividadeAdministrativa(Atividade):
         self.save()
         horario.atividade = self
 
-
-class Trilha(models.Model):
+class Pacote(PolymorphicModel):
     nome = models.CharField('nome', max_length=40)
     valor = models.DecimalField('valor', max_digits=5, decimal_places=2, default=0)
 
     evento = models.ForeignKey('core.Evento',
-                               related_name="evento_trilha",
-                               verbose_name="evento")
+                               verbose_name="pacote",
+                               related_name='polymorphic_myapp.mymodel_set+',
+                               null=False)
 
+    atividades = models.ManyToManyField('core.Atividade',
+                                        through="AtividadePacote",
+                                        related_name="atividade_trilha")
+
+class Trilha(Pacote):
     responsaveis = models.ManyToManyField('user.Usuario',
                                           through="ResponsavelTrilha",
                                           related_name="responsavel_trilha")
 
-    atividades = models.ManyToManyField('core.Atividade',
-                                        through="AtividadeTrilha",
-                                        related_name="atividade_trilha")
 
     class meta:
         verbose_name = 'Trilha'
@@ -247,14 +250,14 @@ class Trilha(models.Model):
         return self.nome
 
 
-class TrilhaInscricao(models.Model):
-    trilha = models.ForeignKey('core.Trilha',
-                               related_name="trilha_Inscricao",
+class PacoteInscricao(models.Model):
+    pacote = models.ForeignKey('core.Pacote',
+                               related_name="pacote_Inscricao",
                                verbose_name="trilha_inscricao")
 
     inscricao = models.ForeignKey('user.Inscricao',
-                                  related_name="inscricao_trilha_Inscricao",
-                                  verbose_name="trilha_incricao")
+                                  related_name="inscricao_pacote_Inscricao",
+                                  verbose_name="pacote_incricao")
 
 
 class ResponsavelTrilha(models.Model):
@@ -368,11 +371,11 @@ class Tag_Evento(models.Model):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
 
 
-class AtividadeTrilha(models.Model):
+class AtividadePacote(models.Model):
     atividade = models.ForeignKey("core.Atividade",
-                                  related_name="atividades_de_trilha",
+                                  related_name="atividades_de_pacote",
                                   default="")
-    trilha = models.ForeignKey("core.Trilha", related_name="trilhas_de_atividade",
+    pacote = models.ForeignKey("core.Pacote", related_name="pacote_de_atividade",
                                default="")
 
 

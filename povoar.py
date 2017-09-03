@@ -123,8 +123,6 @@ atividade.valor = 0
 atividade.evento = evento
 print("Atividade Criada")
 
-#criando um periodo para atividade
-
 
 #craindo um horario para atividade
 horario = Horario()
@@ -186,9 +184,9 @@ responsavel_trilha.tipo_responsavel_trilha = "staff"
 print("responsavel por trilha definido")
 
 #adicionando atividades a trilhas
-atividade_trilha = AtividadeTrilha()
+atividade_trilha = AtividadePacote()
 atividade_trilha.atividade = atividade
-atividade_trilha.trilha = trilha
+atividade_trilha.pacote = trilha
 atividade_trilha.save()
 print("atividade relacionada a uma trilha")
 
@@ -218,8 +216,8 @@ item_inscricao.save()
 print("Atividades adcioandas a inscricao")
 
 #adicionando uma trilha a uma inscricao
-trilha_inscricao = TrilhaInscricao()
-trilha_inscricao.trilha = trilha
+trilha_inscricao = PacoteInscricao()
+trilha_inscricao.pacote = trilha
 trilha_inscricao.inscricao = inscricao
 trilha_inscricao.save()
 print("trilha adicionada a inscricao")
@@ -244,7 +242,7 @@ pagamento.status = StatusPagamento.PAGO
 pagamento.usuario_recebimento = evento.dono
 pagamento.data = "2017-10-10"
 pagamento.hora = "20:00"
-pagamento.valor_pagamento = 0
+pagamento.valor_pagamento = 50
 pagamento.inscricao = inscricao
 pagamento.save()
 print("pagamento efetuado")
