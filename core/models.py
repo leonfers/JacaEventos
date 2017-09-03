@@ -60,11 +60,12 @@ class Evento(models.Model):
     def get_agenda(self):
         data = datetime.date.today()
         tamanho = len(self.atividades)
+        dict = {}
         for i in range(tamanho):
             for j in range(len(self.atividades[i].horarioAtividade.get_dias_atividade())):
                 if data == self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]:
-                    return self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]
-
+                    dict[str(i)] = self.atividades[i].horarioAtividade.hora_inicio
+        return dict
 
     def add_atividade(self, atividade):
         try:
