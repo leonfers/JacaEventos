@@ -36,7 +36,6 @@ class RegistrarUsuarioForm(forms.ModelForm):
 
     class Meta:
         model = User
-        # abstract = True
         fields = ['username', 'email', 'nome']
 
 

@@ -175,7 +175,7 @@ class Atividade(PolymorphicModel):
                                      through="AtividadePacote",
                                      related_name="pacote_atividade")
 
-    h= models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
+    h = models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
 
     @staticmethod
     def atividades_tipo(tipo):
@@ -223,6 +223,7 @@ class AtividadeAdministrativa(Atividade):
         self.save()
         horario.atividade = self
 
+
 class Pacote(PolymorphicModel):
     nome = models.CharField('nome', max_length=40)
     valor = models.DecimalField('valor', max_digits=5, decimal_places=2, default=0)
@@ -236,11 +237,11 @@ class Pacote(PolymorphicModel):
                                         through="AtividadePacote",
                                         related_name="atividade_trilha")
 
+
 class Trilha(Pacote):
     responsaveis = models.ManyToManyField('user.Usuario',
                                           through="ResponsavelTrilha",
                                           related_name="responsavel_trilha")
-
 
     class meta:
         verbose_name = 'Trilha'

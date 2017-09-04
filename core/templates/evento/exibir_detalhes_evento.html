@@ -277,7 +277,7 @@
                         {{ espaco }}
                         <i class="close material-icons">close</i>
                     </div>
-                <!--{%endfor%}-->
+                 <!--{%endfor%}-->
             </ul>
             {% if exibir_evento.dono == request.user %}
             <ul class="collapsible popout" data-collapsible="accordion">
@@ -308,7 +308,9 @@
     {% if exibir_evento.dono != request.user %}
     <br>
     <div align="center">
-        <button class="btn"><a  class="white-text" href="{% url 'inscricao_evento' exibir_evento.id %}">Se Inscrever</a></button><br><br>
+        <button class="btn"><a class="white-text" href="{% url 'inscricao_evento' exibir_evento.id %}">Se Inscrever</a>
+        </button>
+        <br><br>
     </div>
     {% endif %}
 </ul>

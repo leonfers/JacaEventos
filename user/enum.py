@@ -1,5 +1,5 @@
-
 from enumfields import Enum, EnumField
+
 
 class TipoResponsavelAtividade(Enum):
     NAO_VERIFICADO = 'nao_verificado'

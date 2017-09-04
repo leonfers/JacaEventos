@@ -19,15 +19,8 @@
                 {{ field.errors }}
             </div>
             {% endfor %}
-            <!--<form method="POST" name="register" class="register-form">-->
-            <!--{% csrf_token %}-->
-            <!---->
-            <!--</form>-->
-            <!--<form method="POST" name="register" class="register-form">-->
-            <!--{% csrf_token %}-->
-            <!---->
-            <!--</form>-->
-            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Cadastrar Evento</button><br><br>
+            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Cadastrar Evento</button>
+            <br><br>
         </form>
         <div class="center-align red-text text-lighten-2" id="erro"><br></div>
         <p></p>
@@ -37,7 +30,7 @@
 
 {% block script %}
 <script>
-    $().ready(function() {
+    $().ready(function () {
         $('select').material_select();
     });
 </script>
