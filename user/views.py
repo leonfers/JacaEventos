@@ -10,7 +10,7 @@ from core.models import Evento, EspacoFisico
 User = get_user_model()
 
 
-class Registrar(FormView):
+class RegistrarUsuario(FormView):
     template_name = 'login/registrar.html'
     form_class = RegistrarUsuarioForm
 
@@ -37,7 +37,7 @@ class InscricaoEvento(View):
         if form_inscricao.is_valid():
             inscricao = form_inscricao.save(commit=False)
             inscricao.usuario = request.user
-            inscricao.evento = get_object_or_404(Evento, id=self.kwargs['inscricao_evento_id'])
+            inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
             inscricao.save()
 
             inscricao.add_inscricao_evento()
@@ -46,15 +46,14 @@ class InscricaoEvento(View):
             return redirect(settings.CONCLUSAO_INSCRICAO)
 
     def get(self, request, *args, **kwargs):
-        evento = get_object_or_404(Evento, id=self.kwargs['inscricao_evento_id'])
+        evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
         form_inscricao = self.form_incricao_evento()
         form_checkin = self.form_checkin_evento()
 
         context = {'evento': evento,
                    'espaco': EspacoFisico.objects.all(),
                    'form_incricao_evento': form_inscricao,
-                   'form_checkin_evento': form_checkin
-                   }
+                   'form_checkin_evento': form_checkin}
 
         return render(request, 'inscricao/inscricao_evento.html', context)
 
