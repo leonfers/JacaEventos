@@ -1,5 +1,6 @@
 from enumfields import Enum, EnumField
 
+
 class StatusEvento(Enum):
     INSCRICOES_ABERTAS = 'inscricoes_abertas'
     INSCRICOES_FECHADAS = 'incricoes_fechado'

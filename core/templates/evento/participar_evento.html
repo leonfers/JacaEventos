@@ -8,7 +8,8 @@
             <div class="card-image">
                 <img src="/static/teste/images/meus_eventos.jpg" width="300px" height="300px">
                 <span class="card-title">{{ evento.nome }}</span>
-                <a href="{% url 'exibir_evento' evento.id %}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">input</i></a>
+                <a href="{% url 'exibir_detalhes_evento' evento.id %}"
+                   class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">input</i></a>
             </div>
             <div class="card-content">
                 <p>{{ evento.descricao }}.</p>

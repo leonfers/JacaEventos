@@ -16,13 +16,13 @@ from django.http import HttpResponse
 class RegistrarEvento(View):
     template_name = 'evento/form_registrar.html'
     form_add_evento = RegistrarEventoForm
-    form_periodo = PeriodoForm
-    form_endereco = EnderecoForm
+    form_periodo_evento = PeriodoForm
+    form_endereco_evento = EnderecoForm
 
     def get(self, request, *args, **kwargs):
         form_add_evento = self.form_add_evento()
-        form_periodo = self.form_periodo()
-        form_endereco = self.form_endereco()
+        form_periodo = self.form_periodo_evento()
+        form_endereco = self.form_endereco_evento()
 
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
@@ -32,11 +32,11 @@ class RegistrarEvento(View):
 
     def post(self, request, *args, **kwargs):
         form_add_evento = self.form_add_evento(request.POST)
-        form_periodo = self.form_periodo(request.POST)
-        form_endereco = self.form_endereco(request.POST)
+        form_periodo = self.form_periodo_evento(request.POST)
+        form_endereco = self.form_endereco_evento(request.POST)
 
         formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
-        #    return redirect(settings.PAGINA_INICIAL)
+
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
                    'form_endereco': form_endereco}
@@ -55,8 +55,8 @@ class RegistrarInstituicoes(View):
         form_instituicoes = self.form_instituicoes(request.POST)
 
         if form_instituicoes.is_valid():
-            institu = form_instituicoes.save(commit=False)
-            institu.save()
+            instituicoes = form_instituicoes.save(commit=False)
+            instituicoes.save()
             return redirect(settings.PAGINA_INICIAL)
 
     def get(self, request, *args, **kwargs):
@@ -73,8 +73,8 @@ class MeusEventos(View):
         return render(request, self.template_name, context)
 
 
-class ExibirEvento(ListView):
-    template_name = 'evento/exibir_evento.html'
+class ExibirDetalhesEvento(ListView):
+    template_name = 'evento/exibir_detalhes_evento.html'
 
     def post(self, request, *args, **kwargs):
         # metodo para receber o id que foi mandado para a url
