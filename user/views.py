@@ -26,29 +26,23 @@ class PaginaInicial(TemplateView):
 
 class InscricaoEvento(View):
     template_name = 'inscricao/inscricao_evento.html'
-    form_incricao_evento = InscricaoEventoForm
-    form_checkin_evento = CheckinItemInscricaoEventoForm
 
     def post(self, request, *args, **kwargs):
-        # print(Evento.objects.get(id=self.kwargs['inscricao_evento_id']))
-        form_inscricao = self.form_incricao_evento(request.POST)
+        form_inscricao_evento = InscricaoEventoForm(request.POST)
         # TODO chekin por fazer
-        form_checkin = self.form_checkin_evento(request.POST)
-
-        if form_inscricao.is_valid():
-            inscricao = form_inscricao.save(commit=False)
+        form_checkin = CheckinItemInscricaoEventoForm(request.POST)
+        print(form_inscricao_evento.errors,"\n\n\n")
+        if form_inscricao_evento.is_valid():
+            inscricao = form_inscricao_evento.save(commit=False)
             inscricao.usuario = request.user
-            inscricao.evento = Evento.objects.all().filter(id=self.kwargs['inscricao_evento_id'])[0]
+            inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
             inscricao.save()
-            # inscricao.add_inscricao_evento()
-            # inscricao.registro_checkin_inscricao()
+            inscricao.add_inscricao_evento()
 
             return redirect(settings.CONCLUSAO_INSCRICAO)
 
     def get(self, request, *args, **kwargs):
-        # print(Evento.objects.get(id=self.kwargs['inscricao_evento_id']))
         evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
-        print(type(evento))
         form_inscricao = self.form_incricao_evento()
         form_checkin = self.form_checkin_evento()
 
@@ -57,7 +51,7 @@ class InscricaoEvento(View):
                    'form_incricao_evento': form_inscricao,
                    'form_checkin_evento': form_checkin}
 
-        return render(request, 'inscricao/inscricao_evento.html', context)
+        return render(request, self.template_name, context)
 
 
 class ConclusaoInscricao(TemplateView):
