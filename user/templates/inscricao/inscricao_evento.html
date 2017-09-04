@@ -46,7 +46,8 @@
         <td>Atividades</td>
         <td>{% for atividade in evento.get_atividades %}
             {{ atividade }}<br>
-            {% endfor %}</td>
+            {% endfor %}
+        </td>
     </tr>
     <tr>
         <td>Espaco Fisico</td>
@@ -74,7 +75,8 @@
         {{ form_incricao_evento }}
         <!--{% csrf_token %}-->
         <!--{{ form_checkin_evento }}-->
-        <button class="btn-large waves-effect waves-light teal">Se Inscrever</button><br><br>
+        <button class="btn-large waves-effect waves-light teal">Se Inscrever</button>
+        <br><br>
     </form>
 </div>
 
