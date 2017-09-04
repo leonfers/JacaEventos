@@ -34,10 +34,11 @@
             <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px"
                                                height="60px"/></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href=""><i class="material-icons" title="Você possui notificações">notifications</i></a></li>
-                <li><a href=""><i class="material-icons" title="Você não possui notificações">notifications_none</i></a></li>
+                <!--<li><a href=""><i class="material-icons" title="Você possui notificações">notifications</i></a></li>-->
+                <li><a href=""><i class="material-icons" title="Você não possui notificações">notifications_none</i></a>
+                </li>
                 <!--<span class="new badge"></span>-->
-                <li><a href="">Alterar senha</a></li>
+                <li><a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a></li>
                 <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
             </ul>
         </div>
@@ -56,24 +57,24 @@
             <a href="#!email"><span class="white-text email">{{ user.email }}</span></a>
         </div>
     </li>
-    <li>
-        <a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a>
-    </li>
 
-    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}">Instituições</a></li>
-    <li><a class="waves-effect" href="#">Minhas Inscrições</a></li>
-    <ul class="collapsible collapsible-accordion">
-        <li>
-            <a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>
-                    <li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>
-                    <li><a href="{% url 'participar_evento' %}">Participar de Eventos</a></li>
-                </ul>
-            </div>
-        </li>
-    </ul>
+    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}"><i class="material-icons">location_city</i>Instituições</a></li>
+    <li><a class="waves-effect" href="#"><i class="material-icons">library_books</i>Minhas Inscrições</a></li>
+    <li><a href="{% url 'meus_eventos' %}"><i class="material-icons">local_library</i>Meus Eventos</a></li>
+    <!--<li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>-->
+    <li><a href="{% url 'participar_evento' %}"><i class="material-icons">assignment_turned_in</i>Participar de Eventos</a></li>
+    <!--<ul class="collapsible collapsible-accordion">-->
+        <!--<li>-->
+            <!--<a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>-->
+            <!--<div class="collapsible-body">-->
+                <!--<ul>-->
+                    <!--<li></li>-->
+                    <!--<li></li>-->
+                    <!--<li></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</li>-->
+    <!--</ul>-->
 </ul>
 
 <div class="fixed-action-btn horizontal click-to-toggle">

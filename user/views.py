@@ -30,6 +30,7 @@ class InscricaoEvento(View):
     form_checkin_evento = CheckinItemInscricaoEventoForm
 
     def post(self, request, *args, **kwargs):
+        # print(Evento.objects.get(id=self.kwargs['inscricao_evento_id']))
         form_inscricao = self.form_incricao_evento(request.POST)
         # TODO chekin por fazer
         form_checkin = self.form_checkin_evento(request.POST)
@@ -37,15 +38,17 @@ class InscricaoEvento(View):
         if form_inscricao.is_valid():
             inscricao = form_inscricao.save(commit=False)
             inscricao.usuario = request.user
-            inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
+            inscricao.evento = Evento.objects.all().filter(id=self.kwargs['inscricao_evento_id'])[0]
             inscricao.save()
-            inscricao.add_inscricao_evento()
+            # inscricao.add_inscricao_evento()
             # inscricao.registro_checkin_inscricao()
 
             return redirect(settings.CONCLUSAO_INSCRICAO)
 
     def get(self, request, *args, **kwargs):
+        # print(Evento.objects.get(id=self.kwargs['inscricao_evento_id']))
         evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
+        print(type(evento))
         form_inscricao = self.form_incricao_evento()
         form_checkin = self.form_checkin_evento()
 

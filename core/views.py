@@ -97,7 +97,7 @@ class ExibirDetalhesEvento(ListView):
 
         # TODO AINDA POR FAZER
 
-        return HttpResponseRedirect('/eventos/' + self.kwargs['eventos_id'])
+        return HttpResponseRedirect('/eventos/exibir_evento=' + self.kwargs['eventos_id'])
 
     def get(self, request, *args, **kwargs):
         # criando os formularios de exibir evento
