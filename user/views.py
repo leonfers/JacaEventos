@@ -39,7 +39,6 @@ class InscricaoEvento(View):
             inscricao.usuario = request.user
             inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
             inscricao.save()
-
             inscricao.add_inscricao_evento()
             # inscricao.registro_checkin_inscricao()
 
