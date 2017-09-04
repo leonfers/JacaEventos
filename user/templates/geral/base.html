@@ -5,17 +5,18 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection, mobile" />
+    <link href="{% static 'teste/css/materialize.css' %}" type="text/css" rel="stylesheet"
+          media="screen,projection, mobile"/>
     <title>Jaca Eventos</title>
 
     <script>
-        $(window).load(function() {
-            $("#loading-center").click(function() {
+        $(window).load(function () {
+            $("#loading-center").click(function () {
                 $("#loading").fadeOut(500);
             })
         });
 
-        $(window).load(function() {
+        $(window).load(function () {
             $("#loading").fadeOut(500);
         })
 
@@ -29,7 +30,8 @@
 
 <nav>
     <div class="nav-wrapper #6a1b9a purple darken-3">
-        <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px" height="60px"/></a>
+        <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px"
+                                           height="60px"/></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="">Notificações<span class="new badge">4</span></a></li>
             <li><a href="">Alterar senha</a></li>
@@ -95,7 +97,7 @@
 <script src="{% static 'teste/js/select.js' %}"></script>
 <script src="{% static 'teste/js/cep.js' %}"></script>
 <script>
-    $().ready(function() {
+    $().ready(function () {
         $('select').material_select();
     });
     $('.datepicker').pickadate({
@@ -105,9 +107,9 @@
         max: false,
         format: 'yyyy-mm-dd'
     });
-    $(document).ready(function() {
+    $(document).ready(function () {
         /* Executa a requisição quando o campo CEP perder o foco */
-        $('#cep').blur(function() {
+        $('#cep').blur(function () {
             /* Configura a requisição AJAX */
             $.ajax({
                 url: 'consultar_cep.php',
@@ -118,7 +120,7 @@
                 /* dado que será enviado via POST */
                 dataType: 'json',
                 /* Tipo de transmissão */
-                success: function(data) {
+                success: function (data) {
                     if (data.sucesso == 1) {
                         $('#rua').val(data.rua);
                         $('#bairro').val(data.bairro);
@@ -146,7 +148,9 @@
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/Jaca-Eventos-126885344599690/" target="_blank">Facebook/JacaEventos</a></li>
+                    <li><a class="grey-text text-lighten-3"
+                           href="https://www.facebook.com/Jaca-Eventos-126885344599690/" target="_blank">Facebook/JacaEventos</a>
+                    </li>
                 </ul>
             </div>
         </div>
