@@ -28,6 +28,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
+
     tags = models.ManyToManyField('core.Tag',
                                   through="core.Tag_Usuario",
                                   related_name='tags_do_usuario')
