@@ -81,7 +81,7 @@ class RegistrarAtividadeContinuaForm(forms.ModelForm):
 
     class Meta:
         model = AtividadeContinua
-        exclude = ['periodo', 'horario', 'evento']
+        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
         fields = '__all__'
 
 
@@ -91,7 +91,7 @@ class RegistrarAtividadeAdministrativaForm(forms.ModelForm):
 
     class Meta:
         model = AtividadeAdministrativa
-        exclude = ['periodo', 'horario', 'evento']
+        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
         fields = '__all__'
 
 

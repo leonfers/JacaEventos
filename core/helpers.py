@@ -140,6 +140,7 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
         periodo.save()
         # pega os dados preenchidos no formulario na opção de tipo evento
         tipo_evento = self.request.POST['tipo_evento']
+
         evento = form_add_evento.save(commit=False)
         evento.dono = self.request.user
         evento.tipo_evento = tipo_evento
@@ -148,3 +149,5 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
 
         # tag_evento.save()
         evento.save()
+
+        return redirect('/meus_eventos/')
