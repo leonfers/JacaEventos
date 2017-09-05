@@ -4,6 +4,7 @@ from utils.models import *
 from core.models import *
 from pagamento.models import *
 
+
 # instanciando classes para facilitar testes
 class TestUser(TestCase):
     def setUp(self):
@@ -31,6 +32,11 @@ class TestUser(TestCase):
         periodo.save()
         self.periodo = periodo
 
+        horario_atividade = HorarioAtividade(data_inicio=datetime.date(2018, 1, 1), data_fim=datetime.date(2018, 2, 2),
+                                             hora_inicio="20:00", hora_fim="20:50")
+        horario_atividade.save()
+        self.horario_atividade = horario_atividade
+
         # criando evento
         evento = Evento(nome="Festival",
                         descricao="Evento criado no intuito de promover o turismo em pedro II alem de disseminar cultura",
@@ -49,7 +55,7 @@ class TestUser(TestCase):
 
         # criando atividade
         atividade = AtividadeContinua(nome="teste", descricao="Credenciamento dos participantes", evento=evento,
-                                      periodo=periodo)
+                                      horario_atividade=horario_atividade)
         atividade.save()
         self.atividade = atividade
 

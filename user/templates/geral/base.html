@@ -34,7 +34,6 @@
             <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px"
                                                height="60px"/></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <!--<li><a href=""><i class="material-icons" title="Você possui notificações">notifications</i></a></li>-->
                 <li><a href=""><i class="material-icons" title="Você não possui notificações">notifications_none</i></a>
                 </li>
                 <!--<span class="new badge"></span>-->
@@ -58,23 +57,13 @@
         </div>
     </li>
 
-    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}"><i class="material-icons">location_city</i>Instituições</a></li>
+    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}"><i class="material-icons">location_city</i>Instituições</a>
+    </li>
     <li><a class="waves-effect" href="#"><i class="material-icons">library_books</i>Minhas Inscrições</a></li>
     <li><a href="{% url 'meus_eventos' %}"><i class="material-icons">local_library</i>Meus Eventos</a></li>
     <!--<li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>-->
-    <li><a href="{% url 'participar_evento' %}"><i class="material-icons">assignment_turned_in</i>Participar de Eventos</a></li>
-    <!--<ul class="collapsible collapsible-accordion">-->
-    <!--<li>-->
-    <!--<a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>-->
-    <!--<div class="collapsible-body">-->
-    <!--<ul>-->
-    <!--<li></li>-->
-    <!--<li></li>-->
-    <!--<li></li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</li>-->
-    <!--</ul>-->
+    <li><a href="{% url 'participar_evento' %}"><i class="material-icons">assignment_turned_in</i>Participar de Eventos</a>
+    </li>
 </ul>
 
 <div class="fixed-action-btn horizontal click-to-toggle">
@@ -100,6 +89,7 @@
     $().ready(function () {
         $('select').material_select();
     });
+
     $('.datepicker').pickadate({
         selectMonths: false, // Creates a dropdown to control month
         selectYears: 70,
@@ -107,6 +97,7 @@
         max: false,
         format: 'yyyy-mm-dd'
     });
+
     $(document).ready(function () {
         /* Executa a requisição quando o campo CEP perder o foco */
         $('#cep').blur(function () {

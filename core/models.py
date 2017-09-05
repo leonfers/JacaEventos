@@ -197,8 +197,6 @@ class Atividade(PolymorphicModel):
 
 
 class AtividadePadrao(Atividade):
-    # horario = models.ForeignKey('utils.Horario',
-    #                             related_name="horario_atividade_simples")
 
     class Meta:
         verbose_name = 'Atividade Padrao'

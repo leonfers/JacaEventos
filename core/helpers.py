@@ -34,26 +34,18 @@ def formulario_gerente(evento, request):
 
 
 # formulario para registro de atividade padrao
-def formulario_atividade_padrao(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
+def formulario_atividade_padrao(evento, request):
     form_atividade_padrao = RegistrarAtividadePadraoForm(request.POST)
     form_horario_atividade = HorarioAtividadeForm(request.POST)
 
-    if form_atividade_padrao.is_valid() and form_horario.is_valid() and form_horario_atividade.is_valid():
+    if form_atividade_padrao.is_valid() and form_horario_atividade.is_valid():
         atividade_padrao = form_atividade_padrao.save(commit=False)
-        # formulario periodo da atividade
+        # formulario horario da atividade
         horario_atividade = form_horario_atividade.save(commit=False)
         horario_atividade.save()
 
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # adicionando horario e periodo ao registro de atividade
-        atividade_padrao.horario = horario
         atividade_padrao.evento = evento
-        atividade_padrao.periodo = periodo
+
         atividade_padrao.horario_atividade = horario_atividade
         atividade_padrao.save()
         # adicionando atividade registrada ao registro de eventos
@@ -61,44 +53,36 @@ def formulario_atividade_padrao(form_horario, evento, request):
 
 
 # formulario para registro de atividade administrativa
-def formulario_atividade_administrativa(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
+def formulario_atividade_administrativa(evento, request):
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
     form_atividade_administrativa = RegistrarAtividadeAdministrativaForm(request.POST)
 
-    if form_atividade_administrativa.is_valid() and form_horario.is_valid():
+    if form_atividade_administrativa.is_valid() and form_horario_atividade.is_valid():
         atividade_administrativa = form_atividade_administrativa.save(commit=False)
         # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # adicionando horario e periodo ao registro de atividade
-        atividade_administrativa.horario = horario
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+
         atividade_administrativa.evento = evento
-        atividade_administrativa.periodo = periodo
+        atividade_administrativa.horario_atividade = horario_atividade
         atividade_administrativa.save()
         # adicionando atividade registrada ao registro de eventos
         evento.add_atividade(atividade_administrativa)
 
 
 # formulario para registro de atividade continua
-def formulario_atividade_continua(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
+def formulario_atividade_continua(evento, request):
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
     form_atividade_continua = RegistrarAtividadeContinuaForm(request.POST)
 
-    if form_atividade_continua.is_valid() and form_horario.is_valid():
+    if form_atividade_continua.is_valid() and form_horario_atividade.is_valid():
         atividade_continuna = form_atividade_continua.save(commit=False)
         # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # adicionando atividade registrada ao registro de eventos
-        atividade_continuna.horario = horario
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+
         atividade_continuna.evento = evento
-        atividade_continuna.periodo = periodo
+        atividade_continuna.horario_atividade = horario_atividade
         atividade_continuna.save()
         # adicionando atividade registrada ao registro de evento
         evento.add_atividade(atividade_continuna)

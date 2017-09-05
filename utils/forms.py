@@ -48,6 +48,12 @@ class HorarioForm(forms.ModelForm):
 
 
 class HorarioAtividadeForm(forms.ModelForm):
+    data_inicio = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}), required=False)
+    data_fim = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}), required=False)
+
+    hora_inicio = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+    hora_fim = forms.TimeField(widget=forms.TimeInput(attrs={'class': 'timepicker'}), required=False)
+
     class Meta:
         model = HorarioAtividade
-        fields = '__all__'
+        fields = ('data_inicio', 'data_fim', 'hora_inicio', 'hora_fim')
