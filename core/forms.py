@@ -65,13 +65,13 @@ class TrilhaAtividadeEventoForm(forms.ModelForm):
         fields = '__all__'
 
 
-class RegistrarAtividadeForm(forms.ModelForm):
+class RegistrarAtividadePadraoForm(forms.ModelForm):
     descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
                                 required=False)
 
     class Meta:
         model = AtividadePadrao
-        exclude = ['periodo', 'horario', 'evento']
+        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
         fields = '__all__'
 
 

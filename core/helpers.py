@@ -5,8 +5,8 @@ from django.shortcuts import redirect
 from django.conf import settings
 from core.forms import RegistrarTagEventosForm, RegistrarGerentesForm, RegistrarEspacoFisicoEventoForm, \
     AssociarInstituicoesEventoForm, AdicionarEventosSateliteForm, RegistrarAtividadeContinuaForm, \
-    RegistrarAtividadeAdministrativaForm, RegistrarAtividadeForm, TrilhaAtividadeEventoForm
-from utils.forms import PeriodoForm, HorarioForm
+    RegistrarAtividadeAdministrativaForm, RegistrarAtividadePadraoForm, TrilhaAtividadeEventoForm
+from utils.forms import PeriodoForm, HorarioForm, HorarioAtividadeForm
 from django.http import HttpResponseRedirect
 
 
@@ -19,7 +19,6 @@ def formulario_tag(evento, request):
         tag.save()
         # metodo para adicionar tag ao evento
         evento.add_tag(tag)
-        form_tag_evento = RegistrarTagEventosForm()
 
 
 # formulario para registro de gerentes
@@ -30,70 +29,60 @@ def formulario_gerente(evento, request):
         gerente = form_gerentes.save(commit=False)
         gerente.evento = evento
         gerente.save()
-        # form_gerentes = RegistrarGerentes()
 
 
 # formulario para registro de atividade padrao
-def formulario_atividade_padrao(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
-    form_atividade_padrao = RegistrarAtividadeForm(request.POST)
+def formulario_atividade_padrao(evento, request):
+    form_atividade_padrao = RegistrarAtividadePadraoForm(request.POST)
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
 
-    if form_atividade_padrao.is_valid() and form_horario.is_valid():
+    if form_atividade_padrao.is_valid() and form_horario_atividade.is_valid():
         atividade_padrao = form_atividade_padrao.save(commit=False)
-        # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # adicionando horario e periodo ao registro de atividade
-        atividade_padrao.horario = horario
+        # formulario horario da atividade
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_padrao.evento = evento
-        atividade_padrao.periodo = periodo
+        # adicionar horario da atividade
+        atividade_padrao.horario_atividade = horario_atividade
         atividade_padrao.save()
         # adicionando atividade registrada ao registro de eventos
         evento.add_atividade(atividade_padrao)
 
 
 # formulario para registro de atividade administrativa
-def formulario_atividade_administrativa(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
+def formulario_atividade_administrativa(evento, request):
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
     form_atividade_administrativa = RegistrarAtividadeAdministrativaForm(request.POST)
 
-    if form_atividade_administrativa.is_valid() and form_horario.is_valid():
+    if form_atividade_administrativa.is_valid() and form_horario_atividade.is_valid():
         atividade_administrativa = form_atividade_administrativa.save(commit=False)
         # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # adicionando horario e periodo ao registro de atividade
-        atividade_administrativa.horario = horario
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_administrativa.evento = evento
-        atividade_administrativa.periodo = periodo
+        # adicionar horario da atividade
+        atividade_administrativa.horario_atividade = horario_atividade
         atividade_administrativa.save()
         # adicionando atividade registrada ao registro de eventos
         evento.add_atividade(atividade_administrativa)
 
 
 # formulario para registro de atividade continua
-def formulario_atividade_continua(form_horario, evento, request):
-    form_periodo = PeriodoForm(request.POST)
+def formulario_atividade_continua(evento, request):
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
     form_atividade_continua = RegistrarAtividadeContinuaForm(request.POST)
 
-    if form_atividade_continua.is_valid() and form_horario.is_valid():
+    if form_atividade_continua.is_valid() and form_horario_atividade.is_valid():
         atividade_continuna = form_atividade_continua.save(commit=False)
         # formulario horario atividade
-        horario = form_horario.save(commit=False)
-        horario.save()
-        # formulario periodo da atividade
-        periodo = form_periodo.save(commit=False)
-        periodo.save()
-        # adicionando atividade registrada ao registro de eventos
-        atividade_continuna.horario = horario
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_continuna.evento = evento
-        atividade_continuna.periodo = periodo
+        # adicionar horario da atividade
+        atividade_continuna.horario_atividade = horario_atividade
         atividade_continuna.save()
         # adicionando atividade registrada ao registro de evento
         evento.add_atividade(atividade_continuna)
@@ -128,18 +117,6 @@ def formulario_espaco_fisico(evento, request):
         espaco_fisico.evento = evento
         espaco_fisico.save()
 
-
-# # formulario para registro de periodo do evento
-# def formulario_periodo( form_trilha_atividade, request ):
-#     form_periodo = PeriodoForm( request.POST )
-#
-#     if form_periodo.is_valid():
-#
-#         trilha_atividade = form_trilha_atividade.save( commit=False )
-#         trilha_atividade.save()
-#
-#         periodo = form_periodo.save( commit=False )
-#         periodo.save()
 
 # TODO
 def formulario_trilhe_evento(request):

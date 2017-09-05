@@ -7,8 +7,8 @@
         <form method="POST" name="register" class="register-form">
             {% csrf_token %}
             {{ form }}
-            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal orange">Login</button><br><br>
-            <h9>Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7>CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
+            <button type="submit" id='submit' class="btn-large waves-effect waves-light purple darken-3">Login</button><br><br>
+            <h9 >Ainda não é cadastrado <strong><a href="{% url 'registrar' %}"><h7 class="text-purple">CLIQUE AQUI</h7> </a></strong> para se cadastrar</h9>
         </form>
         <div class="center-align red-text text-lighten-2" id="erro"><br></div>
     </div>

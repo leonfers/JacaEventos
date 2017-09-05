@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
-from .models import Periodo, Endereco, Horario
+from .models import Periodo, Endereco, Horario, HorarioAtividade
 from django.contrib.admin import widgets
 from datetime import date
 from localflavor.br.br_states import STATE_CHOICES
@@ -45,3 +45,15 @@ class HorarioForm(forms.ModelForm):
         model = Horario
         exclude = ['data']
         fields = '__all__'
+
+
+class HorarioAtividadeForm(forms.ModelForm):
+    data_inicio = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}), required=False)
+    data_fim = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}), required=False)
+
+    hora_inicio = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+    hora_fim = forms.TimeField(widget=forms.TimeInput(attrs={'class': 'timepicker'}), required=False)
+
+    class Meta:
+        model = HorarioAtividade
+        fields = ('data_inicio', 'data_fim', 'hora_inicio', 'hora_fim')
