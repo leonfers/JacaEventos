@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField("valor", max_digits=8, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento, default=TipoEvento.PADRAO)
     data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
@@ -160,7 +160,7 @@ class EventoSatelite(models.Model):
 class Atividade(PolymorphicModel):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField("valor", max_digits=7, decimal_places=2, default=0)
     evento = models.ForeignKey('core.Evento',
                                verbose_name="atividades",
                                related_name='polymorphic_myapp.mymodel_set+',
@@ -226,7 +226,7 @@ class AtividadeAdministrativa(Atividade):
 
 class Pacote(PolymorphicModel):
     nome = models.CharField('nome', max_length=40)
-    valor = models.DecimalField('valor', max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField('valor', max_digits=8, decimal_places=2, default=0)
 
     evento = models.ForeignKey('core.Evento',
                                verbose_name="pacote",

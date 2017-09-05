@@ -14,7 +14,7 @@ class Pagamento(models.Model):
     usuario_recebimento = models.ForeignKey("user.Usuario" , related_name="recebido_usuario" , default="", blank=False, null=False)
     data = models.DateField('Data de entrada', auto_now_add=True, blank=False, null=False)
     hora = models.TimeField("Hora", blank=False, null=False)
-    valor_pagamento = models.DecimalField("valor pagamento",max_digits=5, decimal_places=2, blank=False, null=False)
+    valor_pagamento = models.DecimalField("valor pagamento",max_digits=8, decimal_places=2, blank=False, null=False)
 
     inscricao = models.ForeignKey("user.Inscricao" ,
                                   related_name="de_incricao" ,
