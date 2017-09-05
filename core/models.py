@@ -18,9 +18,6 @@ class Evento(models.Model):
     data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
 
-    # espaco_fisico_padrao = models.ForeignKey('core.EspacoFisico' ,
-    #                                          related_name="espaco_fisico_padrao", null=True)
-
     endereco = models.ForeignKey('utils.Endereco',
                                  related_name="endereco_do_evento")
 
@@ -101,8 +98,7 @@ class Evento(models.Model):
 
     def add_tag(self, tag):
         try:
-
-            tag_evento = Tag_Evento()
+            tag_evento = TagEvento()
             tag_evento.tag = tag
             tag_evento.evento = self
             tag_evento.save()
@@ -237,8 +233,8 @@ class AtividadeContinua(Atividade):
         elif isinstance(atividade, AtividadePadrao):
             for horario_atv in self.horario:
                 if (
-                                atividade.horario.hora_inicio <= horario_atv.hora_inicio <= atividade.horario.hora_fim and atividade.horario.data == horario_atv.data) or (
-                            atividade.horario.hora_fim >= horario_atv.hora_fim >= atividade.horario.hora_inicio):
+                                atividade.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= atividade.horario_atividade.hora_fim and atividade.horario_atividade.data == horario_atv.data) or (
+                            atividade.horario_atividade.hora_fim >= horario_atv.hora_fim >= atividade.horario_atividade.hora_inicio):
                     raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
                     return True
                 else:

@@ -87,9 +87,9 @@ class Inscricao(models.Model):
             item_inscricao = ItemInscricao()
             item_inscricao.inscricao = self
             item_inscricao.atividade = atividade
-            checkin = CheckinItemInscricao()
+            # checkin = CheckinItemInscricao()
 
-            item_inscricao.checkin = checkin
+            # item_inscricao.checkin = checkin
             item_inscricao.save()
 
     def validate_usuario_evento(self):
@@ -109,9 +109,9 @@ class Inscricao(models.Model):
 
     def clean(self):
         super(Inscricao, self).clean()
-        self.validate_periodo_inscricao()
-        self.validate_usuario_evento()
-        self.validate_inscricao_evento()
+        # self.validate_periodo_inscricao()
+        # self.validate_usuario_evento()
+        # self.validate_inscricao_evento()
 
 
     def save(self, *args, **kwargs):
@@ -188,17 +188,17 @@ class ItemInscricao(models.Model):
     def validate_conflito_horario_atividade(self):
         if type(self.atividade) == core.models.AtividadePadrao:
             for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadePadrao):
-                if atividade.horario.hora_inicio == self.atividade.horario.hora_inicio:
+                if atividade.horario_atividade.hora_inicio == self.atividade.horario_atividade.hora_inicio:
                     raise ValidationError('Voce ja possui uma atividade nesse horario')
-                if atividade.horario.hora_fim > self.atividade.horario.hora_inicio:
+                if atividade.horario_atividade.hora_fim > self.atividade.horario_atividade.hora_inicio:
                     raise ValidationError('Voce estara em atividade nesse dia')
 
     def validate_conflito_data_atividade(self):
         if type(self.atividade) == core.models.AtividadeContinua:
             for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadeContinua):
-                if atividade.horario.data_inicio == self.atividade.horario.data_inicio:
+                if atividade.horario_atividade.data_inicio == self.atividade.horario_atividade.data_inicio:
                     raise ValidationError('Voce ja possui uma atividade nesse horario')
-                if atividade.horario.data_fim > self.atividade.horario.data_inicio:
+                if atividade.horario_atividade.data_fim > self.atividade.horario_atividade.data_inicio:
                     raise ValidationError('Voce estara em atividade nesse dia')
 
     def validade_trilha_atividade(self):

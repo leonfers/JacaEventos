@@ -1,25 +1,32 @@
 {% extends "geral/base.html" %}
 {% block base %}
-{% if inscricoes %}
+{% if incricoes %}
 {% for inscricao in incricoes %}
-<ul class="collection">
-    <li class="collection-item avatar">
-        <img src="../static/img/photo.jpg" alt="" class="circle">
-        <span class="title">Evento: {{ inscricao.evento.nome.title }}</span>
-        <!--<p>{{ inscricao.evento.endereco.bairro }}<br>-->
-        <!--Atividades do Evento<br>-->
-        <!--{% for atividade in inscricao.evento.atividades %}-->
-        <!--&nbsp;&nbsp;&nbsp;&nbsp;{{ atividade }}<br>-->
-        <!--{% endfor %}-->
-        <!--</p>-->
-        <p>
-            Tipo: {{ inscricao.tipo_inscricao }}<br>
-            Local do Evento: {{ inscricao.evento.espaco_fisico }}<br>
-            Valor do Evento: {{ inscricao.evento.valor }}
-        </p>
-        <a href="#!" class="secondary-content"><i class="material-icons">search</i></a>
-    </li>
-</ul>
+<div class="card">
+    <div class="card-content">
+        <ul class="collection">
+            <li class="collection-item avatar">
+                <img src="../static/img/photo.jpg" alt="" class="circle">
+                <span class="title">Evento: {{ inscricao.evento.nome.title }}</span>
+                <p>{{ inscricao.evento.endereco.bairro }}<br></p>
+                <a href="#!" class="secondary-content"><i class="material-icons">search</i></a>
+            </li>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i><b>Atividades do Evento</b></div>
+                </li>
+                {% for atividade in inscricao.evento.atividades %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{ atividade }}</div>
+                    <div class="collapsible-body"><span>Tipo: {{ inscricao.tipo_inscricao }}<br>
+                    Local do Evento: {{ inscricao.evento.espaco_fisico }}<br>
+                    Valor do Evento: {{ inscricao.evento.valor }}</span></div>
+                </li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </div>
+</div>
 {% endfor %}
 {% else %}
 

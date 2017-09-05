@@ -2,7 +2,7 @@
 Aplicativo de eventos criado para avaliação da matéria de programação corporativa.
 
 #### Diagrama de classes
-![](http://gdurl.com/ "Diagrama de Classes")
+![](http://gdurl.com//clKR "Diagrama de Classes")
 #### Diagrama entidade relacionamento
 ![](http://gdurl.com/ "DER")
 #### Diagrama de caso de uso
