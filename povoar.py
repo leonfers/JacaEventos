@@ -143,7 +143,7 @@ espaco.nome = "Palco Master"
 espaco.tipoEspacoFisico = TipoEspacoFisico.AR_LIVRE
 espaco.capacidade = 50
 espaco.evento = evento
-espaco.atividade = atividade
+
 print("espaco fisico Criado")
 
 #criar responsavel por atividade
