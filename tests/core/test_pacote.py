@@ -6,9 +6,6 @@ from core.models import *
 from .core import TestCore
 
 
-class TesteAtividade(TestCore):
-
-
-    def test_validar_criacao_de_atividade(self):
-        self.create_atividade()
-
+class TestePacte(TestCore):
+    def test_validar_criacao_de_pacote(self):
+        self.create_pacote()
