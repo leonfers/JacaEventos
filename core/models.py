@@ -166,11 +166,6 @@ class Atividade(PolymorphicModel):
                                related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
 
-    periodo = models.ForeignKey('utils.Periodo',
-                                verbose_name="periodo",
-                                related_name="periodo",
-                                default="")
-
     trilhas = models.ManyToManyField('core.Pacote',
                                      through="AtividadePacote",
                                      related_name="pacote_atividade")
@@ -180,6 +175,14 @@ class Atividade(PolymorphicModel):
     @staticmethod
     def atividades_tipo(tipo):
         return Atividade.objects.filter().instance_of(tipo)
+
+    def validate_horario_atividade(self):
+        periodo_evento = self.evento.periodo
+        if self.horario_atividade.data_inicio < periodo_evento.data_inicio:
+            self.horario_atividade.delete()
+            raise ValidationError("A data de inicio da atividade deve ser igual ou maior a data de inicio do evento")
+        if self.horario_atividade.data_fim > periodo_evento.data_fim:
+            raise ValidationError("A data fim da atividade deve ser menor ou igual a data final do evento")
 
     class Meta:
         verbose_name = 'Atividade'
@@ -194,8 +197,8 @@ class Atividade(PolymorphicModel):
 
 
 class AtividadePadrao(Atividade):
-    horario = models.ForeignKey('utils.Horario',
-                                related_name="horario_atividade_simples")
+    # horario = models.ForeignKey('utils.Horario',
+    #                             related_name="horario_atividade_simples")
 
     class Meta:
         verbose_name = 'Atividade Padrao'
