@@ -23,11 +23,7 @@ class TesteInscricao(TestUser):
         inscricao.tipo_inscricao = TipoInscricao.PARCIAL
         self.assertTrue(inscricao.tipo_inscricao.PARCIAL, TipoInscricao.PARCIAL)
 
-
     def test_valor_total_de_uma_inscricao_por_evento_deve_ser_igual_ao_valor_evento(self):
         inscricao = Inscricao(usuario=self.user, evento=self.new_evento)
         inscricao.save()
         self.assertEqual(True, inscricao.evento.valor == self.evento.valor)
-
-
-
