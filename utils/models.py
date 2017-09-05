@@ -81,10 +81,10 @@ class Horario(models.Model):
 
 
 class HorarioAtividade(models.Model):
-    data_inicio = models.DateField("Data inicio", blank=True, null=False)
-    data_fim = models.DateField("Data fim", blank=True, null=False)
-    hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
-    hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
+    data_inicio = models.DateField("Data inicio", blank=False, null=False)
+    data_fim = models.DateField("Data fim", blank=False, null=False)
+    hora_inicio = models.TimeField("Hora inicio", blank=False, null=False)
+    hora_fim = models.TimeField("Hora Fim", blank=False, null=False)
 
     def get_dias_atividade(self):
         dias = self.data_fim - self.data_inicio

@@ -45,6 +45,13 @@ class TestUser(TestCase):
         evento.save()
         self.evento = evento
 
+        espaco = EspacoFisico()
+        espaco.nome = "Palco X"
+        espaco.tipoEspacoFisico = TipoEspacoFisico.AR_LIVRE
+        espaco.capacidade = 50
+        espaco.evento = evento
+        espaco.save()
+
         # criando evento 2
         new_evento = Evento(nome="Festival123",
                             descricao="Evento 2 criado no intuito de promover o turismo em pedro II alem de disseminar cultura",
@@ -55,7 +62,7 @@ class TestUser(TestCase):
 
         # criando atividade
         atividade = AtividadeContinua(nome="teste", descricao="Credenciamento dos participantes", evento=evento,
-                                      horario_atividade=horario_atividade)
+                                      horario_atividade=horario_atividade, espaco_fisico=espaco)
         atividade.save()
         self.atividade = atividade
 
