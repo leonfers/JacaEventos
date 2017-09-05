@@ -6,6 +6,6 @@ from core.models import *
 from .core import TestCore
 
 
-class TestePacte(TestCore):
+class TestePacote(TestCore):
     def test_validar_criacao_de_pacote(self):
         self.create_pacote()

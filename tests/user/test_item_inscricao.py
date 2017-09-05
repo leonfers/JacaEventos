@@ -20,11 +20,6 @@ class TesteItemInscricao(TestUser):
             item_inscricao = ItemInscricao.objects.create(inscricao=inscricao, atividade=self.atividade)
             item_inscricao.save()
 
-    def test_verificar_atividade_nao_pertence_ao_evento(self):
-        new_inscricao = Inscricao(usuario=self.new_user, evento=self.new_evento)
-        with self.assertRaises(ValidationError):
-            new_inscricao.save()
-
     def test_nao_permitir_se_inscrever_em_uma_atividade_que_ja_esta_inscrito(self):
         item_inscricao = ItemInscricao.objects.create(inscricao=self.inscricao, atividade=self.atividade)
         with self.assertRaises(ValidationError):

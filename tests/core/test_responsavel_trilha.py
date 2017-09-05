@@ -6,6 +6,6 @@ from core.models import *
 from .core import TestCore
 
 
-class TesteTrilha(TestCore):
-    def test_validar_criacao_de_trilha(self):
-        self.create_trilha()
+class TesteResponsavelTrilha(TestCore):
+    def test_validar_criacao_de_responsavel_trilha(self):
+        self.create_responsavel_trilha()

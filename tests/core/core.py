@@ -7,17 +7,24 @@ import datetime
 
 NOME_EVENTO = "Festival de Musica de Pedro II"
 NOME_TRILHA = "Violonistas em P2"
+USUARIO_USERNAME = "will"
 
 class TestCore(TestCase):
-
-    def create_evento(self):
+    def create_user_dono_evento(self):
         usuario = Usuario()
-        usuario.username = "will"
+        usuario.username = USUARIO_USERNAME
         usuario.email = "will@gmail.com"
         usuario.nome = "Wildrimak"
         usuario.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
         usuario.save()
 
+    def get_dono_evento(self):
+        return Usuario.objects.get(username=USUARIO_USERNAME)
+
+    def create_evento(self):
+
+        self.create_user_dono_evento()
+        usuario = self.get_dono_evento()
         # criando um endereco para evento
         endereco = Endereco()
         endereco.pais = "Brasil"
@@ -93,7 +100,6 @@ class TestCore(TestCase):
         evento = self.get_evento()
         trilha = self.get_trilha()
 
-
         # Criando usuario para cliente em plataforma
         usuario_inscrito = Usuario()
         usuario_inscrito.username = "Kassio"
@@ -127,4 +133,15 @@ class TestCore(TestCase):
         trilha.save()
 
     def get_trilha(self):
-        return Trilha.objects.get(nome=NOME_TRILHA )
+        return Trilha.objects.get(nome=NOME_TRILHA)
+
+    def create_responsavel_trilha(self):
+        self.create_trilha()
+        trilha = self.get_trilha()
+        usuario = trilha.evento.dono
+        # definir um usuario responsavel pela trilha
+        responsavel_trilha = ResponsavelTrilha()
+        responsavel_trilha.responsavel = usuario
+        responsavel_trilha.trilha = trilha
+        responsavel_trilha.tipo_responsavel_trilha = "staff"
+
