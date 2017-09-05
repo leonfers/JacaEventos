@@ -305,8 +305,7 @@
     {% if exibir_evento.dono != request.user %}
     <br>
     <div align="center">
-        <button class="btn"><a class="white-text" href="{% url 'inscricao_evento' exibir_evento.id %}">Se Inscrever</a>
-        </button>
+        <a class="white-text" href="{% url 'inscricao_evento' exibir_evento.id %}"><button class="btn purple darken-3">Se Inscrever</button></a>
         <br><br>
     </div>
     {% endif %}
