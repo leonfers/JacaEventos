@@ -28,15 +28,19 @@
 
 </head>
 
-<nav>
-    <div class="nav-wrapper #6a1b9a purple darken-3">
-        <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px"
-                                           height="60px"/></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="">Notificações<span class="new badge">4</span></a></li>
-            <li><a href="">Alterar senha</a></li>
-            <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
-        </ul>
+<nav class="#6a1b9a purple darken-3">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="" class="brand-logo"><img class="imagem-logo-nav" src="../static/img/Logonav.png" width="110px"
+                                               height="60px"/></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href=""><i class="material-icons" title="Você não possui notificações">notifications_none</i></a>
+                </li>
+                <!--<span class="new badge"></span>-->
+                <li><a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a></li>
+                <li><a href="{%url 'logout_usuario' %}">Encerrar Sessão</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -45,7 +49,7 @@
     <li>
         <div class="userView">
             <div class="background">
-                <img src="../static/img/fundo_perfil.jpg" width="300px" height="220px">
+                <img src="../static/img/fundo_eventos.jpg" width="300px" height="220px">
             </div>
             <a href="#!user"><img class="circle" src="../static/img/photo.jpg" width="64px" height="64px"></a>
             <a href="#!name"><span class="white-text name">Bem Vindo, {{ user.nome.title }}</span></a>
@@ -53,28 +57,13 @@
         </div>
     </li>
 
-    <li>
-        <a href="{% url 'pagina_inicial' %}"></i>Pagina Inicial</a>
+    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}"><i class="material-icons">location_city</i>Instituições</a>
     </li>
-    <!--<i class="material-icons">cloud-->
-    <!--<li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>-->
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="{% url 'registrar_instituicoes' %}">Instituições</a></li>
-    <li>
-        <div class="divider"></div>
+    <li><a class="waves-effect" href="#"><i class="material-icons">library_books</i>Minhas Inscrições</a></li>
+    <li><a href="{% url 'meus_eventos' %}"><i class="material-icons">local_library</i>Meus Eventos</a></li>
+    <!--<li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>-->
+    <li><a href="{% url 'participar_evento' %}"><i class="material-icons">assignment_turned_in</i>Participar de Eventos</a>
     </li>
-    <ul class="collapsible collapsible-accordion">
-        <li>
-            <a class="collapsible-header">Eventos<i class="material-icons">arrow_drop_down</i></a>
-            <div class="collapsible-body">
-                <ul>
-                    <li><a href="{% url 'meus_eventos' %}">Meus Eventos</a></li>
-                    <li><a href="#!">Buscar Eventos</a></li>
-                    <li><a href="{% url 'registrar_eventos' %}">Registrar Evento</a></li>
-                </ul>
-            </div>
-        </li>
-    </ul>
 </ul>
 
 <div class="fixed-action-btn horizontal click-to-toggle">
@@ -100,6 +89,7 @@
     $().ready(function () {
         $('select').material_select();
     });
+
     $('.datepicker').pickadate({
         selectMonths: false, // Creates a dropdown to control month
         selectYears: 70,
@@ -107,6 +97,7 @@
         max: false,
         format: 'yyyy-mm-dd'
     });
+
     $(document).ready(function () {
         /* Executa a requisição quando o campo CEP perder o foco */
         $('#cep').blur(function () {

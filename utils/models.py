@@ -85,7 +85,6 @@ class HorarioAtividade(models.Model):
     data_fim = models.DateField("Data fim", blank=True, null=False)
     hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
-    atv = models.ForeignKey('core.Atividade', blank=True, null=True)
 
     def get_dias_atividade(self):
         dias = self.data_fim - self.data_inicio
@@ -95,16 +94,13 @@ class HorarioAtividade(models.Model):
             dict[str(i)] = self.data_inicio + datetime.timedelta(i)
         return dict
 
-    def validate_horario_atividade(self):
-        periodo_evento = self.atividade.evento.periodo
-        if self.data_inicio < periodo_evento.data_inicio:
-            raise ValidationError("A data de inicio da atividade deve ser igual ou maior a data de inicio do evento")
-        if self.data_fim > periodo_evento.data_fim:
-            raise ValidationError("A data fim da atividade deve ser menor ou igual a data final do evento")
+    def validate_horario(self):
+        if self.hora_inicio > self.hora_fim:
+            raise ValidationError('Periodo tem que ser maior que a data atual')
 
     def clean(self):
         super(HorarioAtividade, self).clean()
-        self.validate_horario_atividade()
+        self.validate_horario()
 
     def save(self, *args, **kwargs):
         self.full_clean()

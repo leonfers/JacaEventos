@@ -2,28 +2,29 @@
 <div class="container" align="center">
     <h3>Registre seus Eventos</h3>
 </div>
-<div class="row s12 center-align ">
-    <p></p>
-    <div class="card-panel container col l6 push-l3 pull-l3 s12">
-        <form method="POST" name="register" class="register-form">
-            {% csrf_token %}
-            {{ form_evento }}
-            {% csrf_token %}
-            {{ form_endereco }}
-            {% csrf_token %}
-            {{ form_periodo.non_field_errors }}
-            {% for field in form_periodo %}
-            <div class="pure-control-group">
-                {{ field.label_tag }}
-                {{ field }}
-                {{ field.errors }}
-            </div>
-            {% endfor %}
-            <button type="submit" id='submit' class="btn-large waves-effect waves-light teal">Cadastrar Evento</button>
-            <br><br>
-        </form>
-        <div class="center-align red-text text-lighten-2" id="erro"><br></div>
-        <p></p>
+<div class="container">
+    <div class="card">
+        <div class="card-content" align="center">
+            <form method="POST" name="register" class="register-form">
+                {% csrf_token %}
+                {{ form_evento }}
+                {% csrf_token %}
+                {{ form_endereco }}
+                {% csrf_token %}
+                {{ form_periodo.non_field_errors }}
+                {% for field in form_periodo %}
+                <div class="pure-control-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+                <button type="submit" id='submit' class="btn-large waves-effect waves-light purple darken-3">Cadastrar Evento</button>
+                <br><br>
+            </form>
+            <div class="center-align red-text text-lighten-2" id="erro"><br></div>
+            <p></p>
+        </div>
     </div>
 </div>
 {% endblock %}

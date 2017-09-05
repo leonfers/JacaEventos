@@ -59,15 +59,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 class Inscricao(models.Model):
     status_inscricao = EnumField(StatusInscricao, default=StatusInscricao.ATIVA)
     tipo_inscricao = EnumField(TipoInscricao, default=TipoInscricao.PARCIAL)
-
     usuario = models.ForeignKey('Usuario',
                                 verbose_name=('user'),
                                 on_delete=models.CASCADE,
                                 related_name="inscricoes",
                                 blank=False, null=False)
 
-    evento = models.ForeignKey('core.Evento',
-                               default="")
+    evento = models.ForeignKey('core.Evento')
 
     atividades = models.ManyToManyField('core.Atividade',
                                         through="ItemInscricao")
@@ -88,11 +86,12 @@ class Inscricao(models.Model):
             item_inscricao = ItemInscricao()
             item_inscricao.inscricao = self
             item_inscricao.atividade = atividade
+            checkin = CheckinItemInscricao()
+
+            item_inscricao.checkin = checkin
             item_inscricao.save()
 
     def validate_usuario_evento(self):
-        print(self.evento.dono)
-        print(self.usuario)
         if self.evento.dono == self.usuario:
             raise ValidationError("O dono do evento não pode se inscrever no evento")
         if self.usuario in self.evento.gerentes.all():
@@ -113,6 +112,7 @@ class Inscricao(models.Model):
         self.validate_usuario_evento()
         self.validate_inscricao_evento()
 
+
     def save(self, *args, **kwargs):
         self.full_clean()
         super(Inscricao, self).save()
@@ -121,12 +121,11 @@ class Inscricao(models.Model):
 class CheckinItemInscricao(models.Model):
     data = models.DateField('Data de entrada', auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
-    gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin", default="")
+    # gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin", default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
 
     gerente = models.ForeignKey("user.Usuario",
-                                related_name="gerente_chekin",
-                                default="")
+                                related_name="gerente_chekin", null=True)
 
     def validate_data_checkin(self):
         agora = datetime.now()
