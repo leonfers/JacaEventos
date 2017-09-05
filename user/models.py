@@ -113,7 +113,6 @@ class Inscricao(models.Model):
         # self.validate_usuario_evento()
         # self.validate_inscricao_evento()
 
-
     def save(self, *args, **kwargs):
         self.full_clean()
         super(Inscricao, self).save()

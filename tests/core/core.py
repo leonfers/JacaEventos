@@ -6,22 +6,25 @@ from utils.models import *
 import datetime
 
 NOME_EVENTO = "Festival de Musica de Pedro II"
-
+NOME_TRILHA = "Violonistas em P2"
+USUARIO_USERNAME = "will"
 
 class TestCore(TestCase):
-
-    # def setUp(self):
-        # self.evento = self.create_evento()
-        # self.get_evento = Evento.objects.get(nome=NOME_EVENTO)
-
-    def create_evento(self):
+    def create_user_dono_evento(self):
         usuario = Usuario()
-        usuario.username = "will"
+        usuario.username = USUARIO_USERNAME
         usuario.email = "will@gmail.com"
         usuario.nome = "Wildrimak"
         usuario.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
         usuario.save()
 
+    def get_dono_evento(self):
+        return Usuario.objects.get(username=USUARIO_USERNAME)
+
+    def create_evento(self):
+
+        self.create_user_dono_evento()
+        usuario = self.get_dono_evento()
         # criando um endereco para evento
         endereco = Endereco()
         endereco.pais = "Brasil"
@@ -92,5 +95,53 @@ class TestCore(TestCase):
         atividade.horario_atividade = horario_atividade
         atividade.save()
 
+    def create_pacote(self):
+        self.create_trilha()
+        evento = self.get_evento()
+        trilha = self.get_trilha()
 
+        # Criando usuario para cliente em plataforma
+        usuario_inscrito = Usuario()
+        usuario_inscrito.username = "Kassio"
+        usuario_inscrito.email = "kassio@gmail.com"
+        usuario_inscrito.nome = "Kassio"
+        usuario_inscrito.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
+        usuario_inscrito.save()
+
+        # criando uma inscricao
+        inscricao = Inscricao()
+        inscricao.status_inscricao = StatusInscricao.ATIVA
+        inscricao.tipo_inscricao = TipoInscricao.PARCIAL
+        inscricao.usuario = usuario_inscrito
+        inscricao.evento = evento
+        inscricao.save()
+
+        # adicionando uma trilha a uma inscricao
+        trilha_inscricao = PacoteInscricao()
+        trilha_inscricao.pacote = trilha
+        trilha_inscricao.inscricao = inscricao
+        trilha_inscricao.save()
+
+    def create_trilha(self):
+        self.create_evento()
+        evento = self.get_evento()
+        # criando uma Trilha
+        trilha = Trilha()
+        trilha.nome = NOME_TRILHA
+        trilha.valor = 0
+        trilha.evento = evento
+        trilha.save()
+
+    def get_trilha(self):
+        return Trilha.objects.get(nome=NOME_TRILHA)
+
+    def create_responsavel_trilha(self):
+        self.create_trilha()
+        trilha = self.get_trilha()
+        usuario = trilha.evento.dono
+        # definir um usuario responsavel pela trilha
+        responsavel_trilha = ResponsavelTrilha()
+        responsavel_trilha.responsavel = usuario
+        responsavel_trilha.trilha = trilha
+        responsavel_trilha.tipo_responsavel_trilha = "staff"
 
