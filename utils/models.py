@@ -85,7 +85,7 @@ class HorarioAtividade(models.Model):
     data_fim = models.DateField("Data fim", blank=True, null=False)
     hora_inicio = models.TimeField("Hora inicio", blank=True, null=False)
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
-    atv = models.ForeignKey('core.Atividade', blank=True, null=True)
+    # atv = models.ForeignKey('core.Atividade', blank=True, null=True)
 
     def get_dias_atividade(self):
         dias = self.data_fim - self.data_inicio

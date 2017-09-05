@@ -175,7 +175,7 @@ class Atividade(PolymorphicModel):
                                      through="AtividadePacote",
                                      related_name="pacote_atividade")
 
-    h = models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
+    horario_atividade = models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
 
     @staticmethod
     def atividades_tipo(tipo):

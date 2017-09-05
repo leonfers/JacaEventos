@@ -40,6 +40,7 @@ class RegistrarEvento(View):
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
                    'form_endereco': form_endereco}
+
         if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
             return redirect(settings.PAGINA_INICIAL)
 
@@ -106,7 +107,7 @@ class ExibirDetalhesEvento(ListView):
         form_tag_evento = RegistrarTagEventosForm()
         form_instituicao_evento = AssociarInstituicoesEventoForm()
         form_evento_satelite = AdicionarEventosSateliteForm()
-        form_atividade_padrao = RegistrarAtividadeForm()
+        form_atividade_padrao = RegistrarAtividadePadraoForm()
         form_atividade_administrativa = RegistrarAtividadeAdministrativaForm()
         form_atividade_continua = RegistrarAtividadeContinuaForm()
         form_horario = HorarioForm()

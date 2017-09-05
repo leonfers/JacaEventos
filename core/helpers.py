@@ -5,8 +5,8 @@ from django.shortcuts import redirect
 from django.conf import settings
 from core.forms import RegistrarTagEventosForm, RegistrarGerentesForm, RegistrarEspacoFisicoEventoForm, \
     AssociarInstituicoesEventoForm, AdicionarEventosSateliteForm, RegistrarAtividadeContinuaForm, \
-    RegistrarAtividadeAdministrativaForm, RegistrarAtividadeForm, TrilhaAtividadeEventoForm
-from utils.forms import PeriodoForm, HorarioForm
+    RegistrarAtividadeAdministrativaForm, RegistrarAtividadePadraoForm, TrilhaAtividadeEventoForm
+from utils.forms import PeriodoForm, HorarioForm, HorarioAtividadeForm
 from django.http import HttpResponseRedirect
 
 
@@ -36,11 +36,15 @@ def formulario_gerente(evento, request):
 # formulario para registro de atividade padrao
 def formulario_atividade_padrao(form_horario, evento, request):
     form_periodo = PeriodoForm(request.POST)
-    form_atividade_padrao = RegistrarAtividadeForm(request.POST)
+    form_atividade_padrao = RegistrarAtividadePadraoForm(request.POST)
+    form_horario_atividade = HorarioAtividadeForm(request.POST)
 
-    if form_atividade_padrao.is_valid() and form_horario.is_valid():
+    if form_atividade_padrao.is_valid() and form_horario.is_valid() and form_horario_atividade.is_valid():
         atividade_padrao = form_atividade_padrao.save(commit=False)
         # formulario periodo da atividade
+        horario_atividade = form_horario_atividade.save(commit=False)
+        horario_atividade.save()
+
         periodo = form_periodo.save(commit=False)
         periodo.save()
         # formulario horario atividade
@@ -50,6 +54,7 @@ def formulario_atividade_padrao(form_horario, evento, request):
         atividade_padrao.horario = horario
         atividade_padrao.evento = evento
         atividade_padrao.periodo = periodo
+        atividade_padrao.horario_atividade = horario_atividade
         atividade_padrao.save()
         # adicionando atividade registrada ao registro de eventos
         evento.add_atividade(atividade_padrao)

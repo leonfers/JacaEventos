@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
@@ -31,25 +32,25 @@ class InscricaoEvento(View):
         form_inscricao_evento = InscricaoEventoForm(request.POST)
         # TODO chekin por fazer
         form_checkin = CheckinItemInscricaoEventoForm(request.POST)
-        print(form_inscricao_evento.errors,"\n\n\n")
-        if form_inscricao_evento.is_valid():
-            inscricao = form_inscricao_evento.save(commit=False)
-            inscricao.usuario = request.user
-            inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
-            inscricao.save()
-            inscricao.add_inscricao_evento()
+        # if form_inscricao_evento.is_valid():
+        inscricao = form_inscricao_evento.save(commit=False)
+        print(form_inscricao_evento.cleaned_data['evento'])
+        # inscricao.usuario = request.user
+        # inscricao.evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
+        inscricao.save()
+        inscricao.add_inscricao_evento()
 
-            return redirect(settings.CONCLUSAO_INSCRICAO)
+        return HttpResponseRedirect(settings.CONCLUSAO_INSCRICAO)
 
     def get(self, request, *args, **kwargs):
         evento = Evento.objects.get(id=self.kwargs['inscricao_evento_id'])
-        form_inscricao = self.form_incricao_evento()
-        form_checkin = self.form_checkin_evento()
+        print(evento)
+        form_inscricao = InscricaoEventoForm()
+        # form_checkin = form_checkin_evento()
 
         context = {'evento': evento,
                    'espaco': EspacoFisico.objects.all(),
-                   'form_incricao_evento': form_inscricao,
-                   'form_checkin_evento': form_checkin}
+                   'form_incricao_evento': form_inscricao}
 
         return render(request, self.template_name, context)
 

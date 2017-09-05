@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.http import request
 from django.shortcuts import render
-from .models import Periodo, Endereco, Horario
+from .models import Periodo, Endereco, Horario, HorarioAtividade
 from django.contrib.admin import widgets
 from datetime import date
 from localflavor.br.br_states import STATE_CHOICES
@@ -44,4 +44,10 @@ class HorarioForm(forms.ModelForm):
     class Meta:
         model = Horario
         exclude = ['data']
+        fields = '__all__'
+
+
+class HorarioAtividadeForm(forms.ModelForm):
+    class Meta:
+        model = HorarioAtividade
         fields = '__all__'

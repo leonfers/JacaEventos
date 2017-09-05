@@ -108,10 +108,11 @@ class Inscricao(models.Model):
             raise ValidationError("Voce ja se inscreveu nesse evento")
 
     def clean(self):
-        self.validate_periodo_inscricao()
-        self.validate_usuario_evento()
-        self.validate_inscricao_evento()
         super(Inscricao, self).clean()
+        # self.validate_periodo_inscricao()
+        # self.validate_usuario_evento()
+        # self.validate_inscricao_evento()
+
 
     def save(self, *args, **kwargs):
         self.full_clean()
