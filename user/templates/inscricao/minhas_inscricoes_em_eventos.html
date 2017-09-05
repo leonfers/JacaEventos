@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "geral/base.html" %}
+{% block base %}
+{% if inscricoes %}
+{% for inscricao in incricoes %}
+<ul class="collection">
+    <li class="collection-item avatar">
+        <img src="../static/img/photo.jpg" alt="" class="circle">
+        <span class="title">Evento: {{ inscricao.evento.nome.title }}</span>
+        <!--<p>{{ inscricao.evento.endereco.bairro }}<br>-->
+        <!--Atividades do Evento<br>-->
+        <!--{% for atividade in inscricao.evento.atividades %}-->
+        <!--&nbsp;&nbsp;&nbsp;&nbsp;{{ atividade }}<br>-->
+        <!--{% endfor %}-->
+        <!--</p>-->
+        <p>
+            Tipo: {{ inscricao.tipo_inscricao }}<br>
+            Local do Evento: {{ inscricao.evento.espaco_fisico }}<br>
+            Valor do Evento: {{ inscricao.evento.valor }}
+        </p>
+        <a href="#!" class="secondary-content"><i class="material-icons">search</i></a>
+    </li>
+</ul>
+{% endfor %}
+{% else %}
 
-</body>
-</html>
+<div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="card-panel grey lighten-5 z-depth-1">
+        <div class="row valign-wrapper">
+            <div class="col s2">
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+                Você ainda não possui nenhum inscrição no momento.
+              </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endblock %}
