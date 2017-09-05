@@ -81,7 +81,6 @@ class ExibirDetalhesEvento(ListView):
     def post(self, request, *args, **kwargs):
         # metodo para receber o id que foi mandado para a url
         evento = Evento.objects.get(id=self.kwargs['eventos_id'])
-        print('TIpo', type(evento))
 
         # metodos estao contidas no arquivo helpers
         formulario_gerente(evento, request)

@@ -197,7 +197,6 @@ class Atividade(PolymorphicModel):
 
 
 class AtividadePadrao(Atividade):
-
     class Meta:
         verbose_name = 'Atividade Padrao'
         verbose_name_plural = 'Atividades Padrao'

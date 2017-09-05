@@ -19,7 +19,6 @@ def formulario_tag(evento, request):
         tag.save()
         # metodo para adicionar tag ao evento
         evento.add_tag(tag)
-        form_tag_evento = RegistrarTagEventosForm()
 
 
 # formulario para registro de gerentes
@@ -30,7 +29,6 @@ def formulario_gerente(evento, request):
         gerente = form_gerentes.save(commit=False)
         gerente.evento = evento
         gerente.save()
-        # form_gerentes = RegistrarGerentes()
 
 
 # formulario para registro de atividade padrao
@@ -43,9 +41,9 @@ def formulario_atividade_padrao(evento, request):
         # formulario horario da atividade
         horario_atividade = form_horario_atividade.save(commit=False)
         horario_atividade.save()
-
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_padrao.evento = evento
-
+        # adicionar horario da atividade
         atividade_padrao.horario_atividade = horario_atividade
         atividade_padrao.save()
         # adicionando atividade registrada ao registro de eventos
@@ -62,8 +60,9 @@ def formulario_atividade_administrativa(evento, request):
         # formulario horario atividade
         horario_atividade = form_horario_atividade.save(commit=False)
         horario_atividade.save()
-
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_administrativa.evento = evento
+        # adicionar horario da atividade
         atividade_administrativa.horario_atividade = horario_atividade
         atividade_administrativa.save()
         # adicionando atividade registrada ao registro de eventos
@@ -80,8 +79,9 @@ def formulario_atividade_continua(evento, request):
         # formulario horario atividade
         horario_atividade = form_horario_atividade.save(commit=False)
         horario_atividade.save()
-
+        # adicionar no registro de atividade o evento ao qual ela esta vinculada
         atividade_continuna.evento = evento
+        # adicionar horario da atividade
         atividade_continuna.horario_atividade = horario_atividade
         atividade_continuna.save()
         # adicionando atividade registrada ao registro de evento
@@ -117,18 +117,6 @@ def formulario_espaco_fisico(evento, request):
         espaco_fisico.evento = evento
         espaco_fisico.save()
 
-
-# # formulario para registro de periodo do evento
-# def formulario_periodo( form_trilha_atividade, request ):
-#     form_periodo = PeriodoForm( request.POST )
-#
-#     if form_periodo.is_valid():
-#
-#         trilha_atividade = form_trilha_atividade.save( commit=False )
-#         trilha_atividade.save()
-#
-#         periodo = form_periodo.save( commit=False )
-#         periodo.save()
 
 # TODO
 def formulario_trilhe_evento(request):

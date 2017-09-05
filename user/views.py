@@ -57,3 +57,6 @@ class InscricaoEvento(View):
 
 class ConclusaoInscricao(TemplateView):
     template_name = 'inscricao/conclusao_inscricao.html'
+
+class MinhasInscricoesEmEventos(View):
+    template_name = 'inscricao/minhas_inscricoes_em_eventos.html'
