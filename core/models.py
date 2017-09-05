@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 class Evento(models.Model):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao', max_length=256, blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField("valor", max_digits=8, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento, default=TipoEvento.PADRAO)
     data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
@@ -37,12 +37,12 @@ class Evento(models.Model):
                                       through="GerenciaEvento")
 
     tags_do_evento = models.ManyToManyField('core.Tag',
-                                            through="core.Tag_Evento",
+                                            through="core.TagEvento",
                                             related_name='tags_do_evento')
 
     @property
     def atividades(self):
-        return Atividade.objects.all()
+        return Atividade.objects.all().filter(evento=self)
 
     class Meta:
         verbose_name = 'Evento'
@@ -59,17 +59,7 @@ class Evento(models.Model):
 
     def get_agenda(self):
         data = datetime.date.today()
-        tamanho = len(self.atividades)
-        dict = {}
-        agenda_hoje = {}
-        atividades = self.atividades
-        for i in range(tamanho):
-            for j in range(len(atividades[i].horarioAtividade.get_dias_atividade())):
-                if data == self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]:
-                    dict[str(i)] = str(self.atividades[i].horarioAtividade.hora_inicio) + " " + str(
-                        self.atividades[i].horarioAtividade.hora_fim)
-                    agenda_hoje[str(data)] = dict
-        return agenda_hoje
+        return self.get_agenda_dia(data)
 
     def get_agenda_dia(self, data):
 
@@ -78,23 +68,27 @@ class Evento(models.Model):
         agenda_hoje = {}
         atividades = self.atividades
         for i in range(tamanho):
-            for j in range(len(atividades[i].horarioAtividade.get_dias_atividade())):
-                if data == self.atividades[i].horarioAtividade.get_dias_atividade()[str(j)]:
-                    dict[str(self.atividades[i])] = str(self.atividades[i].horarioAtividade.hora_inicio) + " " + str(
-                        self.atividades[i].horarioAtividade.hora_fim)
+            for j in range(len(atividades[i].horario_atividade.get_dias_atividade())):
+                if data == self.atividades[i].horario_atividade.get_dias_atividade()[str(j)]:
+                    dict[str(self.atividades[i])] = str(self.atividades[i].horario_atividade.hora_inicio) + " " + str(
+                        self.atividades[i].horario_atividade.hora_fim)
                     agenda_hoje[str(str(data))] = dict
         return agenda_hoje
 
     def add_atividade(self, atividade):
-        try:
-            self.save()
-            atividade.evento = self
-            atividade.save()
-            return True
+        for atv in self.atividades:
+            if atv.checar_conflito(atividade):
+                return False
+            else:
+                try:
+                    self.save()
+                    atividade.evento = self
+                    atividade.save()
+                    return True
 
-        except Exception as e:
-            print("Falha ao adicionar atividade")
-            return False
+                except Exception as e:
+                    print("Falha ao adicionar atividade")
+                    return False
 
     def get_tags(self):
         return self.tags_do_evento.all()
@@ -141,18 +135,6 @@ class Evento(models.Model):
             return False
 
 
-class Agenda(models.Model):
-    evento = models.ForeignKey('core.Evento', related_name="agenda")
-    item_agenda = models.ManyToManyField('utils.Horario',
-                                         through="core.ItemAgenda",
-                                         related_name='horarios')
-
-
-class ItemAgenda(models.Model):
-    agenda = models.ForeignKey('core.Agenda', related_name="itens_agenda")
-    horario = models.ForeignKey('utils.Horario')
-
-
 class EventoSatelite(models.Model):
     eventos = models.ForeignKey("core.Evento", related_name="evento_satelite", default="")
 
@@ -160,17 +142,21 @@ class EventoSatelite(models.Model):
 class Atividade(PolymorphicModel):
     nome = models.CharField('nome', max_length=30, unique=True, blank=False)
     descricao = models.TextField('descricao da atividade', blank=True)
-    valor = models.DecimalField("valor", max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField("valor", max_digits=7, decimal_places=2, default=0)
+
     evento = models.ForeignKey('core.Evento',
                                verbose_name="atividades",
                                related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
 
+    espaco_fisico = models.ForeignKey('core.EspacoFisico',
+                                      related_name="espaco_atividade")
+
     trilhas = models.ManyToManyField('core.Pacote',
                                      through="AtividadePacote",
                                      related_name="pacote_atividade")
 
-    horario_atividade = models.ForeignKey('utils.HorarioAtividade', blank=True, null=True)
+    horario_atividade = models.ForeignKey('utils.HorarioAtividade', blank=False, null=False)
 
     @staticmethod
     def atividades_tipo(tipo):
@@ -201,6 +187,28 @@ class AtividadePadrao(Atividade):
         verbose_name = 'Atividade Padrao'
         verbose_name_plural = 'Atividades Padrao'
 
+    def checar_conflito(self, atividade):
+        if isinstance(atividade, AtividadeContinua):
+            for horario_atv in atividade:
+                if (
+                                self.horario.hora_inicio <= horario_atv.hora_inicio <= self.horario.hora_fim and self.horario.data == horario_atv.data) or (
+                            self.horario.hora_fim >= horario_atv.hora_fim >= self.horario.hora_inicio):
+                    raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                    return True
+                else:
+                    return False
+
+        elif isinstance(atividade, AtividadePadrao):
+            if (
+                            self.horario.hora_inicio <= atividade.horario.hora_inicio <= self.horario.hora_fim and self.horario.data == atividade.horario.data) or (
+                        self.horario.hora_fim >= atividade.horario.hora_fim >= self.horario.hora_inicio):
+                raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                return True
+            else:
+                return False
+        else:
+            return False
+
 
 class AtividadeContinua(Atividade):
     class Meta:
@@ -211,10 +219,32 @@ class AtividadeContinua(Atividade):
         self.save()
         horario.atividade = self
 
+    def checar_conflito(self, atividade):
+        if isinstance(atividade, AtividadeContinua):
+            for horario_atv in self.horario:
+                for horario_atividade in atividade.horario:
+                    if (
+                                    horario_atividade.hora_inicio <= horario_atv.hora_inicio <= horario_atividade.hora_fim and horario_atividade.data == horario_atv.data) or (
+                                horario_atividade.hora_fim >= horario_atv.hora_fim >= horario_atividade.hora_inicio):
+                        raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                        return True
+                    else:
+                        return False
+
+        elif isinstance(atividade, AtividadePadrao):
+            for horario_atv in self.horario:
+                if (
+                                atividade.horario.hora_inicio <= horario_atv.hora_inicio <= atividade.horario.hora_fim and atividade.horario.data == horario_atv.data) or (
+                            atividade.horario.hora_fim >= horario_atv.hora_fim >= atividade.horario.hora_inicio):
+                    raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                    return True
+                else:
+                    return False
+        else:
+            return False
+
 
 class AtividadeAdministrativa(Atividade):
-    valor = 0
-
     class Meta:
         verbose_name = 'AtividadeNeutra'
         verbose_name_plural = 'AtividadesNeutra'
@@ -223,10 +253,13 @@ class AtividadeAdministrativa(Atividade):
         self.save()
         horario.atividade = self
 
+    def checar_conflito(self, atividade):
+        return False
+
 
 class Pacote(PolymorphicModel):
     nome = models.CharField('nome', max_length=40)
-    valor = models.DecimalField('valor', max_digits=5, decimal_places=2, default=0)
+    valor = models.DecimalField('valor', max_digits=8, decimal_places=2, default=0)
 
     evento = models.ForeignKey('core.Evento',
                                verbose_name="pacote",
@@ -338,7 +371,7 @@ class Tag(models.Model):
         return self.nome
 
 
-class Tag_Usuario(models.Model):
+class TagUsuario(models.Model):
     tag = models.ForeignKey(Tag,
                             related_name='tag_de_usuario',
                             default="")
@@ -355,7 +388,7 @@ class Tag_Usuario(models.Model):
         return self.tag.__str__() + self.usuario.__str__()
 
 
-class Tag_Evento(models.Model):
+class TagEvento(models.Model):
     tag = models.ForeignKey(Tag,
                             related_name='tag_de_evento',
                             default="")
@@ -388,10 +421,6 @@ class EspacoFisico(models.Model):
     evento = models.ForeignKey("core.Evento",
                                related_name="espaco_do_evento",
                                default="")
-
-    atividade = models.ForeignKey("core.Atividade",
-                                  related_name="espaco_da_atividade",
-                                  default="")
 
     def __str__(self):
         return self.nome
