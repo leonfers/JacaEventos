@@ -19,8 +19,7 @@ class Evento(models.Model):
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
 
     espaco_fisico_padrao = models.ForeignKey('core.EspacoFisico' ,
-                                             related_name="espaco_fisico_padrao",
-                                             null = False)
+                                             related_name="espaco_fisico_padrao", null=True)
 
     endereco = models.ForeignKey('utils.Endereco',
                                  related_name="endereco_do_evento")
@@ -176,8 +175,7 @@ class Atividade(PolymorphicModel):
                                null=False)
 
     espaco_fisico = models.ForeignKey('core.EspacoFisico',
-                                      related_name="espaco_atividade",
-                                      null=False)
+                                      related_name="espaco_atividade")
 
     periodo = models.ForeignKey('utils.Periodo',
                                 verbose_name="periodo",
@@ -214,7 +212,7 @@ class AtividadePadrao(Atividade):
         verbose_name_plural = 'Atividades Padrao'
 
     def checar_conflito(self, atividade):
-        if isinstance(atividade, "AtividadeContinua"):
+        if isinstance(atividade, AtividadeContinua):
             for horario_atv in atividade:
                 if (
                                     self.horario.hora_inicio <= horario_atv.hora_inicio <= self.horario.hora_fim and self.horario.data == horario_atv.data) or (
@@ -224,7 +222,7 @@ class AtividadePadrao(Atividade):
                 else:
                     return False
 
-        elif isinstace(atividade, 'AtividadePadrao'):
+        elif isinstance(atividade, AtividadePadrao):
                 if (
                                     self.horario.hora_inicio <= atividade.horario.hora_inicio <= self.horario.hora_fim and self.horario.data == atividade.horario.data) or (
                                         self.horario.hora_fim >= atividade.horario.hora_fim >= self.horario.hora_inicio):
@@ -247,7 +245,7 @@ class AtividadeContinua(Atividade):
         horario.atividade = self
 
     def checar_conflito(self,atividade):
-        if isinstance(atividade, "AtividadeContinua"):
+        if isinstance(atividade, AtividadeContinua):
             for horario_atv in self.horario:
                 for horario_atividade in atividade.horario:
                     if (
@@ -258,7 +256,7 @@ class AtividadeContinua(Atividade):
                     else:
                         return False
 
-        elif isinstace(atividade, 'AtividadePadrao'):
+        elif isinstance(atividade, AtividadePadrao):
             for horario_atv in self.horario:
                 if (
                                     atividade.horario.hora_inicio <= horario_atv.hora_inicio <= atividade.horario.hora_fim and atividade.horario.data == horario_atv.data) or (
