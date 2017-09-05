@@ -109,9 +109,9 @@ class Inscricao(models.Model):
 
     def clean(self):
         super(Inscricao, self).clean()
-        # self.validate_periodo_inscricao()
-        # self.validate_usuario_evento()
-        # self.validate_inscricao_evento()
+        self.validate_periodo_inscricao()
+        self.validate_usuario_evento()
+        self.validate_inscricao_evento()
 
 
     def save(self, *args, **kwargs):
