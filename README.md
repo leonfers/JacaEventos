@@ -4,7 +4,7 @@ Aplicativo de eventos criado para avaliação da matéria de programação corpo
 #### Diagrama de classes
 ![](http://gdurl.com//clKR "Diagrama de Classes")
 #### Diagrama entidade relacionamento
-![](http://gdurl.com/NmY2 "DER")
+![](http://gdurl.com/ "DER")
 #### Diagrama de caso de uso
 ![](http://gdurl.com/eiR6 "Diagrama de caso de uso")
 #### Arquitetura da solução
