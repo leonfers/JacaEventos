@@ -48,4 +48,3 @@ class TesteUsuario(TestUser):
         sem_inscricoes = usuario.get_inscricoes()
         vazio = len(sem_inscricoes)
         self.assertEqual(vazio, 0)
-

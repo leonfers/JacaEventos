@@ -58,11 +58,11 @@ class InscricaoEvento(View):
 class ConclusaoInscricao(TemplateView):
     template_name = 'inscricao/conclusao_inscricao.html'
 
+
 class MinhasInscricoesEmEventos(View):
     template_name = 'inscricao/minhas_inscricoes_em_eventos.html'
 
     def get(self, request, *args, **kwargs):
         inscricoes = Inscricao.objects.all().filter(usuario=request.user)
-        context = {'incricoes' : inscricoes}
+        context = {'incricoes': inscricoes}
         return render(request, self.template_name, context)
-
