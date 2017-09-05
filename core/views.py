@@ -16,14 +16,11 @@ from django.http import HttpResponse
 
 class RegistrarEvento(View):
     template_name = 'evento/form_registrar.html'
-    form_add_evento = RegistrarEventoForm
-    form_periodo_evento = PeriodoForm
-    form_endereco_evento = EnderecoForm
 
     def get(self, request, *args, **kwargs):
-        form_add_evento = self.form_add_evento()
-        form_periodo = self.form_periodo_evento()
-        form_endereco = self.form_endereco_evento()
+        form_add_evento = RegistrarEventoForm
+        form_periodo = PeriodoForm
+        form_endereco = EnderecoForm
 
         context = {'form_evento': form_add_evento,
                    'form_periodo': form_periodo,
@@ -32,9 +29,9 @@ class RegistrarEvento(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form_add_evento = self.form_add_evento(request.POST)
-        form_periodo = self.form_periodo_evento(request.POST)
-        form_endereco = self.form_endereco_evento(request.POST)
+        form_add_evento = RegistrarEventoForm(request.POST)
+        form_periodo = PeriodoForm(request.POST)
+        form_endereco = EnderecoForm(request.POST)
 
         formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
 
@@ -75,7 +72,7 @@ class MeusEventos(View):
         return render(request, self.template_name, context)
 
 
-class ExibirDetalhesEvento(ListView):
+class ExibirDetalhesEvento(View):
     template_name = 'evento/exibir_detalhes_evento.html'
 
     def post(self, request, *args, **kwargs):
