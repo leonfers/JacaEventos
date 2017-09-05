@@ -18,9 +18,6 @@ class Evento(models.Model):
     data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
 
-    # espaco_fisico_padrao = models.ForeignKey('core.EspacoFisico' ,
-    #                                          related_name="espaco_fisico_padrao", null=True)
-
     endereco = models.ForeignKey('utils.Endereco',
                                  related_name="endereco_do_evento")
 
