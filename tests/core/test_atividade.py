@@ -22,8 +22,8 @@ class TesteAtividade(TestCore):
 
     def test_atividade_sem_descricao(self):
         atividade = self.create_atividade()
-        atividade.descricao = ''
-        self.assertEquals(atividade.descricao, '')
+        atividade.descricao = ""
+        self.assertEquals(atividade.descricao, "")
 
     def test_atividade_com_evento(self):
         atividade = self.create_atividade()

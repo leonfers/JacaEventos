@@ -44,8 +44,8 @@ class TesteEvento(TestCore):
 
     def test_evento_com_descricao_em_branco(self):
         evento = self.create_evento()
-        evento.descricao = ''
-        self.assertEqual(evento.descricao, '')
+        evento.descricao = ""
+        self.assertEqual(evento.descricao, "")
 
     def test_criando_evento_com_status_inscricoes_abertas(self):
         evento = self.create_evento()
