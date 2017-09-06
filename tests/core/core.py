@@ -200,3 +200,6 @@ class TestCore(TestCase):
 
     def create_trilha(self):
         return Trilha()
+
+    def create_responsavel_trilha(self):
+        return ResponsavelTrilha()
