@@ -15,8 +15,8 @@ User = get_user_model()
 
 
 class RegistrarUsuarioForm(forms.ModelForm):
-    senha1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
-    senha2 = forms.CharField(label='Confirmacao de Senha', widget=forms.PasswordInput)
+    senha1 = forms.CharField(label="Senha", widget=forms.PasswordInput)
+    senha2 = forms.CharField(label="Confirmacao de Senha", widget=forms.PasswordInput)
 
     def verificar_senha(self):
         senha1 = self.cleaned_data.get("senha1")
@@ -27,26 +27,26 @@ class RegistrarUsuarioForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(RegistrarUsuarioForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['senha1'])
+        user.set_password(self.cleaned_data["senha1"])
 
-        user.email = self.cleaned_data['email']
+        user.email = self.cleaned_data["email"]
         if commit:
             user.save()
         return user
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'nome']
+        fields = ["username", "email", "nome"]
 
 
 class InscricaoEventoForm(forms.ModelForm):
     class Meta:
         model = Inscricao
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CheckinItemInscricaoEventoForm(forms.ModelForm):
     class Meta:
         model = CheckinItemInscricao
-        # exclude = ['hora', 'data', 'status']
-        fields = '__all__'
+        # exclude = ["hora", "data", "status"]
+        fields = "__all__"

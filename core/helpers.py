@@ -129,17 +129,17 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
         endereco = form_endereco.save(commit=False)
         # metodo para consultar o cep
         adress = pycep_correios.consultar_cep(endereco.cep)
-        endereco.cidade = adress['cidade']
-        endereco.estado = adress['uf']
-        endereco.logradouro = adress['end']
-        endereco.bairro = adress['bairro']
+        endereco.cidade = adress["cidade"]
+        endereco.estado = adress["uf"]
+        endereco.logradouro = adress["end"]
+        endereco.bairro = adress["bairro"]
         endereco.pais = "Brasil"
         endereco.numero = "3130"
         endereco.save()
         periodo = form_periodo.save(commit=False)
         periodo.save()
         # pega os dados preenchidos no formulario na opção de tipo evento
-        tipo_evento = self.request.POST['tipo_evento']
+        tipo_evento = self.request.POST["tipo_evento"]
 
         evento = form_add_evento.save(commit=False)
         evento.dono = self.request.user
@@ -150,4 +150,3 @@ def formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, se
         # tag_evento.save()
         evento.save()
 
-        return redirect('/meus_eventos/')

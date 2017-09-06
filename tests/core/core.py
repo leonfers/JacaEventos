@@ -9,6 +9,7 @@ NOME_EVENTO = "Festival de Musica de Pedro II"
 NOME_TRILHA = "Violonistas em P2"
 USUARIO_USERNAME = "will"
 
+
 class TestCore(TestCase):
     def create_user_dono_evento(self):
         usuario = Usuario()
@@ -17,12 +18,12 @@ class TestCore(TestCase):
         usuario.nome = "Wildrimak"
         usuario.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
         usuario.save()
+        self.usuario = usuario
 
     def get_dono_evento(self):
         return Usuario.objects.get(username=USUARIO_USERNAME)
 
     def create_evento(self):
-
         self.create_user_dono_evento()
         usuario = self.get_dono_evento()
         # criando um endereco para evento
@@ -35,6 +36,7 @@ class TestCore(TestCase):
         endereco.bairro = "Macauba"
         endereco.cep = "64532-123"
         endereco.save()
+        self.endereco = endereco
 
         evento = Evento()
         evento.nome = NOME_EVENTO
@@ -57,6 +59,7 @@ class TestCore(TestCase):
         evento.endereco = endereco
         evento.dono = usuario
         evento.save()
+        self.evento = evento
 
     def get_evento(self):
         return Evento.objects.get(nome=NOME_EVENTO)
@@ -71,6 +74,7 @@ class TestCore(TestCase):
         espaco.capacidade = 50
         espaco.evento = evento
         espaco.save()
+        self.espaco = espaco
 
         # craindo um horario para atividade
         horario = Horario()
@@ -78,6 +82,7 @@ class TestCore(TestCase):
         horario.hora_inicio = "20:00"
         horario.hora_fim = "22:00"
         horario.save()
+        self.horario = horario
 
         # horario atividade
         data = datetime.date.today()
@@ -94,6 +99,7 @@ class TestCore(TestCase):
         atividade.evento = evento
         atividade.horario_atividade = horario_atividade
         atividade.save()
+        self.atividade = atividade
 
     def create_pacote(self):
         self.create_trilha()
@@ -107,6 +113,7 @@ class TestCore(TestCase):
         usuario_inscrito.nome = "Kassio"
         usuario_inscrito.password = "pbkdf2_sha256$36000$kG8PeNu2p4yf$TH6YRbpIXPoua4tOOkkubhD9Gdc8Oc850//xu8ykcEM="
         usuario_inscrito.save()
+        self.usuario_inscrito = usuario_inscrito
 
         # criando uma inscricao
         inscricao = Inscricao()
@@ -115,12 +122,14 @@ class TestCore(TestCase):
         inscricao.usuario = usuario_inscrito
         inscricao.evento = evento
         inscricao.save()
+        self.inscricao = inscricao
 
         # adicionando uma trilha a uma inscricao
         trilha_inscricao = PacoteInscricao()
         trilha_inscricao.pacote = trilha
         trilha_inscricao.inscricao = inscricao
         trilha_inscricao.save()
+        self.trilha_inscricao = trilha_inscricao
 
     def create_trilha(self):
         self.create_evento()
@@ -131,6 +140,7 @@ class TestCore(TestCase):
         trilha.valor = 0
         trilha.evento = evento
         trilha.save()
+        self.trilha = trilha
 
     def get_trilha(self):
         return Trilha.objects.get(nome=NOME_TRILHA)
@@ -144,4 +154,4 @@ class TestCore(TestCase):
         responsavel_trilha.responsavel = usuario
         responsavel_trilha.trilha = trilha
         responsavel_trilha.tipo_responsavel_trilha = "staff"
-
+        self.responsavel_trilha = responsavel_trilha
