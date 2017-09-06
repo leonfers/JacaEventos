@@ -19,7 +19,7 @@ class Pagamento(models.Model):
     hora = models.TimeField("Hora", blank=False, null=False)
     valor = models.DecimalField("valor pagamento", max_digits=8, decimal_places=2, blank=False, null=False)
 
-    inscricao = models.ForeignKey("user.Inscricao",
+    inscricao = models.OneToOneField("user.Inscricao",
                                   related_name="de_incricao",
                                   default="", blank=False, null=False)
 
@@ -27,7 +27,7 @@ class Pagamento(models.Model):
 
     def validar_cupom(self):
         try:
-            self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo_do_cupom=self.cupom_codigo)
+            self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo=self.cupom_codigo)
         except ObjectDoesNotExist:
             self.cupom_codigo = None
             raise ValidationError("Não existe nenhum cupom para esse evento ou o cupom informado nao é valido.")
@@ -38,17 +38,20 @@ class Pagamento(models.Model):
 
     def cupom_evento(self):
         try:
-            cupom = self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo_do_cupom=self.cupom_codigo)
+            cupom = self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo=self.cupom_codigo)
             return cupom
         except ObjectDoesNotExist:
             raise ValidationError("Voce nao possue nenhum cupom")
 
     def atualizar_valor(self):
-        if self.cupom_evento().codigo_do_cupom == self.cupom_codigo:
-            cupom = self.cupom_evento()
-            valor = valor_pagamento = cupom.porcentagem * 100 / self.inscricao.evento.valor
-            total = self.inscricao.evento.valor
-            self.valor = float(total - valor)
+        try:
+            if self.cupom_evento().codigo == self.cupom_codigo:
+                cupom = self.cupom_evento()
+                valor = valor_pagamento = cupom.porcentagem * 100 / self.inscricao.evento.valor
+                total = self.inscricao.evento.valor
+                self.valor = float(total - valor)
+        except ZeroDivisionError:
+            self.valor = self.inscricao.evento.valor
 
     def clean(self):
         super(Pagamento, self).clean()
@@ -81,9 +84,6 @@ class Cupom(models.Model):
                                    primary_key=True, blank=False,
                                    null=False)
 
-    def atualizar_valor_com_desconto(self):
-        desconto = self.receberDesconto()
-        self.evento.valor = self.evento.valor - desconto
 
     def gerar_codigo_cupom(self):
         caracters_validos = string.ascii_uppercase + string.digits
@@ -96,20 +96,10 @@ class Cupom(models.Model):
                 chave_cupom += "-"
         return chave_cupom
 
-    def validar_cupom(self):
-        chave_cupom = self.gerar_codigo_cupom()
-        self.codigo = chave_cupom
-        if len(self.codigo) != 14:
-            raise ValidationError("A chave utilizada nao e valida.")
-
-
-    def clean(self):
-        super(Cupom, self).clean()
-        self.validar_cupom()
-        self.atualizar_valor_com_desconto()
 
     def save(self, *args, **kwargs):
         self.codigo = self.gerar_codigo_cupom()
+        self.periodo = self.evento.periodo
         self.full_clean()
         super(Cupom, self).save()
 

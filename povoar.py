@@ -265,46 +265,15 @@ checkin.gerente = evento.dono
 checkin.save()
 print("checkin criado")
 
-# #adiconando e fazendo o checkin de uma atividade na inscricao
-# item_inscricao.checkin = checkin
-# item_inscricao.save()
-# print("checkin feito de atividade")
-
-# efetuando o pagamento de uma inscricao
-pagamento = Pagamento()
-pagamento.status = StatusPagamento.PAGO
-pagamento.usuario_recebimento = evento.dono
-pagamento.data = "2017-10-10"
-pagamento.hora = "20:00"
-pagamento.valor = 50
-pagamento.inscricao = inscricao
-pagamento.save()
-print("pagamento efetuado")
-
 # criando um cupom
 cupom = Cupom()
 cupom.evento = evento
-cupom.codigo = "XZ123"
 cupom.porcentagem = 10
-cupom.status = StatusCupom.ATIVO
 cupom.tipo = TipoCupom.SIMPLES
+cupom.save()
 print("cupom criado")
 
-# criar periodo de validade do cupom
-periodo_cupom = Periodo()
-periodo_cupom.data_inicio = datetime.date.today()
-periodo_cupom.data_fim = datetime.date.today() + datetime.timedelta(1)
-periodo_cupom.save()
-print("periodo de validade criado")
+# efetuando o pagamento de uma inscricao
+pagamento = Pagamento.objects.create(usuario_recebimento=evento.dono, inscricao=inscricao, cupom_codigo=cupom.codigo)
 
-# adicionar periodo a cupom
-cupom.periodo = periodo_cupom
-cupom.save()
-print("periodo de validadeadicionado")
-
-# relacionar pagamento com cupom
-pagamento_cupom = PagamentoCupom()
-pagamento_cupom.pagamento = pagamento
-pagamento_cupom.cupom = cupom
-pagamento_cupom.save()
-print("cupom adcionado a um pagamento")
+print("pagamento efetuado")
