@@ -197,3 +197,6 @@ class TestCore(TestCase):
 
     def create_horario_atividade(self):
         return HorarioAtividade
+
+    def create_trilha(self):
+        return Trilha()

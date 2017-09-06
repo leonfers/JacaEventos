@@ -15,8 +15,20 @@ class TestePacote(TestCore):
         pacote.nome = ""
         self.assertEquals(pacote.nome, "")
 
-    def test_criacao_evento_com_pacote(self):
+    def test_criacao_pacote_com_evento(self):
         pacote = self.create_pacote()
         evento = self.create_evento()
         pacote.evento = evento
         self.assertEquals(pacote.evento, evento)
+
+    def test_criacao_pacotes_com_valor_zero(self):
+        pacote = self.create_pacote()
+        pacote.valor = 0
+        self.assertEquals(pacote.valor, 0)
+
+    def test_cricao_pacote_com_evento_errado(self):
+        pacote = self.create_pacote()
+        evento_um = self.create_evento()
+        evento_dois = self.create_evento()
+        pacote.evento = evento_um
+        self.assertFalse(pacote.evento, evento_dois)
