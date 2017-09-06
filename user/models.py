@@ -37,6 +37,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
+    def __str__(self):
+        return self.nome or self.username
+
     def get_username(self):
         return self.username
 
@@ -53,9 +56,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def inscrever(self):
         return Evento.objects.all().filter(~Q(dono=self.dono))
 
-    def __str__(self):
-        return self.nome or self.username
-
 
 class Inscricao(models.Model):
     status_inscricao = EnumField(StatusInscricao, default=StatusInscricao.ATIVA)
@@ -66,7 +66,7 @@ class Inscricao(models.Model):
                                 related_name="inscricoes",
                                 blank=False, null=False)
 
-    evento = models.ForeignKey("core.Evento")
+    evento = models.ForeignKey("core.Evento", related_name="inscricoes")
 
     atividades = models.ManyToManyField("core.Atividade",
                                         through="ItemInscricao")
@@ -109,9 +109,9 @@ class Inscricao(models.Model):
 
     def clean(self):
         super(Inscricao, self).clean()
-        self.validate_periodo_inscricao()
-        self.validate_usuario_evento()
-        self.validate_inscricao_evento()
+        # self.validate_periodo_inscricao()
+        # self.validate_usuario_evento()
+        # self.validate_inscricao_evento()
 
     def save(self, *args, **kwargs):
         self.full_clean()

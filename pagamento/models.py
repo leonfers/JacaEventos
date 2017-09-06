@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 import random
 import string
 from pagamento.enum import *
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class Pagamento(models.Model):
@@ -16,58 +17,61 @@ class Pagamento(models.Model):
                                             null=False)
     data = models.DateField("Data de entrada", auto_now_add=True, blank=False, null=False)
     hora = models.TimeField("Hora", blank=False, null=False)
-    valor_pagamento = models.DecimalField("valor pagamento", max_digits=8, decimal_places=2, blank=False, null=False)
+    valor = models.DecimalField("valor pagamento", max_digits=8, decimal_places=2, blank=False, null=False)
 
-    inscricao = models.ForeignKey("user.Inscricao",
+    inscricao = models.OneToOneField("user.Inscricao",
                                   related_name="de_incricao",
                                   default="", blank=False, null=False)
 
-    cupons = models.ManyToManyField("pagamento.Cupom",
-                                    through="PagamentoCupom",
-                                    default="", blank=True)
+    cupom_codigo = models.CharField("cupom", max_length=100, blank=True, null=True)
 
-    def validar_pagamento(self):
-        if self.valor_pagamento <= self.inscricao.evento.valor:
-            raise ValidationError("Valor de pagamento insuficiente.")
+    def validar_cupom(self):
+        try:
+            self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo=self.cupom_codigo)
+        except ObjectDoesNotExist:
+            self.cupom_codigo = None
+            raise ValidationError("Não existe nenhum cupom para esse evento ou o cupom informado nao é valido.")
 
     def invalidar_inscricao_enquanto_aguarda_pagamento(self):
+        
         if self.status == StatusPagamento.NAO_PAGO and self.inscricao.evento.status == StatusEvento.ANDAMENTO:
             self.inscricao.status_inscricao = StatusInscricao.INATIVA
 
+    def cupom_evento(self):
+        try:
+            cupom = self.inscricao.evento.cupom_do_evento.filter(status="ATIVO").get(codigo=self.cupom_codigo)
+            return cupom
+        except ObjectDoesNotExist:
+            raise ValidationError("Voce nao possue nenhum cupom")
+
+    def atualizar_valor(self):
+        try:
+            if self.cupom_evento().codigo == self.cupom_codigo:
+                cupom = self.cupom_evento()
+                valor = valor_pagamento = cupom.porcentagem * 100 / self.inscricao.evento.valor
+                total = self.inscricao.evento.valor
+                self.valor = float(total - valor)
+        except ZeroDivisionError:
+            self.valor = self.inscricao.evento.valor
+
     def clean(self):
         super(Pagamento, self).clean()
-        self.validar_pagamento()
+        # self.validar_pagamento()
+        self.validar_cupom()
         self.invalidar_inscricao_enquanto_aguarda_pagamento()
 
     def save(self, *args, **kwargs):
+        self.valor = self.inscricao.evento.valor
+        self.data = datetime.date.today()
+        self.hora = datetime.datetime.now().time()
+        self.status = StatusPagamento.PAGO
         self.full_clean()
+        self.atualizar_valor()
         super(Pagamento, self).save()
 
 
-class PagamentoCupom(models.Model):
-    pagamento = models.ForeignKey("pagamento.Pagamento", related_name="pagamento_cupom", default="", blank=False,
-                                  null=False)
-    cupom = models.ForeignKey("pagamento.Cupom", related_name="cupom_de_pagamento", default="", blank=False, null=False)
-
-    def validar_relacao_pagamento_cupom(self):
-        if self.cupom.status == StatusCupom.INATIVO:
-            raise ValidationError("O cupom nao esta disponivel para uso.")
-
-    def validar_relacao_pagamento_cupom_quando_tipo_AUTOMATICO(self):
-        if self.cupom.tipo == TipoCupom.AUTOMATICO:
-            raise ValidationError("O cupom automatico nao pode se relacionar diretamente com o pagamento.")
-
-    def clean(self):
-        super(PagamentoCupom, self).clean()
-        self.validar_relacao_pagamento_cupom()
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(PagamentoCupom, self).save()
-
-
 class Cupom(models.Model):
-    codigo_do_cupom = models.CharField("cupom", max_length=100, blank=False, null=False)  # Algoritmo que crie um
+    codigo = models.CharField("cupom", max_length=100, blank=False, null=False, unique=True)
     porcentagem = models.DecimalField("porcentagem", max_digits=2, decimal_places=0, default=0, blank=False, null=False)
     status = EnumField(StatusCupom, max_length=25, default=StatusCupom.ATIVO, blank=False, null=False)
     tipo = EnumField(TipoCupom, max_length=25, default=TipoCupom.SIMPLES, blank=False, null=False)
@@ -81,9 +85,6 @@ class Cupom(models.Model):
                                    primary_key=True, blank=False,
                                    null=False)
 
-    def atualizar_valor_com_desconto(self):
-        desconto = self.receberDesconto()
-        self.evento.valor = self.evento.valor - desconto
 
     def gerar_codigo_cupom(self):
         caracters_validos = string.ascii_uppercase + string.digits
@@ -96,22 +97,10 @@ class Cupom(models.Model):
                 chave_cupom += "-"
         return chave_cupom
 
-    def validar_cupom(self):
-        chave_cupom = self.gerar_codigo_cupom()
-        self.codigo_do_cupom = chave_cupom
-        if len(self.codigo_do_cupom) != 14:
-            raise ValidationError("A chave utilizada nao e valida.")
-
-    def usar_cupom_automatico(self):
-        self.tipo = TipoCupom.AUTOMATICO
-        self.evento.valor -= self.receberDesconto()
-
-    def clean(self):
-        super(Cupom, self).clean()
-        self.validar_cupom()
-        self.atualizar_valor_com_desconto()
 
     def save(self, *args, **kwargs):
+        self.codigo = self.gerar_codigo_cupom()
+        self.periodo = self.evento.periodo
         self.full_clean()
         super(Cupom, self).save()
 
@@ -120,8 +109,4 @@ class Cupom(models.Model):
         verbose_name_plural = "Pagamentos"
 
     def __str__(self):
-        return self.Cupons
-
-    def receberDesconto(self):
-        valor = self.evento.valor
-        return valor * self.porcentagem
+        return self.codigo
