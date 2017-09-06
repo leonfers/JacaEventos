@@ -14,92 +14,92 @@ class RegistrarEventoForm(forms.ModelForm):
 
     class Meta:
         model = Evento
-        exclude = {'dono', 'valor', 'gerentes', 'tags_do_evento', 'eventos_satelite'}
-        fields = ['nome', 'descricao', 'valor', 'tipo_evento']
+        exclude = {"dono", "valor", "gerentes", "tags_do_evento", "eventos_satelite"}
+        fields = ["nome", "descricao", "valor", "tipo_evento"]
 
 
 class AdicionarTagEmEventosForm(forms.ModelForm):
-    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "materialize-textarea"}),
                            required=False)
 
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RegistrarInstituicoesForm(forms.ModelForm):
     class Meta:
         model = Instituicao
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RegistrarGerentesForm(forms.ModelForm):
     class Meta:
         model = GerenciaEvento
-        exclude = {'evento'}
-        fields = '__all__'
+        exclude = ["evento"]
+        fields = "__all__"
 
 
 class AdicionarEventosSateliteForm(forms.ModelForm):
     class Meta:
         model = EventoSatelite
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RegistrarTagEventosForm(forms.ModelForm):
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AssociarInstituicoesEventoForm(forms.ModelForm):
     class Meta:
         model = EventoInstituicao
-        exclude = ['evento_relacionado']
-        fields = '__all__'
+        exclude = ["evento_relacionado"]
+        fields = "__all__"
 
 
 class TrilhaAtividadeEventoForm(forms.ModelForm):
     class Meta:
         model = Trilha
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RegistrarAtividadePadraoForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "materialize-textarea"}),
                                 required=False)
 
     class Meta:
         model = AtividadePadrao
-        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
-        fields = '__all__'
+        exclude = ["periodo", "horario", "evento", "horario_atividade"]
+        fields = "__all__"
 
 
 class RegistrarAtividadeContinuaForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "materialize-textarea"}),
                                 required=False)
 
     class Meta:
         model = AtividadeContinua
-        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
-        fields = '__all__'
+        exclude = ["periodo", "horario", "evento", "horario_atividade"]
+        fields = "__all__"
 
 
 class RegistrarAtividadeAdministrativaForm(forms.ModelForm):
-    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+    descricao = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "materialize-textarea"}),
                                 required=False)
 
     class Meta:
         model = AtividadeAdministrativa
-        exclude = ['periodo', 'horario', 'evento', 'horario_atividade']
-        fields = '__all__'
+        exclude = ["periodo", "horario", "evento", "horario_atividade"]
+        fields = "__all__"
 
 
 class RegistrarEspacoFisicoEventoForm(forms.ModelForm):
-    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'materialize-textarea'}),
+    nome = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "materialize-textarea"}),
                            required=False)
 
     class Meta:
         model = EspacoFisico
-        exclude = ['evento']
-        fields = '__all__'
+        exclude = ["evento"]
+        fields = "__all__"

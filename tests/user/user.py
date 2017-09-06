@@ -51,6 +51,7 @@ class TestUser(TestCase):
         espaco.capacidade = 50
         espaco.evento = evento
         espaco.save()
+        self.espaco = espaco
 
         # criando evento 2
         new_evento = Evento(nome="Festival123",
@@ -77,8 +78,6 @@ class TestUser(TestCase):
                               hora="20:00", valor_pagamento=100.00, inscricao=inscricao)
         pagamento.save()
         self.pagamento = pagamento
-
-        return inscricao
 
     def create_user(self):
         usuario = Usuario(username="Will", email="teste@teste", nome="Will")

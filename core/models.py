@@ -11,32 +11,32 @@ from django.core.exceptions import ValidationError
 
 
 class Evento(models.Model):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
-    descricao = models.TextField('descricao', max_length=256, blank=True)
+    nome = models.CharField("nome", max_length=30, unique=True, blank=False)
+    descricao = models.TextField("descricao", max_length=256, blank=True)
     valor = models.DecimalField("valor", max_digits=8, decimal_places=2, default=0)
     tipo_evento = EnumField(TipoEvento, default=TipoEvento.PADRAO)
-    data_criacao = models.DateTimeField('Data de entrada', auto_now_add=True, )
+    data_criacao = models.DateTimeField("Data de entrada", auto_now_add=True, )
     status = EnumField(StatusEvento, default=StatusEvento.INSCRICOES_ABERTAS, max_length=19)
 
-    endereco = models.ForeignKey('utils.Endereco',
+    endereco = models.ForeignKey("utils.Endereco",
                                  related_name="endereco_do_evento")
 
     periodo = models.ForeignKey('utils.periodo',
                                 related_name="periodo_do_evento")
 
-    periodo_de_inscricao = models.ForeignKey('utils.periodo',
+    periodo_de_inscricao = models.ForeignKey("utils.periodo",
                                              related_name="inscricoes_evento",
                                              blank=True, null=True)
 
-    dono = models.ForeignKey('user.Usuario', verbose_name="dono",
-                             related_name='meus_eventos',
+    dono = models.ForeignKey("user.Usuario", verbose_name="dono",
+                             related_name="meus_eventos",
                              blank=False, null=False)
 
-    gerentes = models.ManyToManyField('user.Usuario',
+    gerentes = models.ManyToManyField("user.Usuario",
                                       related_name="gerentes_do_evento",
                                       through="GerenciaEvento")
 
-    tags_do_evento = models.ManyToManyField('core.Tag',
+    tags_do_evento = models.ManyToManyField("core.Tag",
                                             through="core.TagEvento",
                                             related_name='tags_do_evento')
 
@@ -45,8 +45,8 @@ class Evento(models.Model):
         return Atividade.objects.all().filter(evento=self)
 
     class Meta:
-        verbose_name = 'Evento'
-        verbose_name_plural = 'Eventos'
+        verbose_name = "Evento"
+        verbose_name_plural = "Eventos"
 
     def __str__(self):
         return self.nome
@@ -139,23 +139,23 @@ class EventoSatelite(models.Model):
 
 
 class Atividade(PolymorphicModel):
-    nome = models.CharField('nome', max_length=30, unique=True, blank=False)
-    descricao = models.TextField('descricao da atividade', blank=True)
+    nome = models.CharField("nome", max_length=30, unique=True, blank=False)
+    descricao = models.TextField("descricao da atividade", blank=True)
     valor = models.DecimalField("valor", max_digits=7, decimal_places=2, default=0)
 
-    evento = models.ForeignKey('core.Evento',
+    evento = models.ForeignKey("core.Evento",
                                verbose_name="atividades",
                                related_name='polymorphic_myapp.mymodel_set+',
                                null=False)
 
-    espaco_fisico = models.ForeignKey('core.EspacoFisico',
+    espaco_fisico = models.ForeignKey("core.EspacoFisico",
                                       related_name="espaco_atividade")
 
-    trilhas = models.ManyToManyField('core.Pacote',
+    trilhas = models.ManyToManyField("core.Pacote",
                                      through="AtividadePacote",
                                      related_name="pacote_atividade")
 
-    horario_atividade = models.ForeignKey('utils.HorarioAtividade', blank=False, null=False)
+    horario_atividade = models.ForeignKey("utils.HorarioAtividade", blank=False, null=False)
 
     @staticmethod
     def atividades_tipo(tipo):
@@ -170,8 +170,8 @@ class Atividade(PolymorphicModel):
             raise ValidationError("A data fim da atividade deve ser menor ou igual a data final do evento")
 
     class Meta:
-        verbose_name = 'Atividade'
-        verbose_name_plural = 'Atividades'
+        verbose_name = "Atividade"
+        verbose_name_plural = "Atividades"
 
     @staticmethod
     def atividades_tipo(tipo):
@@ -183,25 +183,25 @@ class Atividade(PolymorphicModel):
 
 class AtividadePadrao(Atividade):
     class Meta:
-        verbose_name = 'Atividade Padrao'
-        verbose_name_plural = 'Atividades Padrao'
+        verbose_name = "Atividade Padrao"
+        verbose_name_plural = "Atividades Padrao"
 
     def checar_conflito(self, atividade):
         if isinstance(atividade, AtividadeContinua):
             for horario_atv in atividade:
                 if (
-                                self.horario.hora_inicio <= horario_atv.hora_inicio <= self.horario.hora_fim and self.horario.data == horario_atv.data) or (
-                            self.horario.hora_fim >= horario_atv.hora_fim >= self.horario.hora_inicio):
-                    raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                                self.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == horario_atv.data) or (
+                            self.horario_atividade.hora_fim >= horario_atv.hora_fim >= self.horario_atividade.hora_inicio):
+                    raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                     return True
                 else:
                     return False
 
         elif isinstance(atividade, AtividadePadrao):
             if (
-                            self.horario.hora_inicio <= atividade.horario.hora_inicio <= self.horario.hora_fim and self.horario.data == atividade.horario.data) or (
-                        self.horario.hora_fim >= atividade.horario.hora_fim >= self.horario.hora_inicio):
-                raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                            self.horario_atividade.hora_inicio <= atividade.horario_atividade.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == atividade.horario_atividade.data) or (
+                        self.horario_atividade.hora_fim >= atividade.horario_atividade.hora_fim >= self.horario_atividade.hora_inicio):
+                raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                 return True
             else:
                 return False
@@ -211,8 +211,8 @@ class AtividadePadrao(Atividade):
 
 class AtividadeContinua(Atividade):
     class Meta:
-        verbose_name = 'AtividadeContinua'
-        verbose_name_plural = 'AtividadesContinuas'
+        verbose_name = "AtividadeContinua"
+        verbose_name_plural = "AtividadesContinuas"
 
     def add_horario(self, horario):
         self.save()
@@ -221,11 +221,11 @@ class AtividadeContinua(Atividade):
     def checar_conflito(self, atividade):
         if isinstance(atividade, AtividadeContinua):
             for horario_atv in self.horario:
-                for horario_atividade in atividade.horario:
+                for horario_atividade in atividade.horario_atividade:
                     if (
                                     horario_atividade.hora_inicio <= horario_atv.hora_inicio <= horario_atividade.hora_fim and horario_atividade.data == horario_atv.data) or (
                                 horario_atividade.hora_fim >= horario_atv.hora_fim >= horario_atividade.hora_inicio):
-                        raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                        raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                         return True
                     else:
                         return False
@@ -235,7 +235,7 @@ class AtividadeContinua(Atividade):
                 if (
                                 atividade.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= atividade.horario_atividade.hora_fim and atividade.horario_atividade.data == horario_atv.data) or (
                             atividade.horario_atividade.hora_fim >= horario_atv.hora_fim >= atividade.horario_atividade.hora_inicio):
-                    raise Exception('conflito', 'conflito de horario para atividade no mesmo espaco fisico')
+                    raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                     return True
                 else:
                     return False
@@ -245,8 +245,8 @@ class AtividadeContinua(Atividade):
 
 class AtividadeAdministrativa(Atividade):
     class Meta:
-        verbose_name = 'AtividadeNeutra'
-        verbose_name_plural = 'AtividadesNeutra'
+        verbose_name = "AtividadeNeutra"
+        verbose_name_plural = "AtividadesNeutra"
 
     def add_horario(self, horario):
         self.save()
@@ -257,38 +257,38 @@ class AtividadeAdministrativa(Atividade):
 
 
 class Pacote(PolymorphicModel):
-    nome = models.CharField('nome', max_length=40)
-    valor = models.DecimalField('valor', max_digits=8, decimal_places=2, default=0)
+    nome = models.CharField("nome", max_length=40)
+    valor = models.DecimalField("valor", max_digits=8, decimal_places=2, default=0)
 
-    evento = models.ForeignKey('core.Evento',
+    evento = models.ForeignKey("core.Evento",
                                verbose_name="pacote",
-                               related_name='polymorphic_myapp.mymodel_set+',
+                               related_name="polymorphic_myapp.mymodel_set+",
                                null=False)
 
-    atividades = models.ManyToManyField('core.Atividade',
+    atividades = models.ManyToManyField("core.Atividade",
                                         through="AtividadePacote",
                                         related_name="atividade_trilha")
 
 
 class Trilha(Pacote):
-    responsaveis = models.ManyToManyField('user.Usuario',
+    responsaveis = models.ManyToManyField("user.Usuario",
                                           through="ResponsavelTrilha",
                                           related_name="responsavel_trilha")
 
     class meta:
-        verbose_name = 'Trilha'
-        verbose_name_plural = 'Trilhas'
+        verbose_name = "Trilha"
+        verbose_name_plural = "Trilhas"
 
     def __str__(self):
         return self.nome
 
 
 class PacoteInscricao(models.Model):
-    pacote = models.ForeignKey('core.Pacote',
+    pacote = models.ForeignKey("core.Pacote",
                                related_name="pacote_Inscricao",
                                verbose_name="trilha_inscricao")
 
-    inscricao = models.ForeignKey('user.Inscricao',
+    inscricao = models.ForeignKey("user.Inscricao",
                                   related_name="inscricao_pacote_Inscricao",
                                   verbose_name="pacote_incricao")
 
@@ -318,8 +318,8 @@ class GerenciaEvento(models.Model):
 
 
 class ResponsavelAtividade(models.Model):
-    responsavel = models.CharField('nome', max_length=30, unique=True, blank=True)
-    descricao = models.CharField('descricao', max_length=500, unique=True, blank=True)
+    responsavel = models.CharField("nome", max_length=30, unique=True, blank=True)
+    descricao = models.CharField("descricao", max_length=500, unique=True, blank=True)
     tipo_responsavel = EnumField(TipoResponsavel, default=TipoResponsavel.PADRAO)
 
     atividade = models.ForeignKey("core.Atividade",
@@ -328,11 +328,11 @@ class ResponsavelAtividade(models.Model):
 
 
 class Instituicao(models.Model):
-    nome = models.CharField('nome', max_length=30, default="")
+    nome = models.CharField("nome", max_length=30, default="")
 
     class Meta:
-        verbose_name = 'Instituicao'
-        verbose_name_plural = 'Instituicoes'
+        verbose_name = "Instituicao"
+        verbose_name_plural = "Instituicoes"
 
     def __str__(self):
         return self.nome
@@ -341,7 +341,7 @@ class Instituicao(models.Model):
 class EventoInstituicao(models.Model):
     tipo_relacionamento = EnumField(TipoInstituicao, default=TipoInstituicao.PADRAO)
 
-    instituicao = models.ForeignKey('core.Instituicao', verbose_name="Instituição",
+    instituicao = models.ForeignKey("core.Instituicao", verbose_name="Instituição",
                                     related_name="evento_instituicao",
                                     default="")
 
@@ -351,20 +351,20 @@ class EventoInstituicao(models.Model):
                                            default="")
 
     class Meta:
-        verbose_name = 'Relacionamento_Instituicao_Evento'
-        verbose_name_plural = 'Relacionamentos_Instituicao_Evento'
+        verbose_name = "Relacionamento_Instituicao_Evento"
+        verbose_name_plural = "Relacionamentos_Instituicao_Evento"
 
     def __str__(self):
         return self.instituicao.__str__()
 
 
 class Tag(models.Model):
-    nome = models.CharField('Tag', max_length=30)
+    nome = models.CharField("Tag", max_length=30)
 
     class Meta:
-        ordering = ['nome']
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        ordering = ["nome"]
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
 
     def __str__(self):
         return self.nome
@@ -372,16 +372,16 @@ class Tag(models.Model):
 
 class TagUsuario(models.Model):
     tag = models.ForeignKey(Tag,
-                            related_name='tag_de_usuario',
+                            related_name="tag_de_usuario",
                             default="")
 
     usuario = models.ForeignKey(Usuario,
-                                related_name='tag_de_usuario',
+                                related_name="tag_de_usuario",
                                 default="")
 
     class Meta:
-        verbose_name = 'Relacionamento_Tag_Usuario'
-        verbose_name_plural = 'Relacionamentos_Tag_Usuario'
+        verbose_name = "Relacionamento_Tag_Usuario"
+        verbose_name_plural = "Relacionamentos_Tag_Usuario"
 
     def __str__(self):
         return self.tag.__str__() + self.usuario.__str__()
@@ -389,16 +389,16 @@ class TagUsuario(models.Model):
 
 class TagEvento(models.Model):
     tag = models.ForeignKey(Tag,
-                            related_name='tag_de_evento',
+                            related_name="tag_de_evento",
                             default="")
 
     evento = models.ForeignKey(Evento,
-                               related_name='tag_de_evento',
+                               related_name="tag_de_evento",
                                default="")
 
     class Meta:
-        verbose_name = 'Relacionamento_Tag_Evento'
-        verbose_name_plural = 'Relacionamentos_Tag_Tag'
+        verbose_name = "Relacionamento_Tag_Evento"
+        verbose_name_plural = "Relacionamentos_Tag_Tag"
 
     def __str__(self):
         return (" relacionamento : " + self.tag.nome() + self.evento.nome())
@@ -413,7 +413,7 @@ class AtividadePacote(models.Model):
 
 
 class EspacoFisico(models.Model):
-    nome = models.TextField('nome', max_length=30, default="")
+    nome = models.TextField("nome", max_length=30, default="")
     tipoEspacoFisico = EnumField(TipoEspacoFisico, default=TipoEspacoFisico.PADRAO)
     capacidade = models.DecimalField("capacidade", max_digits=5, decimal_places=0, default=0)
 
