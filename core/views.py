@@ -15,16 +15,16 @@ from django.http import HttpResponse
 
 
 class RegistrarEvento(View):
-    template_name = 'evento/form_registrar.html'
+    template_name = "evento/form_registrar.html"
 
     def get(self, request, *args, **kwargs):
         form_add_evento = RegistrarEventoForm
         form_periodo = PeriodoForm
         form_endereco = EnderecoForm
 
-        context = {'form_evento': form_add_evento,
-                   'form_periodo': form_periodo,
-                   'form_endereco': form_endereco}
+        context = {"form_evento": form_add_evento,
+                   "form_periodo": form_periodo,
+                   "form_endereco": form_endereco}
 
         return render(request, self.template_name, context)
 
@@ -35,9 +35,9 @@ class RegistrarEvento(View):
 
         formulario_registrar_evento(form_periodo, form_endereco, form_add_evento, self)
 
-        context = {'form_evento': form_add_evento,
-                   'form_periodo': form_periodo,
-                   'form_endereco': form_endereco}
+        context = {"form_evento": form_add_evento,
+                   "form_periodo": form_periodo,
+                   "form_endereco": form_endereco}
 
         if form_periodo.is_valid() and form_endereco.is_valid() and form_add_evento.is_valid():
             return redirect(settings.PAGINA_INICIAL)
@@ -47,7 +47,7 @@ class RegistrarEvento(View):
 
 
 class RegistrarInstituicoes(View):
-    template_name = 'instituicoes/form_registrar.html'
+    template_name = "instituicoes/form_registrar.html"
     form_instituicoes = RegistrarInstituicoesForm
 
     def post(self, request, *args, **kwargs):
@@ -60,24 +60,24 @@ class RegistrarInstituicoes(View):
 
     def get(self, request, *args, **kwargs):
         form_instituicoes = RegistrarInstituicoesForm()
-        context = {'form_instituicoes': form_instituicoes}
+        context = {"form_instituicoes": form_instituicoes}
         return render(request, self.template_name, context)
 
 
 class MeusEventos(View):
-    template_name = 'evento/meus_eventos.html'
+    template_name = "evento/meus_eventos.html"
 
     def get(self, request, *args, **kwargs):
-        context = {'meus_eventos': request.user.get_eventos()}
+        context = {"meus_eventos": request.user.get_eventos()}
         return render(request, self.template_name, context)
 
 
 class ExibirDetalhesEvento(View):
-    template_name = 'evento/exibir_detalhes_evento.html'
+    template_name = "evento/exibir_detalhes_evento.html"
 
     def post(self, request, *args, **kwargs):
         # metodo para receber o id que foi mandado para a url
-        evento = Evento.objects.get(id=self.kwargs['eventos_id'])
+        evento = Evento.objects.get(id=self.kwargs["eventos_id"])
 
         # metodos estao contidas no arquivo helpers
         formulario_gerente(evento, request)
@@ -91,7 +91,7 @@ class ExibirDetalhesEvento(View):
 
         # TODO AINDA POR FAZER
 
-        return HttpResponseRedirect('/eventos/exibir_evento=' + self.kwargs['eventos_id'])
+        return HttpResponseRedirect("/eventos/exibir_evento=" + self.kwargs["eventos_id"])
 
     def get(self, request, *args, **kwargs):
         # criando os formularios de exibir evento
@@ -105,24 +105,24 @@ class ExibirDetalhesEvento(View):
         form_espaco_fisico = RegistrarEspacoFisicoEventoForm()
         form_horario_atividade = HorarioAtividadeForm()
 
-        context = {'form_evento_satelite': form_evento_satelite,
-                   'form_horario_atividade': form_horario_atividade,
-                   'atividade_continua': form_atividade_continua,
-                   'atividade_administrativa': form_atividade_administrativa,
-                   'atividade_padrao': form_atividade_padrao,
-                   'exibir_evento': Evento.objects.get(id=self.kwargs['eventos_id']),
-                   'form_gerente': form_gerentes,
-                   'form_tag_evento': form_tag_evento,
-                   'form_instituicao_evento': form_instituicao_evento,
-                   'form_espaco_fisico': form_espaco_fisico,
-                   'espacos': EspacoFisico.objects.all()}
+        context = {"form_evento_satelite": form_evento_satelite,
+                   "form_horario_atividade": form_horario_atividade,
+                   "atividade_continua": form_atividade_continua,
+                   "atividade_administrativa": form_atividade_administrativa,
+                   "atividade_padrao": form_atividade_padrao,
+                   "exibir_evento": Evento.objects.get(id=self.kwargs["eventos_id"]),
+                   "form_gerente": form_gerentes,
+                   "form_tag_evento": form_tag_evento,
+                   "form_instituicao_evento": form_instituicao_evento,
+                   "form_espaco_fisico": form_espaco_fisico,
+                   "espacos": EspacoFisico.objects.all()}
 
         return render(request, self.template_name, context)
 
 
 class ParticiparEvento(View):
-    template_name = 'evento/participar_evento.html'
+    template_name = "evento/participar_evento.html"
 
     def get(self, request, *args, **kwargs):
-        context = {'eventos': Evento.objects.all().filter(~Q(dono=request.user))}
+        context = {"eventos": Evento.objects.all().filter(~Q(dono=request.user))}
         return render(request, self.template_name, context)

@@ -11,14 +11,14 @@ class Periodo(models.Model):
     data_fim = models.DateField("Data fim", blank=True, null=False)
 
     class Meta:
-        verbose_name = 'Periodo'
-        verbose_name_plural = 'Periodos'
+        verbose_name = "Periodo"
+        verbose_name_plural = "Periodos"
 
     def validate_periodo(self):
         if self.data_inicio < datetime.date.today():
-            raise ValidationError('Periodo tem que ser maior que a data atual')
+            raise ValidationError("Periodo tem que ser maior que a data atual")
         if self.data_fim < self.data_inicio:
-            raise ValidationError('Data final tem que ser maior ou igual a data inicial')
+            raise ValidationError("Data final tem que ser maior ou igual a data inicial")
 
     def clean(self):
         super(Periodo, self).clean()
@@ -39,13 +39,13 @@ class Endereco(models.Model):
     logradouro = models.TextField(blank=True, null=False)
     numero = models.TextField(blank=False, null=False)
     cep = models.CharField(max_length=9, blank=False, validators=[
-        validators.RegexValidator(re.compile(r'^\d{8}$|^\d{5}-\d{3}$'),
-                                  message='Informe um cep valido no formato 88888888 ou 88888-888', code='invalid')])
+        validators.RegexValidator(re.compile(r"^\d{8}$|^\d{5}-\d{3}$"),
+                                  message="Informe um cep valido no formato 88888888 ou 88888-888", code="invalid")])
     estado = models.TextField(blank=False, null=False)
 
     class Meta:
-        verbose_name = 'Endereco'
-        verbose_name_plural = 'Enderecos'
+        verbose_name = "Endereco"
+        verbose_name_plural = "Enderecos"
 
     def __str__(self):
         return self.pais
@@ -61,15 +61,15 @@ class Horario(models.Model):
     hora_fim = models.TimeField("Hora Fim", blank=True, null=False)
 
     class Meta:
-        verbose_name = 'Horario'
-        verbose_name_plural = 'Horario'
+        verbose_name = "Horario"
+        verbose_name_plural = "Horario"
 
     def __str__(self):
         return self.hora_inicio.__str__() + "  para  " + self.hora_fim.__str__()
 
     def validate_horario(self):
         if self.hora_inicio > self.hora_fim:
-            raise ValidationError('Periodo tem que ser maior que a data atual')
+            raise ValidationError("Periodo tem que ser maior que a data atual")
 
     def clean(self):
         super(Horario, self).clean()
@@ -96,7 +96,7 @@ class HorarioAtividade(models.Model):
 
     def validate_horario(self):
         if self.hora_inicio > self.hora_fim:
-            raise ValidationError('Periodo tem que ser maior que a data atual')
+            raise ValidationError("Periodo tem que ser maior que a data atual")
 
     def clean(self):
         super(HorarioAtividade, self).clean()
@@ -114,14 +114,14 @@ class HorarioAtividadeContinua(Horario):
                                   default="")
 
     class Meta:
-        verbose_name = 'Horario_da_atividdade'
-        verbose_name_plural = 'Horarios_da_ativiade '
+        verbose_name = "Horario_da_atividdade"
+        verbose_name_plural = "Horarios_da_ativiade "
 
 
 class Observador(models.Model):
     observado = models.ForeignKey("utils.Observador",
-                                  verbose_name='Observador',
-                                  related_name='Observador',
+                                  verbose_name="Observador",
+                                  related_name="Observador",
                                   default="")
 
     def atualizar(self):
@@ -130,22 +130,22 @@ class Observador(models.Model):
 
 class Notificador(Observador):
     class Meta:
-        verbose_name = 'Notificador'
-        verbose_name_plural = 'notificadores '
+        verbose_name = "Notificador"
+        verbose_name_plural = "notificadores "
 
     def atualizar(self, msg):
         "enviar email para usuarios da atividade"
-        return true
+        return True
 
 
 class Observado(models.Model):
     def addObservador(self, observador):
         observador.observado = self
-        return true
+        return True
 
     def removeObservador(self, observador):
-        observador.observado = null
-        return true
+        observador.observado = None
+        return True
 
     def notificar(self, msg):
         for observador in self.Observador:
@@ -155,12 +155,12 @@ class Observado(models.Model):
 class MsgFactory():
     def gerar_msg_simples(self, atributo):
         msg = MsgSimples()
-        msg.atual = String(atributo)
+        msg.atual = str(atributo)
         return msg
 
     def gerar_msg_completa(self, atributo):
         msg = MsgCompleta()
-        msg.atual = String(atributo)
+        msg.atual = str(atributo)
         msg.data = datetime.now()
         return msg
 
