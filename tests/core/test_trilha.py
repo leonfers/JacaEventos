@@ -7,9 +7,5 @@ from .core import TestCore
 
 
 class TesteTrilha(TestCore):
-    #     def test_validar_criacao_de_trilha(self):
-    #         self.get_trilha()
-
-
     def test_validar_criacao_trilha(self):
         self.create_trilha()
