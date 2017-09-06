@@ -20,8 +20,8 @@ class Pagamento(models.Model):
     valor = models.DecimalField("valor pagamento", max_digits=8, decimal_places=2, blank=False, null=False)
 
     inscricao = models.OneToOneField("user.Inscricao",
-                                     related_name="de_incricao",
-                                     default="", blank=False, null=False)
+                                  related_name="de_incricao",
+                                  default="", blank=False, null=False)
 
     cupom_codigo = models.CharField("cupom", max_length=100, blank=True, null=True)
 

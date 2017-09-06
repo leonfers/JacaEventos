@@ -4,6 +4,8 @@ from pagamento.models import *
 from pagamento.enum import *
 import datetime
 from django.core.exceptions import ValidationError
+import datetime
+from django.core.exceptions import ValidationError
 
 
 class PagamentoTeste(TestPagamento):
@@ -23,3 +25,4 @@ class PagamentoTeste(TestPagamento):
         pagamento.hora = hora
         self.assertEquals(pagamento.data, data)
         self.assertEquals(pagamento.hora, hora)
+

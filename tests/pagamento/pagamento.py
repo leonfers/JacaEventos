@@ -78,3 +78,4 @@ class TestPagamento(TestCase):
 
     def create_cupom(self):
         return Cupom()
+
