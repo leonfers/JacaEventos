@@ -20,8 +20,8 @@ class Pagamento(models.Model):
     valor = models.DecimalField("valor pagamento", max_digits=8, decimal_places=2, blank=False, null=False)
 
     inscricao = models.OneToOneField("user.Inscricao",
-                                  related_name="de_incricao",
-                                  default="", blank=False, null=False)
+                                     related_name="de_incricao",
+                                     default="", blank=False, null=False)
 
     cupom_codigo = models.CharField("cupom", max_length=100, blank=True, null=True)
 
@@ -33,7 +33,6 @@ class Pagamento(models.Model):
             raise ValidationError("Não existe nenhum cupom para esse evento ou o cupom informado nao é valido.")
 
     def invalidar_inscricao_enquanto_aguarda_pagamento(self):
-        
         if self.status == StatusPagamento.NAO_PAGO and self.inscricao.evento.status == StatusEvento.ANDAMENTO:
             self.inscricao.status_inscricao = StatusInscricao.INATIVA
 
@@ -85,7 +84,6 @@ class Cupom(models.Model):
                                    primary_key=True, blank=False,
                                    null=False)
 
-
     def gerar_codigo_cupom(self):
         caracters_validos = string.ascii_uppercase + string.digits
         faixa_char = 4
@@ -96,7 +94,6 @@ class Cupom(models.Model):
             if x < num_divisoes - 1:
                 chave_cupom += "-"
         return chave_cupom
-
 
     def save(self, *args, **kwargs):
         self.codigo = self.gerar_codigo_cupom()
