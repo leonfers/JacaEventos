@@ -4,12 +4,11 @@ from utils.models import *
 from core.models import *
 from pagamento.models import *
 
-
 NOME_EVENTO = "Festival de Musica de Pedro II"
+
 
 # instanciando classes para facilitar testes
 class TestPagamento(TestCase):
-
     def get_cupom(self):
         usuario = Usuario()
         usuario.username = "will"
@@ -76,3 +75,6 @@ class TestPagamento(TestCase):
 
     def create_pagamento(self):
         return Pagamento()
+
+    def create_cupom(self):
+        return Cupom()
