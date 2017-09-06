@@ -15,27 +15,27 @@ from django.core.exceptions import ValidationError
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
-        'Nome do Usuário',
+        "Nome do Usuário",
         max_length=30,
         unique=True,
-        validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-                                              'O nome do user so pode conter letras, digitos ou os''seguintes caracteres @/./+/-/_'
-                                              'invalid')])
+        validators=[validators.RegexValidator(re.compile("^[\w.@+-]+$"),
+                                              "O nome do user so pode conter letras, digitos ou os""seguintes caracteres @/./+/-/_"
+                                              "invalid")])
 
-    email = models.EmailField('E-mail', unique=True)
-    nome = models.CharField('Nome', max_length=100, blank=False)
-    data_de_entrada = models.DateTimeField('Data de entrada', auto_now_add=True)
+    email = models.EmailField("E-mail", unique=True)
+    nome = models.CharField("Nome", max_length=100, blank=False)
+    data_de_entrada = models.DateTimeField("Data de entrada", auto_now_add=True)
     objects = UserManager()
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
-    tags = models.ManyToManyField('core.Tag',
+    tags = models.ManyToManyField("core.Tag",
                                   through="core.TagUsuario",
-                                  related_name='tags_do_usuario')
+                                  related_name="tags_do_usuario")
 
     class Meta:
-        verbose_name = 'Usuário'
-        verbose_name_plural = 'Usuários'
+        verbose_name = "Usuário"
+        verbose_name_plural = "Usuários"
 
     def __str__(self):
         return self.nome or self.username
@@ -60,23 +60,23 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 class Inscricao(models.Model):
     status_inscricao = EnumField(StatusInscricao, default=StatusInscricao.ATIVA)
     tipo_inscricao = EnumField(TipoInscricao, default=TipoInscricao.PARCIAL)
-    usuario = models.ForeignKey('Usuario',
-                                verbose_name=('user'),
+    usuario = models.ForeignKey("Usuario",
+                                verbose_name=("user"),
                                 on_delete=models.CASCADE,
                                 related_name="inscricoes",
                                 blank=False, null=False)
 
-    evento = models.ForeignKey('core.Evento')
+    evento = models.ForeignKey("core.Evento", related_name="inscricoes")
 
-    atividades = models.ManyToManyField('core.Atividade',
+    atividades = models.ManyToManyField("core.Atividade",
                                         through="ItemInscricao")
 
-    pacotes = models.ManyToManyField('core.Pacote',
+    pacotes = models.ManyToManyField("core.Pacote",
                                      through="core.PacoteInscricao")
 
     class Meta:
-        verbose_name = 'Id de Inscricao'
-        verbose_name_plural = 'Id das Inscricoes'
+        verbose_name = "Id de Inscricao"
+        verbose_name_plural = "Id das Inscricoes"
 
     def get_atividades(self):
         atividades = self.evento.atividades.all()
@@ -119,7 +119,7 @@ class Inscricao(models.Model):
 
 
 class CheckinItemInscricao(models.Model):
-    data = models.DateField('Data de entrada', auto_now_add=True)
+    data = models.DateField("Data de entrada", auto_now_add=True)
     hora = models.TimeField("Hora", blank=True, null=False, default="00:00")
     # gerente = models.ForeignKey("user.Usuario", related_name="gerente_chekin", default="")
     status = EnumField(StatusCheckIn, default=StatusCheckIn.NAO_VERIFICADO)
@@ -162,47 +162,47 @@ class CheckinItemInscricao(models.Model):
 
 
 class ItemInscricao(models.Model):
-    inscricao = models.ForeignKey('Inscricao',
+    inscricao = models.ForeignKey("Inscricao",
                                   blank=True, default="",
                                   related_name="itens")
 
-    atividade = models.ForeignKey('core.Atividade',
+    atividade = models.ForeignKey("core.Atividade",
                                   blank=True, default="")
 
-    checkin = models.ForeignKey('CheckinItemInscricao',
+    checkin = models.ForeignKey("CheckinItemInscricao",
                                 default="", null=True, blank=True)
 
     def validade_status_inscricao(self):
         if self.inscricao.status_inscricao == StatusInscricao.INATIVA:
-            raise ValidationError('Voce nao pode se inscrever em atividades com a inscricao inativa')
+            raise ValidationError("Voce nao pode se inscrever em atividades com a inscricao inativa")
 
     def validate_atividade_existente(self):
         if self.atividade in self.inscricao.atividades.all():
-            raise ValidationError('Voce ja se inscreveu nessa atividade')
+            raise ValidationError("Voce ja se inscreveu nessa atividade")
 
     def validate_atividade_evento(self):
         if self.atividade not in self.inscricao.evento.atividades.all():
-            raise ValidationError('Atividade não pertence ao evento')
+            raise ValidationError("Atividade não pertence ao evento")
 
     def validate_conflito_horario_atividade(self):
         if type(self.atividade) == core.models.AtividadePadrao:
             for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadePadrao):
                 if atividade.horario_atividade.hora_inicio == self.atividade.horario_atividade.hora_inicio:
-                    raise ValidationError('Voce ja possui uma atividade nesse horario')
+                    raise ValidationError("Voce ja possui uma atividade nesse horario")
                 if atividade.horario_atividade.hora_fim > self.atividade.horario_atividade.hora_inicio:
-                    raise ValidationError('Voce estara em atividade nesse dia')
+                    raise ValidationError("Voce estara em atividade nesse dia")
 
     def validate_conflito_data_atividade(self):
         if type(self.atividade) == core.models.AtividadeContinua:
             for atividade in self.inscricao.atividades.all().instance_of(core.models.AtividadeContinua):
                 if atividade.horario_atividade.data_inicio == self.atividade.horario_atividade.data_inicio:
-                    raise ValidationError('Voce ja possui uma atividade nesse horario')
+                    raise ValidationError("Voce ja possui uma atividade nesse horario")
                 if atividade.horario_atividade.data_fim > self.atividade.horario_atividade.data_inicio:
-                    raise ValidationError('Voce estara em atividade nesse dia')
+                    raise ValidationError("Voce estara em atividade nesse dia")
 
     def validade_trilha_atividade(self):
         if self.inscricao.trilhas not in self.atividade:
-            raise ValidationError('Atividade não pertence a trilha escolhida')
+            raise ValidationError("Atividade não pertence a trilha escolhida")
 
     def clean(self):
         super(ItemInscricao, self).clean()
