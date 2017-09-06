@@ -84,7 +84,6 @@ class Cupom(models.Model):
                                    primary_key=True, blank=False,
                                    null=False)
 
-
     def gerar_codigo_cupom(self):
         caracters_validos = string.ascii_uppercase + string.digits
         faixa_char = 4
@@ -95,7 +94,6 @@ class Cupom(models.Model):
             if x < num_divisoes - 1:
                 chave_cupom += "-"
         return chave_cupom
-
 
     def save(self, *args, **kwargs):
         self.codigo = self.gerar_codigo_cupom()

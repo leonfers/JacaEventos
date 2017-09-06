@@ -4,13 +4,12 @@ from utils.models import *
 from core.models import *
 from pagamento.models import *
 
-
 NOME_EVENTO = "Festival de Musica de Pedro II"
+
 
 # instanciando classes para facilitar testes
 class TestPagamento(TestCase):
-
-    def create_cupom(self):
+    def get_cupom(self):
         usuario = Usuario()
         usuario.username = "will"
         usuario.email = "will@gmail.com"
@@ -51,8 +50,8 @@ class TestPagamento(TestCase):
         cupom.tipo = TipoCupom.SIMPLES
         cupom.save()
 
-    def create_pagamento(self):
-        self.create_cupom()
+    def get_pagamento(self):
+        self.get_cupom()
         evento = Evento.objects.get(nome=NOME_EVENTO)
         cupom = Cupom.objects.all()[0]
         # Criando usuario para cliente em plataforma
@@ -73,3 +72,10 @@ class TestPagamento(TestCase):
 
         pagamento = Pagamento.objects.create(usuario_recebimento=evento.dono, inscricao=inscricao,
                                              cupom_codigo=cupom.codigo)
+
+    def create_pagamento(self):
+        return Pagamento()
+
+    def create_cupom(self):
+        return Cupom()
+

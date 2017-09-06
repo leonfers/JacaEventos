@@ -74,10 +74,10 @@ class TestUser(TestCase):
 
         # self.new_inscricao = new_inscricao
         # criando pagamento
-        pagamento = Pagamento(status=StatusPagamento.PAGO, usuario_recebimento=evento.dono, data="2017-10-10",
-                              hora="20:00", valor_pagamento=100.00, inscricao=inscricao)
-        pagamento.save()
-        self.pagamento = pagamento
+        # pagamento = Pagamento(status=StatusPagamento.PAGO, usuario_recebimento=evento.dono, data="2017-10-10",
+        #                       hora="20:00", valor_pagamento=100.00, inscricao=inscricao)
+        # pagamento.save()
+        # self.pagamento = pagamento
 
     def create_user(self):
         usuario = Usuario(username="Will", email="teste@teste", nome="Will")
