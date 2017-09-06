@@ -7,5 +7,8 @@ from .core import TestCore
 
 
 class TestePacote(TestCore):
-    def test_validar_criacao_de_pacote(self):
+    # def test_validar_criacao_de_pacote(self):
+    #     self.get_pacote()
+
+    def test_validar_criacao_pacote(self):
         self.create_pacote()

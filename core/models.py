@@ -190,8 +190,8 @@ class AtividadePadrao(Atividade):
         if isinstance(atividade, AtividadeContinua):
             for horario_atv in atividade:
                 if (
-                                    self.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == horario_atv.data) or (
-                                self.horario_atividade.hora_fim >= horario_atv.hora_fim >= self.horario_atividade.hora_inicio):
+                                self.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == horario_atv.data) or (
+                            self.horario_atividade.hora_fim >= horario_atv.hora_fim >= self.horario_atividade.hora_inicio):
                     raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                     return True
                 else:
@@ -199,8 +199,8 @@ class AtividadePadrao(Atividade):
 
         elif isinstance(atividade, AtividadePadrao):
             if (
-                                self.horario_atividade.hora_inicio <= atividade.horario_atividade.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == atividade.horario_atividade.data) or (
-                            self.horario_atividade.hora_fim >= atividade.horario_atividade.hora_fim >= self.horario_atividade.hora_inicio):
+                            self.horario_atividade.hora_inicio <= atividade.horario_atividade.hora_inicio <= self.horario_atividade.hora_fim and self.horario_atividade.data == atividade.horario_atividade.data) or (
+                        self.horario_atividade.hora_fim >= atividade.horario_atividade.hora_fim >= self.horario_atividade.hora_inicio):
                 raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                 return True
             else:
@@ -223,8 +223,8 @@ class AtividadeContinua(Atividade):
             for horario_atv in self.horario:
                 for horario_atividade in atividade.horario_atividade:
                     if (
-                                        horario_atividade.hora_inicio <= horario_atv.hora_inicio <= horario_atividade.hora_fim and horario_atividade.data == horario_atv.data) or (
-                                    horario_atividade.hora_fim >= horario_atv.hora_fim >= horario_atividade.hora_inicio):
+                                    horario_atividade.hora_inicio <= horario_atv.hora_inicio <= horario_atividade.hora_fim and horario_atividade.data == horario_atv.data) or (
+                                horario_atividade.hora_fim >= horario_atv.hora_fim >= horario_atividade.hora_inicio):
                         raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                         return True
                     else:
@@ -233,8 +233,8 @@ class AtividadeContinua(Atividade):
         elif isinstance(atividade, AtividadePadrao):
             for horario_atv in self.horario:
                 if (
-                                    atividade.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= atividade.horario_atividade.hora_fim and atividade.horario_atividade.data == horario_atv.data) or (
-                                atividade.horario_atividade.hora_fim >= horario_atv.hora_fim >= atividade.horario_atividade.hora_inicio):
+                                atividade.horario_atividade.hora_inicio <= horario_atv.hora_inicio <= atividade.horario_atividade.hora_fim and atividade.horario_atividade.data == horario_atv.data) or (
+                            atividade.horario_atividade.hora_fim >= horario_atv.hora_fim >= atividade.horario_atividade.hora_inicio):
                     raise Exception("conflito", "conflito de horario para atividade no mesmo espaco fisico")
                     return True
                 else:
